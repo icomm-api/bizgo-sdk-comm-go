@@ -1,0 +1,94 @@
+# bizgo-sdk-comm-go
+
+> Go SDK for the Bizgo Communication API (Korea): SMS/LMS/MMS, international SMS, RCS, Kakao AlimTalk/BrandMessage/Counsel talk, Naver TalkTalk, plus reservations, templates, sender profiles and insights (all 146 operations and 9 webhooks of the spec). `go get github.com/icomm-api/bizgo-sdk-comm-go@v1.2.0` (current version 1.2.0; OpenTelemetry adapter `github.com/icomm-api/bizgo-sdk-comm-go/otel@v1.2.0`), package name `bizgo`. Go >= 1.26. No third-party dependencies. Successor of infobank-omni-sdk-go.
+
+## Rules for generated code
+
+- Read the API key from the environment: `bizgo.NewClient()` uses `BIZGO_API_KEY`. Never hard-code keys. The key is sent raw (no `Bearer`/`ApiKey` prefix); the SDK does this. A key with spaces or a trailing newline is a configuration error.
+- Use `bizgo.WithEnvironment(bizgo.Sandbox)` for tests (no real delivery). Default is Production.
+- Every call takes a `context.Context` first and returns `(result, error)` (or `error`). The client is safe for concurrent use; create one and reuse it (its rate limiter is per client).
+- Every channel is sent with `client.Send.Omni(ctx, bizgo.OmniParams{To: ..., Messages: []bizgo.ChannelMessage{...}})`. Messages are pointers (`&bizgo.SMSMessage{...}`). Put fallback channels after the primary one: `{&bizgo.AlimtalkMessage{...}, &bizgo.SMSMessage{...}}`.
+- More than 200 recipients: use `client.Send.Bulk(ctx, bizgo.BulkParams{To, Messages, ChunkSize, Concurrency, IdempotencyKeyPrefix})`; check `result.Errors` (failed chunks), `result.Failed()` and, on a re-run with the same prefix, `result.Duplicates()`.
+- All other APIs are generated from the spec: `client.<Resource>.<Method>(ctx, pathParams..., body, bizgo.<OperationID>Params{...})`, for example `client.Alimtalk.Templates.List`, `client.Reservations.Create`, `client.BrandMessage.GroupSends.Create`, `client.RCS.Templates.Get`, `client.Insights.Alimtalk.Get`, `client.Counsel.Messages.SendPlain`. List operations with pagination also have `Iter<Method>` returning `iter.Seq2[Item, error]`. `bizgo.Operations()` lists them all.
+- Go names use initialisms: `SMSMessage`, `MMSMessage`, `RCSMessage`, `MOMessage`, `client.RCS`, fields `MsgKey`, `ImgURL`, `TTL`, `InfobankTrID`, `BrandID`. JSON names are the API names.
+- LMS and MMS both use `MMSMessage`; MMS when `FileKey` is set (upload with `client.Files.UploadMMS` first, max 3 keys, jpg <= 300KB).
+- SMS text <= 90 bytes, LMS/MMS <= 2000 bytes, counted in EUC-KR (Hangul = 2 bytes). Emoji are rejected. Validation happens before sending and returns `*bizgo.ValidationError`.
+- AlimTalk full send (no `SendType`) needs `MsgType: "AT"` (or `"AI"`) and `Text`, otherwise `*bizgo.ValidationError` (the API answers A523). You can reuse `AlimtalkTemplate.MsgType` from `client.Alimtalk.Templates.Get`. Template send (`SendType: "template"`) needs `ReplaceWords` on every destination and no MsgType/Text. Other conditional required fields (spec `x-sdk-required-if`: BrandMessage by SendType, button WL -> urlPc+urlMobile, RCS header "1" -> footer, counsel attachments by msgType) are also checked before sending.
+- Optional strings are omitted when empty; optional numbers/booleans are pointers: `IdempotencyTTL: bizgo.Ptr(3600)`. Date query parameters are `time.Time` (sent in KST in the documented format).
+- Multipart operations take files as `*bizgo.UploadFile{Reader: r}` or `{Path: "file.png"}`.
+- Set `IdempotencyKey` on sends that may be retried; without it, sends are not retried after timeouts or 5xx (to avoid duplicates). A resend with the same key succeeds (HTTP 200) and the recipients accepted earlier have code A301: they are in `result.Duplicates()`, not in `Failed()` (rejected) or `Succeeded()` (newly accepted); every recipient is in exactly one of the three. A request-level A301 (data.code) is `bizgo.ErrDuplicateRequest`; `APIError.AlreadyAccepted` means an earlier attempt was accepted.
+- The API rejects `idempotencyKey` without `idempotencyTtl` (A309). With a key and a nil `IdempotencyTTL`, the SDK sends `bizgo.DefaultIdempotencyTTL` (86400 s) — in Send.*, Send.Request, Send.Bulk chunks and generated operations whose body has both fields. An explicit TTL (0-86400, `bizgo.Ptr(0)` included) is sent as is; no key, no TTL added. Your request value is not modified.
+- A successful send only means *accepted*. Check `result.Failed()` for rejected recipients, and get final delivery results from reports (`client.Reports.Consume` or webhooks).
+- Substitution: text contains `#{name}`; values go in `bizgo.Destination{To: ..., ReplaceWords: map[string]string{"name": "..."}}`.
+- Test errors with `errors.Is(err, bizgo.ErrRateLimit)` etc. and `errors.As(err, &apiErr)` for `*bizgo.APIError`.
+- In tests use `bizgotest.New()` and `fake.Client()` (no network); stub with `fake.On("<operationId>").Data(...)/Fail(...)/SendResult(...)`, inspect `fake.LastRequest()`.
+- Successful calls never return a nil result (empty struct or empty slice when the response has no data). Params structs and models print masked with %v/%+v/%#v and log/slog: phone numbers 010****0000, person names first character only, tokens [REDACTED], content as length.
+- Never log request bodies, webhook bodies (counsel talk bodies contain personal data) or `APIError.Body`.
+
+## Quick reference (signatures, not a program)
+
+```text
+client, err := bizgo.NewClient(bizgo.WithEnvironment(bizgo.Sandbox)) // WithAPIKey, WithBaseURL, WithTimeout, WithMaxRetries, WithProxy(url), WithRootCAs(pool)/WithRootCAsFile(pem), WithHTTPClient (only inspectable clients: nil or *http.Transport, no Jar/CheckRedirect/InsecureSkipVerify), WithTrustedHTTPClient (explicit opt-in for other RoundTrippers), WithLogger, WithRateLimit(send, other), WithoutRateLimit, WithHooks, WithAppInfo(name, version)
+
+client.Send.SMS(ctx, bizgo.SMSParams{To: bizgo.To("01000000000"), From: "01000000000", Text: "..."}) // (*SendResult, error)
+client.Send.LMS(ctx, bizgo.LMSParams{To, From, Text, Title})
+client.Send.MMS(ctx, bizgo.MMSParams{To, From, Text, Title, FileKeys})
+client.Send.Omni(ctx, bizgo.OmniParams{To, Messages, Ref, GroupKey, PaymentCode, IdempotencyKey, IdempotencyTTL})
+client.Send.Request(ctx, req)               // req from bizgo.ParseSendOmniRequest(jsonBytes) or &bizgo.SendOmniRequest{...}
+client.Send.Bulk(ctx, bizgo.BulkParams{To, Messages, ChunkSize, Concurrency, IdempotencyKeyPrefix, ...}) // (*BulkSendResult, error): .Results, .Errors, .Succeeded(), .Duplicates(), .Failed(), .MsgKeys()
+result.MsgKeys(); result.Failed(); result.Succeeded(); result.Duplicates(); result.TrackingID
+
+client.Files.UploadMMS(ctx, bizgo.UploadParams{File: r, Filename: "a.jpg"})   // -> .FileKey, .Expired
+client.Files.UploadRCS(ctx, bizgo.UploadParams{File: r})                       // -> .Media
+client.Files.UploadBrandMessage(ctx, bizgo.BrandImageWide, bizgo.UploadParams{File: r}) // -> .ImgURL
+// kinds: BrandImageDefault, BrandImageWide, BrandImageWideItemList, BrandImageWideItemListFirst, BrandImageCarouselFeed, BrandImageCarouselCommerce, BrandImageCatalog, BrandImageCatalogOddFirst
+
+client.Reports.Poll(ctx) -> *ReportBatch; client.Reports.Ack(ctx, reportID)
+client.Reports.Consume(ctx, func(ctx context.Context, reports []bizgo.Report) error {...}, nil) -> (int, error)
+client.Reports.Inquiry(ctx, msgKey) -> []Report
+
+client.Messages.Status(ctx, msgKey) / StatusByRequestID(ctx, requestID) -> []MessageStatus
+client.Messages.Statistics(ctx, bizgo.StatisticsParams{StartDate: bizgo.Date(2026, 9, 1), EndDate, ServiceType, GroupKey})
+client.Messages.History(ctx, bizgo.HistoryParams{RequestTime, ServiceTypes, GroupKey, LastSeq, Limit}) -> *MessagePage
+for m, err := range client.Messages.IterHistory(ctx, bizgo.HistoryParams{RequestTime: t}) { ... }
+client.Messages.MO(ctx, msgKey); client.Messages.MOHistory(ctx, bizgo.MOHistoryParams{OccurredTime, From, To}); IterMOHistory(...)
+
+client.Reservations.Create(ctx, &bizgo.ReservationCreateRequest{Destinations, MessageFlow: []bizgo.ReservationMessageFlowItem{{SMS: &bizgo.SMSMessage{...}}}, ResvSendTime: "2026-10-01 10:00:00"}) -> (*ReservationCreateServiceResult: .ResvKey, .Data.Destinations)
+client.Reservations.Get / Update / Cancel / Pause / Resume (ctx, resvKey, ...); IterList(ctx, bizgo.ListReservationsParams{ResvSendTime: t})
+client.Alimtalk.Templates.Get(ctx, bizgo.GetAlimtalkTemplateParams{SenderKey, TemplateCode}); Create/Update(ctx, &bizgo.AlimtalkTemplateSaveRequest{...}); Delete(ctx, senderKey, templateCode)
+for tpl, err := range client.Alimtalk.Templates.IterList(ctx, bizgo.ListAlimtalkTemplatesParams{SenderKey: "..."}) { ... }
+client.Insights.Alimtalk.Get(ctx, bizgo.GetAlimtalkInsightParams{StartDate: time.Time, EndDate: time.Time, SenderKey: []string{...}})
+client.Counsel.Messages.SendPlain(ctx, &bizgo.CounselPlainMessageRequest{UserKey, SenderKey, MsgType, Message})
+
+receiver, err := bizgo.NewWebhookReceiver([]byte(os.Getenv("BIZGO_WEBHOOK_SECRET"))) // options: WithWebhookTolerance(d); the secret verifies report and MO webhooks (request the webhook secret from Bizgo; X-IB-Signature = HMAC-SHA256(secret, X-IB-Timestamp), hex or base64)
+http.Handle("/bizgo/report", receiver.ReportHandler(func(ctx context.Context, r *bizgo.ReportWebhookPayload) error { ... })) // dedupe by r.MsgKey
+payload, err := receiver.Report(req.Header, body)  // manual; answer bizgo.NewWebhookAck(payload.MsgKey) within 5 seconds, 401 on error
+http.Handle("/bizgo/cstalk/message", receiver.CounselMessageHandler(fn)) // also CounselResult, CounselReference, CounselExpiredSession, CounselSeenInfo, CounselPersonalInfo, CounselCertResult; ack {"code":"A000","result":"Success"}
+// counsel webhooks have no signature (only report and MO are signed): no signature check, signature headers ignored; body checks (1MB, depth 64, types) apply
+// counsel only, no webhook secret: m, err := bizgo.ParseCounselMessageWebhook(body) (also the other ParseCounsel*Webhook); answer bizgo.NewCounselWebhookAck()
+
+hooks := bizgo.Hooks{OnRequestEnd: func(ctx context.Context, e bizgo.RequestEvent) { /* e.Operation, e.PathTemplate, e.Status, e.Code, e.Attempts, e.Duration */ }}
+// OpenTelemetry: module github.com/icomm-api/bizgo-sdk-comm-go/otel, bizgo.WithHooks(bizgootel.Hooks(otel.GetTracerProvider()))
+
+fake := bizgotest.New(); client, _ := fake.Client(); fake.On("sendOmni").SendResult("A000", "A306"); fake.LastRequest().JSON
+header, body, err := bizgotest.SignWebhook(secret, payload, time.Time{})
+```
+
+## Rate limits
+
+Per client: `send` bucket 200 messages/s counted per recipient (operations with `x-sdk-rate: send`: sendOmni, createReservation, addReservationRecipients, createBrandMessageGroupSend, sendCounselPlain, sendCounselRich) and `other` bucket 5 requests/s. The Bizgo limit is per account: several processes sharing a key must coordinate. HTTP 429 is retried.
+
+## Errors
+
+`*ConfigurationError`, `*ValidationError` (`.Problems[].Path/.Reason`), `*APIError` (`HTTPStatus`, `Code`, `Layer` "gateway"=common.authCode / "service"=data.code, `Message`, `Description` (Korean), `TrackingID`, `RetryAfter`, `AlreadyAccepted`, `Body`), `*ConnectionError` (`Timeout`), `*InvalidResponseError` (`HTTPStatus`, `TrackingID`, `Body`; for a send the message may have been accepted), `*WebhookVerificationError`, `BulkChunkError`.
+Kinds for `errors.Is`: `ErrBadRequest`, `ErrAuthentication`, `ErrPermissionDenied`, `ErrNotFound`, `ErrDuplicateRequest`, `ErrRateLimit`, `ErrInternalServer`, `ErrAPI`, `ErrConnection`, `ErrTimeout`, `ErrInvalidResponse`, `ErrValidation`, `ErrWebhook`, `ErrConfiguration`, `ErrChunkPanic`.
+`ErrAuthentication` usually means a wrong key or an unregistered caller IP. After `ErrConnection` or `ErrInvalidResponse` on a send, the message may have been accepted: check `Messages.Status`.
+
+## Links
+
+- [README](https://github.com/icomm-api/bizgo-sdk-comm-go/blob/main/README.md)
+- [Examples](https://github.com/icomm-api/bizgo-sdk-comm-go/tree/main/examples)
+- [Go reference](https://pkg.go.dev/github.com/icomm-api/bizgo-sdk-comm-go)
+- [OpenAPI spec](https://github.com/icomm-api/bizgo-api-spec/blob/main/dist/openapi.yaml)
+- [Bizgo API reference](https://developers.bizgo.io/api-sdk/api-reference)
+- [Error codes](https://developers.bizgo.io/api-sdk/api-reference/error-codes)

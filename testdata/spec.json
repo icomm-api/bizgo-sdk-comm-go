@@ -1,0 +1,3913 @@
+{
+  "specVersion": "1.2.0",
+  "operations": [
+    {
+      "id": "sendOmni",
+      "method": "POST",
+      "path": "/api/comm/v1/send/omni",
+      "resource": "send",
+      "sdkMethod": "omni",
+      "retry": "rate_limit_only",
+      "rate": "send",
+      "result": "data.data"
+    },
+    {
+      "id": "uploadMmsFile",
+      "method": "POST",
+      "path": "/api/comm/v1/file/mms",
+      "resource": "files",
+      "sdkMethod": "uploadMms",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "uploadRcsFile",
+      "method": "POST",
+      "path": "/api/comm/v1/file/rcs",
+      "resource": "files",
+      "sdkMethod": "uploadRcs",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "uploadBrandMessageDefaultImage",
+      "method": "POST",
+      "path": "/api/comm/v1/file/brandmessage/default",
+      "resource": "files",
+      "sdkMethod": "uploadBrandMessageDefault",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "uploadBrandMessageWideImage",
+      "method": "POST",
+      "path": "/api/comm/v1/file/brandmessage/wide",
+      "resource": "files",
+      "sdkMethod": "uploadBrandMessageWide",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "uploadBrandMessageWideItemListFirstImage",
+      "method": "POST",
+      "path": "/api/comm/v1/file/brandmessage/wideItemList/first",
+      "resource": "files",
+      "sdkMethod": "uploadBrandMessageWideItemListFirst",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "uploadBrandMessageWideItemListImage",
+      "method": "POST",
+      "path": "/api/comm/v1/file/brandmessage/wideItemList",
+      "resource": "files",
+      "sdkMethod": "uploadBrandMessageWideItemList",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "uploadBrandMessageCarouselFeedImage",
+      "method": "POST",
+      "path": "/api/comm/v1/file/brandmessage/carouselFeed",
+      "resource": "files",
+      "sdkMethod": "uploadBrandMessageCarouselFeed",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "uploadBrandMessageCarouselCommerceImage",
+      "method": "POST",
+      "path": "/api/comm/v1/file/brandmessage/carouselCommerce",
+      "resource": "files",
+      "sdkMethod": "uploadBrandMessageCarouselCommerce",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getReportPolling",
+      "method": "GET",
+      "path": "/api/comm/v1/report/polling",
+      "resource": "reports",
+      "sdkMethod": "poll",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "ackReportPolling",
+      "method": "DELETE",
+      "path": "/api/comm/v1/report/polling/{reportId}",
+      "resource": "reports",
+      "sdkMethod": "ack",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getReportInquiry",
+      "method": "GET",
+      "path": "/api/comm/v1/report/inquiry/{msgKey}",
+      "resource": "reports",
+      "sdkMethod": "inquiry",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getMessageStatistics",
+      "method": "GET",
+      "path": "/api/comm/v1/message/statistics",
+      "resource": "messages",
+      "sdkMethod": "statistics",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getMessageHistory",
+      "method": "GET",
+      "path": "/api/comm/v1/message/history",
+      "resource": "messages",
+      "sdkMethod": "history",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data",
+      "pagination": {
+        "style": "cursor",
+        "request": "lastSeq",
+        "items": "data.data.messages",
+        "response": "data.data.lastSeq",
+        "hasNext": "data.data.hasNext"
+      }
+    },
+    {
+      "id": "getMoHistory",
+      "method": "GET",
+      "path": "/api/comm/v1/message/history/mo",
+      "resource": "messages",
+      "sdkMethod": "moHistory",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data",
+      "pagination": {
+        "style": "cursor",
+        "request": "lastSeq",
+        "items": "data.data.messages",
+        "response": "data.data.lastSeq",
+        "hasNext": "data.data.hasNext"
+      }
+    },
+    {
+      "id": "getMessageStatusByMsgKey",
+      "method": "GET",
+      "path": "/api/comm/v1/message/inquiry/msgKey/{msgKey}",
+      "resource": "messages",
+      "sdkMethod": "status",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getMessageStatusByRequestId",
+      "method": "GET",
+      "path": "/api/comm/v1/message/inquiry/requestId/{requestId}",
+      "resource": "messages",
+      "sdkMethod": "statusByRequestId",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getMoByMsgKey",
+      "method": "GET",
+      "path": "/api/comm/v1/message/inquiry/mo/msgKey/{msgKey}",
+      "resource": "messages",
+      "sdkMethod": "mo",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "createReservation",
+      "method": "POST",
+      "path": "/api/comm/v1/reservation",
+      "resource": "reservations",
+      "sdkMethod": "create",
+      "retry": "rate_limit_only",
+      "rate": "send",
+      "result": "data"
+    },
+    {
+      "id": "listReservations",
+      "method": "GET",
+      "path": "/api/comm/v1/reservation/list",
+      "resource": "reservations",
+      "sdkMethod": "list",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data",
+      "pagination": {
+        "style": "cursor",
+        "request": "lastSeq",
+        "items": "data.data.reservations",
+        "response": "data.data.lastSeq",
+        "hasNext": "data.data.hasNext"
+      }
+    },
+    {
+      "id": "getReservation",
+      "method": "GET",
+      "path": "/api/comm/v1/reservation/resvKey/{resvKey}",
+      "resource": "reservations",
+      "sdkMethod": "get",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "updateReservation",
+      "method": "PUT",
+      "path": "/api/comm/v1/reservation/resvKey/{resvKey}",
+      "resource": "reservations",
+      "sdkMethod": "update",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "cancelReservation",
+      "method": "POST",
+      "path": "/api/comm/v1/reservation/resvKey/{resvKey}/cancel",
+      "resource": "reservations",
+      "sdkMethod": "cancel",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "stopReservation",
+      "method": "POST",
+      "path": "/api/comm/v1/reservation/resvKey/{resvKey}/stop",
+      "resource": "reservations",
+      "sdkMethod": "pause",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "resumeReservation",
+      "method": "POST",
+      "path": "/api/comm/v1/reservation/resvKey/{resvKey}/resume",
+      "resource": "reservations",
+      "sdkMethod": "resume",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "listReservationRecipients",
+      "method": "GET",
+      "path": "/api/comm/v1/reservation/resvKey/{resvKey}/destinations",
+      "resource": "reservations.recipients",
+      "sdkMethod": "list",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data",
+      "pagination": {
+        "style": "cursor",
+        "request": "lastSeq",
+        "items": "data.data.destinations",
+        "response": "data.data.lastSeq",
+        "hasNext": "data.data.hasNext"
+      }
+    },
+    {
+      "id": "addReservationRecipients",
+      "method": "POST",
+      "path": "/api/comm/v1/reservation/resvKey/{resvKey}/destinations",
+      "resource": "reservations.recipients",
+      "sdkMethod": "create",
+      "retry": "rate_limit_only",
+      "rate": "send",
+      "result": "data.data"
+    },
+    {
+      "id": "deleteReservationRecipient",
+      "method": "DELETE",
+      "path": "/api/comm/v1/reservation/resvKey/{resvKey}/destinations/msgKey/{msgKey}",
+      "resource": "reservations.recipients",
+      "sdkMethod": "delete",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getAlimtalkInsight",
+      "method": "GET",
+      "path": "/api/comm/v1/center/statistics/alimtalk",
+      "resource": "insights.alimtalk",
+      "sdkMethod": "get",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getAlimtalkHourlyInsight",
+      "method": "GET",
+      "path": "/api/comm/v1/center/statistics/alimtalk/reaction/hourly",
+      "resource": "insights.alimtalk",
+      "sdkMethod": "getHourly",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getAlimtalkTemplateInsight",
+      "method": "GET",
+      "path": "/api/comm/v1/center/statistics/alimtalk/template",
+      "resource": "insights.alimtalk",
+      "sdkMethod": "getByTemplate",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getBrandMessageInsight",
+      "method": "GET",
+      "path": "/api/comm/v1/center/statistics/brandmessage",
+      "resource": "insights.brandMessage",
+      "sdkMethod": "get",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getBrandMessageHourlyInsight",
+      "method": "GET",
+      "path": "/api/comm/v1/center/statistics/brandmessage/reaction/hourly",
+      "resource": "insights.brandMessage",
+      "sdkMethod": "getHourly",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getBrandMessageTemplateInsight",
+      "method": "GET",
+      "path": "/api/comm/v1/center/statistics/brandmessage/template",
+      "resource": "insights.brandMessage",
+      "sdkMethod": "getByTemplate",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getRcsMessageInsight",
+      "method": "GET",
+      "path": "/api/comm/v1/center/rcs/brandId/{brandId}/stat/message",
+      "resource": "insights.rcs",
+      "sdkMethod": "getMessage",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.rcs"
+    },
+    {
+      "id": "getRcsMessageButtonInsight",
+      "method": "GET",
+      "path": "/api/comm/v1/center/rcs/brandId/{brandId}/stat/messageButton",
+      "resource": "insights.rcs",
+      "sdkMethod": "getMessageButton",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.rcs"
+    },
+    {
+      "id": "getRcsPersistentMenuInsight",
+      "method": "GET",
+      "path": "/api/comm/v1/center/rcs/brandId/{brandId}/stat/persistentMenu",
+      "resource": "insights.rcs",
+      "sdkMethod": "getPersistentMenu",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.rcs"
+    },
+    {
+      "id": "getRcsBrandProfileInsight",
+      "method": "GET",
+      "path": "/api/comm/v1/center/rcs/brandId/{brandId}/stat/brandProfile",
+      "resource": "insights.rcs",
+      "sdkMethod": "getBrandProfile",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.rcs"
+    },
+    {
+      "id": "requestKakaoSenderToken",
+      "method": "POST",
+      "path": "/api/comm/v1/account/kakao/sender/token",
+      "resource": "kakao.senders",
+      "sdkMethod": "requestToken",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data"
+    },
+    {
+      "id": "findKakaoSender",
+      "method": "GET",
+      "path": "/api/comm/v1/account/kakao/sender",
+      "resource": "kakao.senders",
+      "sdkMethod": "find",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.kakao.senderProfile"
+    },
+    {
+      "id": "createKakaoSender",
+      "method": "POST",
+      "path": "/api/comm/v1/account/kakao/sender",
+      "resource": "kakao.senders",
+      "sdkMethod": "create",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.kakao.senderProfile"
+    },
+    {
+      "id": "listKakaoSenderProfiles",
+      "method": "GET",
+      "path": "/api/comm/v1/account/kakao/sender/profiles",
+      "resource": "kakao.senders",
+      "sdkMethod": "list",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data",
+      "pagination": {
+        "style": "page",
+        "request": "page",
+        "size": "rows",
+        "items": "data.channels",
+        "hasNext": "data.hasNext",
+        "total": "data.totalCount"
+      }
+    },
+    {
+      "id": "getKakaoSender",
+      "method": "GET",
+      "path": "/api/comm/v1/center/kakao/sender",
+      "resource": "kakao.senders",
+      "sdkMethod": "get",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data.kakao.senderProfile"
+    },
+    {
+      "id": "recoverKakaoSender",
+      "method": "POST",
+      "path": "/api/comm/v1/center/kakao/sender/recover",
+      "resource": "kakao.senders",
+      "sdkMethod": "recover",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "listKakaoSenderCategories",
+      "method": "GET",
+      "path": "/api/comm/v1/center/kakao/sender/category/list",
+      "resource": "kakao.categories",
+      "sdkMethod": "list",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data.kakao.categories"
+    },
+    {
+      "id": "getKakaoSenderCategory",
+      "method": "GET",
+      "path": "/api/comm/v1/center/kakao/sender/category",
+      "resource": "kakao.categories",
+      "sdkMethod": "get",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data.kakao.category"
+    },
+    {
+      "id": "listKakaoGroups",
+      "method": "GET",
+      "path": "/api/comm/v1/center/kakao/group",
+      "resource": "kakao.groups",
+      "sdkMethod": "list",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data.kakao.groups"
+    },
+    {
+      "id": "addKakaoGroupSender",
+      "method": "POST",
+      "path": "/api/comm/v1/center/kakao/group",
+      "resource": "kakao.groups",
+      "sdkMethod": "addSender",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "removeKakaoGroupSender",
+      "method": "DELETE",
+      "path": "/api/comm/v1/center/kakao/group/groupKey/{groupKey}/senderKey/{senderKey}",
+      "resource": "kakao.groups",
+      "sdkMethod": "removeSender",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getKakaoSenderSanction",
+      "method": "GET",
+      "path": "/api/comm/v1/center/kakao/abusing/block/sender",
+      "resource": "kakao.sanctions",
+      "sdkMethod": "getSender",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data.kakao.abusing"
+    },
+    {
+      "id": "getKakaoGroupTemplateSenderExclusion",
+      "method": "GET",
+      "path": "/api/comm/v1/center/kakao/abusing/block/senderGroup",
+      "resource": "kakao.sanctions",
+      "sdkMethod": "getGroupTemplateExclusion",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data.kakao.abusing"
+    },
+    {
+      "id": "getKakaoTemplateSanction",
+      "method": "GET",
+      "path": "/api/comm/v1/center/kakao/abusing/block/template",
+      "resource": "kakao.sanctions",
+      "sdkMethod": "getTemplate",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data.kakao.abusing"
+    },
+    {
+      "id": "getAlimtalkTemplate",
+      "method": "GET",
+      "path": "/api/comm/v1/center/alimtalk/template",
+      "resource": "alimtalk.templates",
+      "sdkMethod": "get",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data.alimtalk"
+    },
+    {
+      "id": "updateAlimtalkTemplate",
+      "method": "PUT",
+      "path": "/api/comm/v1/center/alimtalk/template",
+      "resource": "alimtalk.templates",
+      "sdkMethod": "update",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data.alimtalk"
+    },
+    {
+      "id": "createAlimtalkTemplate",
+      "method": "POST",
+      "path": "/api/comm/v1/center/alimtalk/template",
+      "resource": "alimtalk.templates",
+      "sdkMethod": "create",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data.alimtalk"
+    },
+    {
+      "id": "listAlimtalkTemplates",
+      "method": "GET",
+      "path": "/api/comm/v1/center/alimtalk/template/list",
+      "resource": "alimtalk.templates",
+      "sdkMethod": "list",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data.alimtalk.templates",
+      "pagination": {
+        "style": "offset",
+        "request": "offset",
+        "size": "limit",
+        "items": "data.data.alimtalk.templates"
+      }
+    },
+    {
+      "id": "listModifiedAlimtalkTemplates",
+      "method": "GET",
+      "path": "/api/comm/v1/center/alimtalk/template/lastModified",
+      "resource": "alimtalk.templates",
+      "sdkMethod": "listModified",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data.alimtalk.templates",
+      "pagination": {
+        "style": "page",
+        "request": "page",
+        "size": "count",
+        "items": "data.data.alimtalk.templates"
+      }
+    },
+    {
+      "id": "deleteAlimtalkTemplate",
+      "method": "DELETE",
+      "path": "/api/comm/v1/center/alimtalk/template/senderKey/{senderKey}/templateCode/{templateCode}",
+      "resource": "alimtalk.templates",
+      "sdkMethod": "delete",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "uploadAlimtalkTemplateImage",
+      "method": "POST",
+      "path": "/api/comm/v1/file/alimtalk/template",
+      "resource": "files",
+      "sdkMethod": "uploadAlimtalkTemplateImage",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "uploadAlimtalkItemHighlightImage",
+      "method": "POST",
+      "path": "/api/comm/v1/file/alimtalk/itemHighlight",
+      "resource": "files",
+      "sdkMethod": "uploadAlimtalkItemHighlightImage",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "listAlimtalkTemplateCategories",
+      "method": "GET",
+      "path": "/api/comm/v1/center/alimtalk/category",
+      "resource": "alimtalk.templateCategories",
+      "sdkMethod": "list",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "requestAlimtalkTemplateInspection",
+      "method": "POST",
+      "path": "/api/comm/v1/center/alimtalk/template/request",
+      "resource": "alimtalk.templates",
+      "sdkMethod": "requestInspection",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "cancelAlimtalkTemplateInspection",
+      "method": "POST",
+      "path": "/api/comm/v1/center/alimtalk/template/request/cancel",
+      "resource": "alimtalk.templates",
+      "sdkMethod": "cancelInspection",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "listAlimtalkPublicTemplates",
+      "method": "GET",
+      "path": "/api/comm/v1/center/alimtalk/public/template",
+      "resource": "alimtalk.publicTemplates",
+      "sdkMethod": "list",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data.templates",
+      "pagination": {
+        "style": "page",
+        "request": "page",
+        "size": "count",
+        "items": "data.data.templates"
+      }
+    },
+    {
+      "id": "getBrandMessageGroupSend",
+      "method": "GET",
+      "path": "/api/comm/v1/center/brandmessage/groupMessage",
+      "resource": "brandMessage.groupSends",
+      "sdkMethod": "get",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "createBrandMessageGroupSend",
+      "method": "POST",
+      "path": "/api/comm/v1/center/brandmessage/groupMessage",
+      "resource": "brandMessage.groupSends",
+      "sdkMethod": "create",
+      "retry": "rate_limit_only",
+      "rate": "send",
+      "result": "data.data"
+    },
+    {
+      "id": "resumeBrandMessageGroupSend",
+      "method": "POST",
+      "path": "/api/comm/v1/center/brandmessage/groupMessage/resume",
+      "resource": "brandMessage.groupSends",
+      "sdkMethod": "resume",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "pauseBrandMessageGroupSend",
+      "method": "POST",
+      "path": "/api/comm/v1/center/brandmessage/groupMessage/pause",
+      "resource": "brandMessage.groupSends",
+      "sdkMethod": "pause",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "terminateBrandMessageGroupSend",
+      "method": "POST",
+      "path": "/api/comm/v1/center/brandmessage/groupMessage/terminate",
+      "resource": "brandMessage.groupSends",
+      "sdkMethod": "terminate",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "checkBrandMessageAudiencePossible",
+      "method": "GET",
+      "path": "/api/comm/v1/center/brandmessage/groupMessage/possible",
+      "resource": "brandMessage.audience",
+      "sdkMethod": "checkPossible",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "checkBrandMessageAudiencePossibleByPhoneNumbers",
+      "method": "POST",
+      "path": "/api/comm/v1/center/brandmessage/groupMessage/friend/possible",
+      "resource": "brandMessage.audience",
+      "sdkMethod": "checkPossibleByPhoneNumbers",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getBrandMessageFriendCount",
+      "method": "GET",
+      "path": "/api/comm/v1/center/brandmessage/groupMessage/friendCount",
+      "resource": "brandMessage.audience",
+      "sdkMethod": "getFriendCount",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "estimateBrandMessageGroupSendDuration",
+      "method": "GET",
+      "path": "/api/comm/v1/center/brandmessage/groupMessage/estimate",
+      "resource": "brandMessage.audience",
+      "sdkMethod": "estimate",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "checkBrandMessageSendPermission",
+      "method": "GET",
+      "path": "/api/comm/v1/center/brandmessage/sendPermission",
+      "resource": "brandMessage.permissions",
+      "sdkMethod": "check",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "applyBrandMessageSendPermission",
+      "method": "POST",
+      "path": "/api/comm/v1/center/brandmessage/sendPermission",
+      "resource": "brandMessage.permissions",
+      "sdkMethod": "apply",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "uploadBrandMessageCatalogImage",
+      "method": "POST",
+      "path": "/api/comm/v1/file/brandmessage/catalog",
+      "resource": "files",
+      "sdkMethod": "uploadBrandMessageCatalog",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "uploadBrandMessageCatalogOddFirstImage",
+      "method": "POST",
+      "path": "/api/comm/v1/file/brandmessage/catalog/oddFirst",
+      "resource": "files",
+      "sdkMethod": "uploadBrandMessageCatalogOddFirst",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "registerBrandMessageVideoUpload",
+      "method": "POST",
+      "path": "/api/comm/v1/center/brandmessage/video/upload/register",
+      "resource": "brandMessage.videos",
+      "sdkMethod": "registerUpload",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "registerBrandMessageExistingVideo",
+      "method": "POST",
+      "path": "/api/comm/v1/center/brandmessage/video/register",
+      "resource": "brandMessage.videos",
+      "sdkMethod": "registerExisting",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getBrandMessageVideo",
+      "method": "GET",
+      "path": "/api/comm/v1/center/brandmessage/video",
+      "resource": "brandMessage.videos",
+      "sdkMethod": "get",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "listBrandMessageVideos",
+      "method": "GET",
+      "path": "/api/comm/v1/center/brandmessage/video/list",
+      "resource": "brandMessage.videos",
+      "sdkMethod": "list",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data",
+      "pagination": {
+        "style": "offset",
+        "request": "offset",
+        "size": "limit",
+        "items": "data.data.videos",
+        "total": "data.data.totalCount"
+      }
+    },
+    {
+      "id": "getBrandMessageTemplate",
+      "method": "GET",
+      "path": "/api/comm/v1/center/brandmessage/template",
+      "resource": "brandMessage.templates",
+      "sdkMethod": "get",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "updateBrandMessageTemplate",
+      "method": "PUT",
+      "path": "/api/comm/v1/center/brandmessage/template",
+      "resource": "brandMessage.templates",
+      "sdkMethod": "update",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "createBrandMessageTemplate",
+      "method": "POST",
+      "path": "/api/comm/v1/center/brandmessage/template",
+      "resource": "brandMessage.templates",
+      "sdkMethod": "create",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "listBrandMessageTemplates",
+      "method": "GET",
+      "path": "/api/comm/v1/center/brandmessage/template/list",
+      "resource": "brandMessage.templates",
+      "sdkMethod": "list",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data",
+      "pagination": {
+        "style": "offset",
+        "request": "offset",
+        "size": "limit",
+        "items": "data.data.brandmessage.templates"
+      }
+    },
+    {
+      "id": "listBrandMessageTemplatesLastModified",
+      "method": "GET",
+      "path": "/api/comm/v1/center/brandmessage/template/lastModified",
+      "resource": "brandMessage.templates",
+      "sdkMethod": "listLastModified",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data",
+      "pagination": {
+        "style": "page",
+        "request": "page",
+        "size": "count",
+        "items": "data.data.brandmessage.templates"
+      }
+    },
+    {
+      "id": "deleteBrandMessageTemplate",
+      "method": "DELETE",
+      "path": "/api/comm/v1/center/brandmessage/template/senderKey/{senderKey}/templateCode/{templateCode}",
+      "resource": "brandMessage.templates",
+      "sdkMethod": "delete",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "listBrandMessageGroupTags",
+      "method": "GET",
+      "path": "/api/comm/v1/center/brandmessage/groupTag/list",
+      "resource": "brandMessage.groupTags",
+      "sdkMethod": "list",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getBrandMessageGroupTag",
+      "method": "GET",
+      "path": "/api/comm/v1/center/brandmessage/groupTag",
+      "resource": "brandMessage.groupTags",
+      "sdkMethod": "get",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "updateBrandMessageGroupTag",
+      "method": "PUT",
+      "path": "/api/comm/v1/center/brandmessage/groupTag",
+      "resource": "brandMessage.groupTags",
+      "sdkMethod": "update",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "createBrandMessageGroupTag",
+      "method": "POST",
+      "path": "/api/comm/v1/center/brandmessage/groupTag",
+      "resource": "brandMessage.groupTags",
+      "sdkMethod": "create",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "deleteBrandMessageGroupTag",
+      "method": "DELETE",
+      "path": "/api/comm/v1/center/brandmessage/groupTag/senderKey/{senderKey}/groupTagKey/{groupTagKey}",
+      "resource": "brandMessage.groupTags",
+      "sdkMethod": "delete",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "uploadBrandMessageFriendGroupFile",
+      "method": "POST",
+      "path": "/api/comm/v1/center/brandmessage/friendGroup/file",
+      "resource": "brandMessage.friendGroups",
+      "sdkMethod": "uploadFile",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getBrandMessageFriendGroup",
+      "method": "GET",
+      "path": "/api/comm/v1/center/brandmessage/friendGroup",
+      "resource": "brandMessage.friendGroups",
+      "sdkMethod": "get",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "createBrandMessageFriendGroup",
+      "method": "POST",
+      "path": "/api/comm/v1/center/brandmessage/friendGroup",
+      "resource": "brandMessage.friendGroups",
+      "sdkMethod": "create",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "listBrandMessageFriendGroups",
+      "method": "GET",
+      "path": "/api/comm/v1/center/brandmessage/friendGroup/list",
+      "resource": "brandMessage.friendGroups",
+      "sdkMethod": "list",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "deleteBrandMessageFriendGroup",
+      "method": "DELETE",
+      "path": "/api/comm/v1/center/brandmessage/friendGroup/senderKey/{senderKey}/friendGroupKey/{friendGroupKey}",
+      "resource": "brandMessage.friendGroups",
+      "sdkMethod": "delete",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "addBrandMessageFriendGroupPhoneNumbers",
+      "method": "POST",
+      "path": "/api/comm/v1/center/brandmessage/friendGroup/phoneNumber/update",
+      "resource": "brandMessage.friendGroups",
+      "sdkMethod": "addPhoneNumbers",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "deleteBrandMessageFriendGroupPhoneNumbers",
+      "method": "POST",
+      "path": "/api/comm/v1/center/brandmessage/friendGroup/phoneNumber/delete",
+      "resource": "brandMessage.friendGroups",
+      "sdkMethod": "deletePhoneNumbers",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "listBrandMessageFriendGroupPhoneNumberRequests",
+      "method": "GET",
+      "path": "/api/comm/v1/center/brandmessage/friendGroup/phoneNumber/requests",
+      "resource": "brandMessage.friendGroups",
+      "sdkMethod": "listPhoneNumberRequests",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data",
+      "pagination": {
+        "style": "cursor",
+        "request": "lastRequestId",
+        "items": "data.data.friendGroups",
+        "response": "data.data.friendGroups[-1].requestId",
+        "hasNext": "data.data.hasNext"
+      }
+    },
+    {
+      "id": "getBrandMessageFriendGroupPhoneNumberRequest",
+      "method": "GET",
+      "path": "/api/comm/v1/center/brandmessage/friendGroup/phoneNumber/request",
+      "resource": "brandMessage.friendGroups",
+      "sdkMethod": "getPhoneNumberRequest",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "uploadBrandMessageMarketingAgreeEvidence",
+      "method": "POST",
+      "path": "/api/comm/v1/center/brandmessage/marketingAgree",
+      "resource": "brandMessage.marketingAgreements",
+      "sdkMethod": "uploadEvidence",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "registerBrandMessageUnsubscribeContent",
+      "method": "POST",
+      "path": "/api/comm/v1/center/brandmessage/unSubscribeContent",
+      "resource": "brandMessage.unsubscribeContents",
+      "sdkMethod": "register",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getRcsBrand",
+      "method": "GET",
+      "path": "/api/comm/v1/center/rcs/brand",
+      "resource": "rcs.brands",
+      "sdkMethod": "get",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "updateRcsBrand",
+      "method": "PUT",
+      "path": "/api/comm/v1/center/rcs/brand",
+      "resource": "rcs.brands",
+      "sdkMethod": "update",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "listRcsChatbots",
+      "method": "GET",
+      "path": "/api/comm/v1/center/rcs/chatbot/list",
+      "resource": "rcs.chatbots",
+      "sdkMethod": "list",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data",
+      "pagination": {
+        "style": "offset",
+        "request": "offset",
+        "size": "limit",
+        "items": "data.data.rcs.chatbot"
+      }
+    },
+    {
+      "id": "getRcsChatbot",
+      "method": "GET",
+      "path": "/api/comm/v1/center/rcs/chatbot",
+      "resource": "rcs.chatbots",
+      "sdkMethod": "get",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "updateRcsChatbot",
+      "method": "PUT",
+      "path": "/api/comm/v1/center/rcs/chatbot",
+      "resource": "rcs.chatbots",
+      "sdkMethod": "update",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "cancelRcsChatbotApproval",
+      "method": "PUT",
+      "path": "/api/comm/v1/center/rcs/brandId/{brandId}/chatbotId/{chatbotId}/cancel",
+      "resource": "rcs.chatbots",
+      "sdkMethod": "cancel",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "deleteRcsChatbot",
+      "method": "DELETE",
+      "path": "/api/comm/v1/center/rcs/brandId/{brandId}/chatbotId/{chatbotId}",
+      "resource": "rcs.chatbots",
+      "sdkMethod": "delete",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getRcsChatbotUsableQueries",
+      "method": "GET",
+      "path": "/api/comm/v1/center/rcs/usableQuery/chatbotId/{chatbotId}",
+      "resource": "rcs.chatbots",
+      "sdkMethod": "getUsableQueries",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "listRcsCommonFormats",
+      "method": "GET",
+      "path": "/api/comm/v1/center/rcs/messagebase/common/list",
+      "resource": "rcs.commonFormats",
+      "sdkMethod": "list",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getRcsCommonFormat",
+      "method": "GET",
+      "path": "/api/comm/v1/center/rcs/messagebase/common",
+      "resource": "rcs.commonFormats",
+      "sdkMethod": "get",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "listRcsTemplateForms",
+      "method": "GET",
+      "path": "/api/comm/v1/center/rcs/messagebase/messagebaseform/list",
+      "resource": "rcs.templateForms",
+      "sdkMethod": "list",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data",
+      "pagination": {
+        "style": "offset",
+        "request": "offset",
+        "size": "limit",
+        "items": "data.data.rcs.messageForms",
+        "total": "data.data.rcs.pagination.total"
+      }
+    },
+    {
+      "id": "getRcsTemplateForm",
+      "method": "GET",
+      "path": "/api/comm/v1/center/rcs/messagebase/messagebaseform",
+      "resource": "rcs.templateForms",
+      "sdkMethod": "get",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "listRcsTemplates",
+      "method": "GET",
+      "path": "/api/comm/v1/center/rcs/messagebase/list",
+      "resource": "rcs.templates",
+      "sdkMethod": "list",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getRcsTemplate",
+      "method": "GET",
+      "path": "/api/comm/v1/center/rcs/messagebase",
+      "resource": "rcs.templates",
+      "sdkMethod": "get",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "updateRcsTemplate",
+      "method": "PUT",
+      "path": "/api/comm/v1/center/rcs/messagebase",
+      "resource": "rcs.templates",
+      "sdkMethod": "update",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "createRcsTemplate",
+      "method": "POST",
+      "path": "/api/comm/v1/center/rcs/messagebase",
+      "resource": "rcs.templates",
+      "sdkMethod": "create",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "cancelRcsTemplateApproval",
+      "method": "PUT",
+      "path": "/api/comm/v1/center/rcs/brandId/{brandId}/messagebaseId/{messagebaseId}/cancel",
+      "resource": "rcs.templates",
+      "sdkMethod": "cancel",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "deleteRcsTemplate",
+      "method": "DELETE",
+      "path": "/api/comm/v1/center/rcs/brandId/{brandId}/messagebaseId/{messagebaseId}",
+      "resource": "rcs.templates",
+      "sdkMethod": "delete",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getRcsTemplateImage",
+      "method": "GET",
+      "path": "/api/comm/v1/center/rcs/messagebase/file",
+      "resource": "rcs.templateImages",
+      "sdkMethod": "get",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "uploadRcsTemplateImage",
+      "method": "POST",
+      "path": "/api/comm/v1/center/rcs/messagebase/file",
+      "resource": "rcs.templateImages",
+      "sdkMethod": "upload",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "listRcsTemplateFormLogos",
+      "method": "GET",
+      "path": "/api/comm/v1/center/rcs/messagebase/messagebaseform/logo",
+      "resource": "rcs.templateImages",
+      "sdkMethod": "listFormLogos",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "sendCounselPlain",
+      "method": "POST",
+      "path": "/api/comm/v1/cstalk/plain",
+      "resource": "counsel.messages",
+      "sdkMethod": "sendPlain",
+      "retry": "rate_limit_only",
+      "rate": "send",
+      "result": "data"
+    },
+    {
+      "id": "sendCounselRich",
+      "method": "POST",
+      "path": "/api/comm/v1/cstalk/rich",
+      "resource": "counsel.messages",
+      "sdkMethod": "sendRich",
+      "retry": "rate_limit_only",
+      "rate": "send",
+      "result": "data"
+    },
+    {
+      "id": "endCounselSession",
+      "method": "POST",
+      "path": "/api/comm/v1/cstalk/end",
+      "resource": "counsel.sessions",
+      "sdkMethod": "end",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "endCounselSessionWithBot",
+      "method": "POST",
+      "path": "/api/comm/v1/cstalk/endWithBot",
+      "resource": "counsel.sessions",
+      "sdkMethod": "endWithBot",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "blockCounselUser",
+      "method": "POST",
+      "path": "/api/comm/v1/center/cstalk/profile/user/block",
+      "resource": "counsel.users",
+      "sdkMethod": "block",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "unblockCounselUser",
+      "method": "POST",
+      "path": "/api/comm/v1/center/cstalk/profile/user/unblock",
+      "resource": "counsel.users",
+      "sdkMethod": "unblock",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getCounselSession",
+      "method": "GET",
+      "path": "/api/comm/v1/center/cstalk/session",
+      "resource": "counsel.sessions",
+      "sdkMethod": "get",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getCounselCertStatus",
+      "method": "GET",
+      "path": "/api/comm/v1/center/cstalk/cert/status",
+      "resource": "counsel.certs",
+      "sdkMethod": "get",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "uploadCounselImage",
+      "method": "POST",
+      "path": "/api/comm/v1/file/cstalk/image",
+      "resource": "counsel.files",
+      "sdkMethod": "uploadImage",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "uploadCounselFile",
+      "method": "POST",
+      "path": "/api/comm/v1/file/cstalk",
+      "resource": "counsel.files",
+      "sdkMethod": "upload",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "activateCounsel",
+      "method": "POST",
+      "path": "/api/comm/v1/center/cstalk/sender/activate",
+      "resource": "counsel.channels",
+      "sdkMethod": "activate",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "deactivateCounsel",
+      "method": "POST",
+      "path": "/api/comm/v1/center/cstalk/sender/deactivate",
+      "resource": "counsel.channels",
+      "sdkMethod": "deactivate",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "activateCounselChat",
+      "method": "POST",
+      "path": "/api/comm/v1/center/cstalk/sender/chat/activate",
+      "resource": "counsel.channels",
+      "sdkMethod": "activateChat",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "deactivateCounselChat",
+      "method": "POST",
+      "path": "/api/comm/v1/center/cstalk/sender/chat/deactivate",
+      "resource": "counsel.channels",
+      "sdkMethod": "deactivateChat",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "getCounselConsultTime",
+      "method": "GET",
+      "path": "/api/comm/v1/center/cstalk/consult/time",
+      "resource": "counsel.consultTime",
+      "sdkMethod": "get",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "saveCounselConsultTime",
+      "method": "POST",
+      "path": "/api/comm/v1/center/cstalk/consult/time",
+      "resource": "counsel.consultTime",
+      "sdkMethod": "save",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "listCounselSystemMessages",
+      "method": "GET",
+      "path": "/api/comm/v1/center/cstalk/system/message",
+      "resource": "counsel.systemMessages",
+      "sdkMethod": "list",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "createCounselSystemMessage",
+      "method": "POST",
+      "path": "/api/comm/v1/center/cstalk/system/message",
+      "resource": "counsel.systemMessages",
+      "sdkMethod": "create",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "deleteCounselSystemMessage",
+      "method": "DELETE",
+      "path": "/api/comm/v1/center/cstalk/system/message/senderKey/{senderKey}/id/{id}",
+      "resource": "counsel.systemMessages",
+      "sdkMethod": "delete",
+      "retry": "safe",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "requestCounselSystemMessageApproval",
+      "method": "POST",
+      "path": "/api/comm/v1/center/cstalk/system/message/approval/request",
+      "resource": "counsel.systemMessages",
+      "sdkMethod": "requestApproval",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "cancelCounselSystemMessageApproval",
+      "method": "POST",
+      "path": "/api/comm/v1/center/cstalk/system/message/approval/cancel",
+      "resource": "counsel.systemMessages",
+      "sdkMethod": "cancelApproval",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    },
+    {
+      "id": "deleteCounselMessage",
+      "method": "POST",
+      "path": "/api/comm/v1/center/cstalk/chat/delete",
+      "resource": "counsel.messages",
+      "sdkMethod": "delete",
+      "retry": "rate_limit_only",
+      "rate": "other",
+      "result": "data.data"
+    }
+  ],
+  "webhooks": [
+    {
+      "name": "counselCertResult",
+      "id": "onCounselCertResultWebhook",
+      "signed": false,
+      "payload": "CounselCertResultWebhookPayload",
+      "example": {
+        "certResult": "CERT_RESULT_ENCRYPTED_EXAMPLE",
+        "certTxId": "CERT_TX_ID_EXAMPLE",
+        "kakaoTime": "2026-04-24T10:42:35.000+09:00",
+        "msgKey": "20260424104234546POM101182450000",
+        "msgType": "KAKAO_CERT",
+        "reportTime": "2026-04-24T10:42:35.120+09:00",
+        "requestType": "cert_result",
+        "sendTime": "2026-04-24T10:42:34.546+09:00",
+        "senderKey": "SENDER_KEY_EXAMPLE",
+        "serviceType": "CSTALK",
+        "sessionId": "SESSION_ID_EXAMPLE",
+        "userKey": "USER_KEY_EXAMPLE"
+      }
+    },
+    {
+      "name": "counselExpiredSession",
+      "id": "onCounselExpiredSessionWebhook",
+      "signed": false,
+      "payload": "CounselExpiredSessionWebhookPayload",
+      "example": {
+        "kakaoTime": "2026-04-24T10:42:35.000+09:00",
+        "msgKey": "20260424104234546POM101182450000",
+        "msgType": "SESSION",
+        "reportTime": "2026-04-24T10:42:35.120+09:00",
+        "requestType": "expired_session",
+        "sendTime": "2026-04-24T10:42:34.546+09:00",
+        "senderKey": "SENDER_KEY_EXAMPLE",
+        "serviceType": "CSTALK",
+        "sessionId": "SESSION_ID_EXAMPLE",
+        "userKey": "USER_KEY_EXAMPLE"
+      }
+    },
+    {
+      "name": "counselMessage",
+      "id": "onCounselMessageWebhook",
+      "signed": false,
+      "payload": "CounselMessageWebhookPayload",
+      "example": {
+        "contents": [
+          {
+            "comment": "상담 문의 내용입니다."
+          }
+        ],
+        "kakaoTime": "2026-04-24T10:42:35.000+09:00",
+        "msgKey": "20260424104234546POM101182450000",
+        "msgType": "TEXT",
+        "reportTime": "2026-04-24T10:42:35.120+09:00",
+        "requestType": "message",
+        "sendTime": "2026-04-24T10:42:34.546+09:00",
+        "senderKey": "SENDER_KEY_EXAMPLE",
+        "serviceType": "CSTALK",
+        "userKey": "USER_KEY_EXAMPLE"
+      }
+    },
+    {
+      "name": "counselPersonalInfo",
+      "id": "onCounselPersonalInfoWebhook",
+      "signed": false,
+      "payload": "CounselPersonalInfoWebhookPayload",
+      "example": {
+        "kakaoTime": "2026-04-24T10:42:35.000+09:00",
+        "msgKey": "20260424104234546POM101182450000",
+        "msgType": "PERSONAL",
+        "personalInfo": {
+          "nickname": "NICKNAME_EXAMPLE",
+          "phone_number": "01000000000"
+        },
+        "reportTime": "2026-04-24T10:42:35.120+09:00",
+        "requestType": "personal_info",
+        "sendTime": "2026-04-24T10:42:34.546+09:00",
+        "senderKey": "SENDER_KEY_EXAMPLE",
+        "serviceType": "CSTALK",
+        "sessionId": "SESSION_ID_EXAMPLE",
+        "userKey": "USER_KEY_EXAMPLE"
+      }
+    },
+    {
+      "name": "counselReference",
+      "id": "onCounselReferenceWebhook",
+      "signed": false,
+      "payload": "CounselReferenceWebhookPayload",
+      "example": {
+        "kakaoTime": "2026-04-24T10:42:35.000+09:00",
+        "lastReference": {
+          "bot": "false",
+          "bot_event": "상담시작",
+          "created_at": "2026-04-23T09:30:00.000+09:00",
+          "extra": "orderNo=1233"
+        },
+        "msgKey": "20260424104234546POM101182450000",
+        "msgType": "REFERENCE",
+        "reference": {
+          "extra": "orderNo=1234"
+        },
+        "reportTime": "2026-04-24T10:42:35.120+09:00",
+        "requestType": "reference",
+        "sendTime": "2026-04-24T10:42:34.546+09:00",
+        "senderKey": "SENDER_KEY_EXAMPLE",
+        "serviceType": "CSTALK",
+        "sessionId": "SESSION_ID_EXAMPLE",
+        "userKey": "USER_KEY_EXAMPLE"
+      }
+    },
+    {
+      "name": "counselResult",
+      "id": "onCounselResultWebhook",
+      "signed": false,
+      "payload": "CounselResultWebhookPayload",
+      "example": {
+        "msgKey": "20260424104234546POM101182450000",
+        "msgType": "TEXT",
+        "ref": "client-ref-001",
+        "reportCode": "A000",
+        "reportText": "Success",
+        "reportTime": "2026-04-24T10:42:35.120+09:00",
+        "requestType": "write",
+        "sendTime": "2026-04-24T10:42:34.546+09:00",
+        "senderKey": "SENDER_KEY_EXAMPLE",
+        "serviceType": "CSTALK",
+        "userKey": "USER_KEY_EXAMPLE"
+      }
+    },
+    {
+      "name": "counselSeenInfo",
+      "id": "onCounselSeenInfoWebhook",
+      "signed": false,
+      "payload": "CounselSeenInfoWebhookPayload",
+      "example": {
+        "kakaoTime": "2026-04-24T10:42:35.000+09:00",
+        "msgKey": "20260424104234546POM101182450000",
+        "msgType": "SEEN",
+        "reportTime": "2026-04-24T10:42:35.120+09:00",
+        "requestType": "seen_info",
+        "sendTime": "2026-04-24T10:42:34.546+09:00",
+        "senderKey": "SENDER_KEY_EXAMPLE",
+        "serviceType": "CSTALK",
+        "userKey": "USER_KEY_EXAMPLE"
+      }
+    },
+    {
+      "name": "mo",
+      "id": "onMoWebhook",
+      "signed": true,
+      "payload": "MoWebhookPayload"
+    },
+    {
+      "name": "report",
+      "id": "onReportWebhook",
+      "signed": true,
+      "payload": "ReportWebhookPayload"
+    }
+  ],
+  "schemas": [
+    "AlimtalkAttachment",
+    "AlimtalkButton",
+    "AlimtalkFlowItem",
+    "AlimtalkItem",
+    "AlimtalkItemHighlight",
+    "AlimtalkItemListEntry",
+    "AlimtalkItemSummary",
+    "AlimtalkLink",
+    "AlimtalkMessage",
+    "AlimtalkQuickReply",
+    "AlimtalkSupplement",
+    "AlimtalkTemplate",
+    "AlimtalkTemplateBody",
+    "AlimtalkTemplateCategory",
+    "AlimtalkTemplateCategoryResponse",
+    "AlimtalkTemplateCategoryResult",
+    "AlimtalkTemplateCategoryServiceResult",
+    "AlimtalkTemplateComment",
+    "AlimtalkTemplateImageUploadRequest",
+    "AlimtalkTemplateImageUploadResponse",
+    "AlimtalkTemplateImageUploadResult",
+    "AlimtalkTemplateImageUploadServiceResult",
+    "AlimtalkTemplateInspectionCancelRequest",
+    "AlimtalkTemplateInspectionFileRequest",
+    "AlimtalkTemplateInspectionRequest",
+    "AlimtalkTemplateItemHighlightImageUploadRequest",
+    "AlimtalkTemplateListResponse",
+    "AlimtalkTemplateListResult",
+    "AlimtalkTemplateListServiceResult",
+    "AlimtalkTemplatePublic",
+    "AlimtalkTemplatePublicListResponse",
+    "AlimtalkTemplatePublicListResult",
+    "AlimtalkTemplatePublicListServiceResult",
+    "AlimtalkTemplateResponse",
+    "AlimtalkTemplateResult",
+    "AlimtalkTemplateSaveRequest",
+    "AlimtalkTemplateServiceResult",
+    "ApiResponse",
+    "BrandMessage",
+    "BrandMessageAttachment",
+    "BrandMessageAudienceEstimateResponse",
+    "BrandMessageAudienceEstimateResult",
+    "BrandMessageAudienceEstimateServiceResult",
+    "BrandMessageAudienceFriendCountResponse",
+    "BrandMessageAudienceFriendCountResult",
+    "BrandMessageAudienceFriendCountServiceResult",
+    "BrandMessageAudiencePossibleByPhoneNumbersRequest",
+    "BrandMessageAudiencePossibleResponse",
+    "BrandMessageAudiencePossibleResult",
+    "BrandMessageAudiencePossibleServiceResult",
+    "BrandMessageButton",
+    "BrandMessageCarousel",
+    "BrandMessageCarouselCommerceFileUploadRequest",
+    "BrandMessageCarouselFeedFileUploadRequest",
+    "BrandMessageCarouselHead",
+    "BrandMessageCarouselItem",
+    "BrandMessageCarouselItemAttachment",
+    "BrandMessageCarouselTail",
+    "BrandMessageCarouselVariable",
+    "BrandMessageCatalog",
+    "BrandMessageCatalogFileUploadRequest",
+    "BrandMessageCatalogItem",
+    "BrandMessageCatalogOddFirstFileUploadRequest",
+    "BrandMessageCatalogVariable",
+    "BrandMessageCommerce",
+    "BrandMessageCoupon",
+    "BrandMessageDefaultFileUploadRequest",
+    "BrandMessageFileUploadResponse",
+    "BrandMessageFileUploadResult",
+    "BrandMessageFileUploadServiceResult",
+    "BrandMessageFlowItem",
+    "BrandMessageFriendGroup",
+    "BrandMessageFriendGroupFileUploadRequest",
+    "BrandMessageFriendGroupFileUploadResponse",
+    "BrandMessageFriendGroupFileUploadResult",
+    "BrandMessageFriendGroupFileUploadServiceResult",
+    "BrandMessageFriendGroupListResponse",
+    "BrandMessageFriendGroupListResult",
+    "BrandMessageFriendGroupListServiceResult",
+    "BrandMessageFriendGroupPhoneNumberRequest",
+    "BrandMessageFriendGroupPhoneNumberRequestListResponse",
+    "BrandMessageFriendGroupPhoneNumberRequestListResult",
+    "BrandMessageFriendGroupPhoneNumberRequestListServiceResult",
+    "BrandMessageFriendGroupPhoneNumberRequestResponse",
+    "BrandMessageFriendGroupPhoneNumberRequestResult",
+    "BrandMessageFriendGroupPhoneNumberRequestServiceResult",
+    "BrandMessageFriendGroupProcessing",
+    "BrandMessageFriendGroupProcessingResponse",
+    "BrandMessageFriendGroupProcessingResult",
+    "BrandMessageFriendGroupProcessingServiceResult",
+    "BrandMessageFriendGroupRequest",
+    "BrandMessageFriendGroupResponse",
+    "BrandMessageFriendGroupResult",
+    "BrandMessageFriendGroupServiceResult",
+    "BrandMessageGroupSend",
+    "BrandMessageGroupSendControlRequest",
+    "BrandMessageGroupSendCreateRequest",
+    "BrandMessageGroupSendResponse",
+    "BrandMessageGroupSendResult",
+    "BrandMessageGroupSendServiceResult",
+    "BrandMessageGroupTag",
+    "BrandMessageGroupTagListResponse",
+    "BrandMessageGroupTagListResult",
+    "BrandMessageGroupTagListServiceResult",
+    "BrandMessageGroupTagRequest",
+    "BrandMessageImage",
+    "BrandMessageItem",
+    "BrandMessageItemListEntry",
+    "BrandMessageMarketingAgreeResponse",
+    "BrandMessageMarketingAgreeResult",
+    "BrandMessageMarketingAgreeServiceResult",
+    "BrandMessageMarketingAgreeUploadRequest",
+    "BrandMessagePermissionApplyRequest",
+    "BrandMessageTemplate",
+    "BrandMessageTemplateInput",
+    "BrandMessageTemplateListResponse",
+    "BrandMessageTemplateListResult",
+    "BrandMessageTemplateListServiceResult",
+    "BrandMessageTemplateRequest",
+    "BrandMessageTemplateResponse",
+    "BrandMessageTemplateResult",
+    "BrandMessageTemplateServiceResult",
+    "BrandMessageTemplateSummary",
+    "BrandMessageUnsubscribeContentRequest",
+    "BrandMessageVideo",
+    "BrandMessageVideoInfo",
+    "BrandMessageVideoInfoResponse",
+    "BrandMessageVideoInfoResult",
+    "BrandMessageVideoInfoServiceResult",
+    "BrandMessageVideoListEntry",
+    "BrandMessageVideoListResponse",
+    "BrandMessageVideoListResult",
+    "BrandMessageVideoListServiceResult",
+    "BrandMessageVideoRegisterRequest",
+    "BrandMessageVideoUploadChannel",
+    "BrandMessageVideoUploadRegisterRequest",
+    "BrandMessageVideoUploadRegisterResponse",
+    "BrandMessageVideoUploadRegisterResult",
+    "BrandMessageVideoUploadRegisterServiceResult",
+    "BrandMessageWideFileUploadRequest",
+    "BrandMessageWideItemListFileUploadRequest",
+    "BrandMessageWideItemListFirstFileUploadRequest",
+    "CommonResult",
+    "CounselButton",
+    "CounselCarousel",
+    "CounselCarouselItem",
+    "CounselCarouselItemAttachment",
+    "CounselCarouselTail",
+    "CounselCert",
+    "CounselCertResultWebhookPayload",
+    "CounselCertStatusResponse",
+    "CounselCertStatusResult",
+    "CounselCertStatusServiceResult",
+    "CounselConsultTime",
+    "CounselConsultTimeResponse",
+    "CounselConsultTimeResult",
+    "CounselConsultTimeSaveRequest",
+    "CounselConsultTimeServiceResult",
+    "CounselConsultTimeSetting",
+    "CounselCoupon",
+    "CounselEndRequest",
+    "CounselEndResponse",
+    "CounselEndResult",
+    "CounselEndServiceResult",
+    "CounselEndWithBotRequest",
+    "CounselExpiredSessionWebhookPayload",
+    "CounselFile",
+    "CounselFileUploadRequest",
+    "CounselFileUploadResponse",
+    "CounselFileUploadResult",
+    "CounselFileUploadServiceResult",
+    "CounselImage",
+    "CounselImageUploadRequest",
+    "CounselImageUploadResponse",
+    "CounselImageUploadResult",
+    "CounselImageUploadServiceResult",
+    "CounselItem",
+    "CounselItemHighlight",
+    "CounselItemListEntry",
+    "CounselItemSummary",
+    "CounselLastReference",
+    "CounselMessageAttachment",
+    "CounselMessageContent",
+    "CounselMessageDeleteRequest",
+    "CounselMessageDeleteTarget",
+    "CounselMessageWebhookPayload",
+    "CounselPersonalInfo",
+    "CounselPersonalInfoWebhookPayload",
+    "CounselPlainAttachment",
+    "CounselPlainMessageRequest",
+    "CounselQuickReply",
+    "CounselReference",
+    "CounselReferenceWebhookPayload",
+    "CounselResultWebhookPayload",
+    "CounselRichAttachment",
+    "CounselRichMessageRequest",
+    "CounselSeenInfoWebhookPayload",
+    "CounselSendResponse",
+    "CounselSendServiceResult",
+    "CounselSenderActivation",
+    "CounselSenderActivationRequest",
+    "CounselSenderRef",
+    "CounselSenderRequest",
+    "CounselSession",
+    "CounselSessionResponse",
+    "CounselSessionResult",
+    "CounselSessionServiceResult",
+    "CounselSystemMessage",
+    "CounselSystemMessageButton",
+    "CounselSystemMessageComment",
+    "CounselSystemMessageContent",
+    "CounselSystemMessageCreateRequest",
+    "CounselSystemMessageCreateResponse",
+    "CounselSystemMessageCreateResult",
+    "CounselSystemMessageCreateServiceResult",
+    "CounselSystemMessageDraft",
+    "CounselSystemMessageListResponse",
+    "CounselSystemMessageListResult",
+    "CounselSystemMessageListServiceResult",
+    "CounselSystemMessageRef",
+    "CounselUserBlockRequest",
+    "CounselUserTarget",
+    "CounselWebhookAck",
+    "CounselWebhookCommon",
+    "CounselWeekTime",
+    "Destination",
+    "FileUploadResponse",
+    "FileUploadResult",
+    "FileUploadServiceResult",
+    "InsightKakaoHourlyStatistics",
+    "InsightKakaoHourlyStatisticsResponse",
+    "InsightKakaoHourlyStatisticsResult",
+    "InsightKakaoHourlyStatisticsServiceResult",
+    "InsightKakaoStatistics",
+    "InsightKakaoStatisticsResponse",
+    "InsightKakaoStatisticsResult",
+    "InsightKakaoStatisticsServiceResult",
+    "InsightKakaoTemplateStatistics",
+    "InsightKakaoTemplateStatisticsResponse",
+    "InsightKakaoTemplateStatisticsResult",
+    "InsightKakaoTemplateStatisticsServiceResult",
+    "InsightRcsBrandProfileStat",
+    "InsightRcsBrandProfileStatResponse",
+    "InsightRcsBrandProfileStatResult",
+    "InsightRcsBrandProfileStatServiceResult",
+    "InsightRcsButtonClick",
+    "InsightRcsMenuClick",
+    "InsightRcsMessageButtonStat",
+    "InsightRcsMessageButtonStatResponse",
+    "InsightRcsMessageButtonStatResult",
+    "InsightRcsMessageButtonStatServiceResult",
+    "InsightRcsMessageStat",
+    "InsightRcsMessageStatResponse",
+    "InsightRcsMessageStatResult",
+    "InsightRcsMessageStatServiceResult",
+    "InsightRcsPersistentMenuStat",
+    "InsightRcsPersistentMenuStatResponse",
+    "InsightRcsPersistentMenuStatResult",
+    "InsightRcsPersistentMenuStatServiceResult",
+    "InternationalFlowItem",
+    "InternationalMessage",
+    "KakaoCategory",
+    "KakaoCategoryListResponse",
+    "KakaoCategoryListResult",
+    "KakaoCategoryListServiceResult",
+    "KakaoCategoryResponse",
+    "KakaoCategoryResult",
+    "KakaoCategoryServiceResult",
+    "KakaoGroup",
+    "KakaoGroupListResponse",
+    "KakaoGroupListResult",
+    "KakaoGroupListServiceResult",
+    "KakaoGroupSenderAddRequest",
+    "KakaoSanction",
+    "KakaoSanctionResponse",
+    "KakaoSanctionResult",
+    "KakaoSanctionServiceResult",
+    "KakaoSenderAccountResponse",
+    "KakaoSenderAccountServiceResult",
+    "KakaoSenderChannel",
+    "KakaoSenderCreateRequest",
+    "KakaoSenderListResponse",
+    "KakaoSenderListServiceResult",
+    "KakaoSenderProfile",
+    "KakaoSenderProfileResult",
+    "KakaoSenderRecoverRequest",
+    "KakaoSenderResponse",
+    "KakaoSenderResult",
+    "KakaoSenderServiceResult",
+    "KakaoSenderTokenRequest",
+    "MessageFlowItem",
+    "MessageStatistics",
+    "MessageStatisticsResponse",
+    "MessageStatisticsResult",
+    "MessageStatisticsServiceResult",
+    "MessageStatus",
+    "MessageStatusListResponse",
+    "MessageStatusListResult",
+    "MessageStatusListServiceResult",
+    "MmsFileUploadRequest",
+    "MmsFlowItem",
+    "MmsMessage",
+    "MoMessage",
+    "MoMessageListResponse",
+    "MoMessageListResult",
+    "MoMessageListServiceResult",
+    "MoWebhookPayload",
+    "NaverTalkAttachments",
+    "NaverTalkButton",
+    "NaverTalkFlowItem",
+    "NaverTalkGift",
+    "NaverTalkMessage",
+    "RcsAction",
+    "RcsBody",
+    "RcsBrand",
+    "RcsBrandMediaUrl",
+    "RcsBrandMenu",
+    "RcsBrandResponse",
+    "RcsBrandResult",
+    "RcsBrandServiceResult",
+    "RcsBrandUpdateRequest",
+    "RcsButton",
+    "RcsCalendarAction",
+    "RcsChatbot",
+    "RcsChatbotResponse",
+    "RcsChatbotResult",
+    "RcsChatbotServiceResult",
+    "RcsChatbotUpdateRequest",
+    "RcsComposeAction",
+    "RcsDialerAction",
+    "RcsFileUploadRequest",
+    "RcsFileUploadResponse",
+    "RcsFileUploadResult",
+    "RcsFileUploadServiceResult",
+    "RcsFlowItem",
+    "RcsLocation",
+    "RcsMapAction",
+    "RcsMessage",
+    "RcsMessagebaseCommonListResponse",
+    "RcsMessagebaseCommonListResult",
+    "RcsMessagebaseCommonListServiceResult",
+    "RcsMessagebaseCommonSummary",
+    "RcsMessagebaseFormDetail",
+    "RcsMessagebaseFormDetailResponse",
+    "RcsMessagebaseFormDetailResult",
+    "RcsMessagebaseFormDetailServiceResult",
+    "RcsMessagebaseFormListResponse",
+    "RcsMessagebaseFormListResult",
+    "RcsMessagebaseFormListServiceResult",
+    "RcsMessagebaseFormSummary",
+    "RcsMessagebasePagination",
+    "RcsMessagebasePolicyInfo",
+    "RcsSuggestion",
+    "RcsTemplate",
+    "RcsTemplateAction",
+    "RcsTemplateBodyParam",
+    "RcsTemplateButton",
+    "RcsTemplateClipboardAction",
+    "RcsTemplateComposeAction",
+    "RcsTemplateDefinition",
+    "RcsTemplateDetailBody",
+    "RcsTemplateFormLogo",
+    "RcsTemplateFormLogoListResponse",
+    "RcsTemplateFormLogoListResult",
+    "RcsTemplateFormLogoListServiceResult",
+    "RcsTemplateIdResponse",
+    "RcsTemplateIdResult",
+    "RcsTemplateIdServiceResult",
+    "RcsTemplateImage",
+    "RcsTemplateImageResponse",
+    "RcsTemplateImageResult",
+    "RcsTemplateImageServiceResult",
+    "RcsTemplateImageUploadRequest",
+    "RcsTemplateListResponse",
+    "RcsTemplateListResult",
+    "RcsTemplateListServiceResult",
+    "RcsTemplateMapAction",
+    "RcsTemplateRequest",
+    "RcsTemplateResponse",
+    "RcsTemplateResult",
+    "RcsTemplateServiceResult",
+    "RcsTemplateSuggestion",
+    "RcsTemplateSummary",
+    "RcsUrlAction",
+    "Report",
+    "ReportInquiryResponse",
+    "ReportInquiryResult",
+    "ReportInquiryServiceResult",
+    "ReportPollingResponse",
+    "ReportPollingResult",
+    "ReportPollingServiceResult",
+    "ReportWebhookPayload",
+    "Reservation",
+    "ReservationCreateRequest",
+    "ReservationCreateResponse",
+    "ReservationCreateServiceResult",
+    "ReservationListResponse",
+    "ReservationListResult",
+    "ReservationListServiceResult",
+    "ReservationMessageFlowItem",
+    "ReservationRecipient",
+    "ReservationRecipientCreateRequest",
+    "ReservationRecipientCreateResponse",
+    "ReservationRecipientCreateServiceResult",
+    "ReservationRecipientListResponse",
+    "ReservationRecipientListResult",
+    "ReservationRecipientListServiceResult",
+    "ReservationResponse",
+    "ReservationServiceResult",
+    "ReservationUpdateRequest",
+    "SendDestinationResult",
+    "SendOmniRequest",
+    "SendOmniResponse",
+    "SendOmniResult",
+    "SendOmniServiceResult",
+    "ServiceResult",
+    "SmsFlowItem",
+    "SmsMessage",
+    "WebhookAck"
+  ],
+  "requestExamples": {
+    "fallback": {
+      "destinations": [
+        {
+          "replaceWords": {
+            "name": "홍길동"
+          },
+          "to": "01000000000"
+        }
+      ],
+      "idempotencyKey": "order-20260330-0001",
+      "idempotencyTtl": 86400,
+      "messageFlow": [
+        {
+          "alimtalk": {
+            "msgType": "AT",
+            "senderKey": "SENDER_KEY_EXAMPLE",
+            "templateCode": "TEMPLATE_CODE_EXAMPLE",
+            "text": "#{name}님, 주문이 접수되었습니다."
+          }
+        },
+        {
+          "sms": {
+            "from": "01000000000",
+            "text": "#{name}님, 주문이 접수되었습니다."
+          }
+        }
+      ]
+    },
+    "lms": {
+      "destinations": [
+        {
+          "to": "01000000000"
+        }
+      ],
+      "messageFlow": [
+        {
+          "mms": {
+            "from": "01000000000",
+            "text": "주문이 정상 접수되었습니다. 배송은 내일부터 시작됩니다.",
+            "title": "주문 안내"
+          }
+        }
+      ],
+      "ref": "lms-20260330-001"
+    },
+    "sms": {
+      "destinations": [
+        {
+          "to": "01000000000"
+        }
+      ],
+      "messageFlow": [
+        {
+          "sms": {
+            "from": "01000000000",
+            "text": "인증번호는 123456 입니다."
+          }
+        }
+      ],
+      "ref": "sms-20260330-001"
+    }
+  },
+  "responseExamples": [
+    {
+      "operation": "sendOmni",
+      "status": "200",
+      "schema": "SendOmniResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "destinations": [
+              {
+                "code": "A000",
+                "msgKey": "20260424104234546POM101182450000",
+                "result": "Success",
+                "to": "01000000000"
+              }
+            ]
+          },
+          "ref": "sms-20260330-001",
+          "result": "SUCCESS"
+        }
+      }
+    },
+    {
+      "operation": "uploadRcsFile",
+      "status": "200",
+      "schema": "RcsFileUploadResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "expired": "2027-04-24T12:16:38+09:00",
+            "media": "maapfile://MEDIA_KEY_EXAMPLE"
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "uploadBrandMessageDefaultImage",
+      "status": "200",
+      "schema": "BrandMessageFileUploadResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "imgUrl": "https://example.kakao.image/brand-image.jpg"
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "uploadBrandMessageWideImage",
+      "status": "200",
+      "schema": "BrandMessageFileUploadResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "imgUrl": "https://example.kakao.image/brand-image.jpg"
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "uploadBrandMessageWideItemListFirstImage",
+      "status": "200",
+      "schema": "BrandMessageFileUploadResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "imgUrl": "https://example.kakao.image/brand-image.jpg"
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "uploadBrandMessageWideItemListImage",
+      "status": "200",
+      "schema": "BrandMessageFileUploadResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "imgUrl": "https://example.kakao.image/brand-image.jpg"
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "uploadBrandMessageCarouselFeedImage",
+      "status": "200",
+      "schema": "BrandMessageFileUploadResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "imgUrl": "https://example.kakao.image/brand-image.jpg"
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "uploadBrandMessageCarouselCommerceImage",
+      "status": "200",
+      "schema": "BrandMessageFileUploadResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "imgUrl": "https://example.kakao.image/brand-image.jpg"
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "createReservation",
+      "status": "200",
+      "schema": "ReservationCreateResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "destinations": [
+              {
+                "code": "A000",
+                "msgKey": "MSG_KEY_EXAMPLE",
+                "result": "Success",
+                "to": "01000000000"
+              }
+            ]
+          },
+          "ref": "mt-resv-20260501-001",
+          "result": "Success",
+          "resvKey": "RESV_KEY_EXAMPLE"
+        }
+      }
+    },
+    {
+      "operation": "listReservations",
+      "status": "200",
+      "schema": "ReservationListResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "hasNext": false,
+            "lastSeq": 100,
+            "reservations": [
+              {
+                "adYn": "N",
+                "expectedCnt": 1000,
+                "failCnt": 0,
+                "paymentCode": "PAYMENT_CODE_EXAMPLE",
+                "productType": "MESSAGE",
+                "regDate": "2026-04-30 12:00:00",
+                "resvKey": "RESV_KEY_EXAMPLE",
+                "resvName": "금요일 캠페인",
+                "resvSendTime": "2026-05-01 10:00:00",
+                "sentCnt": 0,
+                "seq": 100,
+                "status": "PENDING",
+                "successCnt": 0,
+                "updateDate": "2026-04-30 12:34:56"
+              }
+            ]
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "addReservationRecipients",
+      "status": "200",
+      "schema": "ReservationRecipientCreateResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "destinations": [
+              {
+                "code": "A000",
+                "msgKey": "MSG_KEY_EXAMPLE",
+                "result": "Success",
+                "to": "01000000000"
+              }
+            ]
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "deleteReservationRecipient",
+      "status": "200",
+      "schema": "ApiResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "getAlimtalkInsight",
+      "status": "200",
+      "schema": "InsightKakaoStatisticsResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "statistics": [
+              {
+                "buttonClickCount": 312,
+                "clickRate": 25.16,
+                "ctr": 35.66,
+                "etcClickCount": 44,
+                "failCount": 18,
+                "listClickCount": 0,
+                "readCount": 875,
+                "readRate": 70.56,
+                "sendRate": 98.57,
+                "successCount": 1240,
+                "thumbnailClickCount": 0
+              }
+            ]
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "getRcsMessageInsight",
+      "status": "200",
+      "schema": "InsightRcsMessageStatResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "rcs": {
+            "stat": [
+              {
+                "brandId": "BRAND_ID_EXAMPLE",
+                "chatbotId": "CHATBOT_ID_EXAMPLE",
+                "corpId": "CORP_ID_EXAMPLE",
+                "corpRegNum": "0000000000",
+                "deliveredCount": 2540,
+                "displayedCount": 1980,
+                "groupId": "GROUP_ID_EXAMPLE",
+                "messagebaseId": "MESSAGEBASE_ID_EXAMPLE",
+                "statDate": "20260801"
+              }
+            ]
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "requestKakaoSenderToken",
+      "status": "200",
+      "schema": "KakaoSenderAccountResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "SUCCESS",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "result": "SUCCESS",
+          "resultMsg": "요청 성공"
+        }
+      }
+    },
+    {
+      "operation": "createKakaoSender",
+      "status": "200",
+      "schema": "KakaoSenderAccountResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "SUCCESS",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "kakao": {
+            "senderProfile": {
+              "block": false,
+              "brandMessage": false,
+              "brandtalk": false,
+              "businessProfile": true,
+              "businessType": "BUSINESS",
+              "categoryCode": "00000000001",
+              "channelKey": "base",
+              "createdAt": "2026-07-24 13:32:17",
+              "dormant": false,
+              "modifiedAt": "2026-07-24 13:32:18",
+              "name": "비즈고",
+              "profileMessageSpamLevel": "정상",
+              "profileSpamLevel": "정상",
+              "profileStatus": "A",
+              "senderKey": "SENDER_KEY_EXAMPLE",
+              "status": "A",
+              "uuid": "@KAKAO_CHANNEL_ID_EXAMPLE"
+            }
+          },
+          "result": "SUCCESS",
+          "resultMsg": "요청 성공"
+        }
+      }
+    },
+    {
+      "operation": "listKakaoSenderProfiles",
+      "status": "200",
+      "schema": "KakaoSenderListResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "SUCCESS",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "channels": [
+            {
+              "block": false,
+              "businessProfile": true,
+              "businessType": "BUSINESS",
+              "categoryCode": "00000000001",
+              "channelId": "@KAKAO_CHANNEL_ID_EXAMPLE",
+              "channelKey": "base",
+              "channelName": "비즈고",
+              "createdAt": "2026-07-24 10:51:47",
+              "dormant": false,
+              "profileStatus": "A",
+              "regDate": "2026-07-24 10:51:47",
+              "senderKey": "SENDER_KEY_EXAMPLE",
+              "senderKeyType": "S",
+              "status": "A",
+              "updateDate": "2026-07-24 10:52:03"
+            }
+          ],
+          "code": "A000",
+          "hasNext": false,
+          "page": 1,
+          "result": "SUCCESS",
+          "resultMsg": "요청 성공",
+          "totalCount": 1,
+          "totalPage": 1
+        }
+      }
+    },
+    {
+      "operation": "getKakaoSender",
+      "status": "200",
+      "schema": "KakaoSenderResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "kakao": {
+              "senderProfile": {
+                "bizchat": true,
+                "block": false,
+                "brandMessage": true,
+                "businessProfile": true,
+                "createdAt": "2026-04-24T11:18:45+09:00",
+                "dormant": false,
+                "modifiedAt": "2026-04-24T11:18:45+09:00",
+                "name": "비즈고",
+                "profileMessageSpamLevel": "정상",
+                "profileSpamLevel": "정상",
+                "profileStatus": "A",
+                "senderKey": "SENDER_KEY_EXAMPLE",
+                "status": "A"
+              }
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "listKakaoSenderCategories",
+      "status": "200",
+      "schema": "KakaoCategoryListResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "kakao": {
+              "categories": [
+                {
+                  "code": "001",
+                  "name": "쇼핑"
+                },
+                {
+                  "code": "002",
+                  "name": "금융"
+                }
+              ]
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "listKakaoGroups",
+      "status": "200",
+      "schema": "KakaoGroupListResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "kakao": {
+              "groups": [
+                {
+                  "groupKey": "GROUP_KEY_EXAMPLE",
+                  "groupName": "기본 그룹"
+                }
+              ]
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "getKakaoSenderSanction",
+      "status": "200",
+      "schema": "KakaoSanctionResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "kakao": {
+              "abusing": {
+                "groupKey": "GROUP_KEY_EXAMPLE",
+                "reasonType": "BZM",
+                "restrictedAt": "2026-03-05 16:33:17",
+                "senderKey": "SENDER_KEY_EXAMPLE",
+                "senderKeyType": "S",
+                "templateCode": "TEMPLATE_CODE_EXAMPLE"
+              }
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "getAlimtalkTemplate",
+      "status": "200",
+      "schema": "AlimtalkTemplateResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "alimtalk": {
+              "senderKey": "SENDER_KEY_EXAMPLE",
+              "templateCode": "TEMPLATE_CODE_EXAMPLE",
+              "text": "#{name}님, 주문이 완료되었습니다."
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "createAlimtalkTemplate",
+      "status": "200",
+      "schema": "AlimtalkTemplateResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "alimtalk": {
+              "senderKey": "SENDER_KEY_EXAMPLE",
+              "templateCode": "TEMPLATE_CODE_EXAMPLE",
+              "text": "#{name}님, 주문이 완료되었습니다."
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "listAlimtalkTemplates",
+      "status": "200",
+      "schema": "AlimtalkTemplateListResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "alimtalk": {
+              "templates": [
+                {
+                  "categoryCode": "001001",
+                  "inspectionStatus": "APR",
+                  "senderKey": "SENDER_KEY_EXAMPLE",
+                  "status": "A",
+                  "templateCode": "TEMPLATE_CODE_EXAMPLE",
+                  "templateEmphasizeType": "NONE",
+                  "templateMessageType": "BA",
+                  "templateName": "주문 완료 안내",
+                  "text": "#{name}님, 주문이 완료되었습니다."
+                }
+              ]
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "uploadAlimtalkTemplateImage",
+      "status": "200",
+      "schema": "AlimtalkTemplateImageUploadResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "fileName": "template-image.jpg",
+            "imgUrl": "https://example.kakao.image/template-image.jpg"
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "uploadAlimtalkItemHighlightImage",
+      "status": "200",
+      "schema": "AlimtalkTemplateImageUploadResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "fileName": "item-highlight.jpg",
+            "imgUrl": "https://example.kakao.image/item-highlight.jpg"
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "listAlimtalkPublicTemplates",
+      "status": "200",
+      "schema": "AlimtalkTemplatePublicListResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "templates": [
+              {
+                "categoryCode": "001001",
+                "previewImageUrl": "https://example.kakao.image/public-template.png",
+                "releaseDate": "2026-04-08 10:00:00",
+                "status": "APR",
+                "templateCode": "TEMPLATE_CODE_EXAMPLE",
+                "templateName": "주문 완료 안내"
+              }
+            ]
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "getRcsBrand",
+      "status": "200",
+      "schema": "RcsBrandResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "rcs": {
+              "brandId": "BRAND_ID_EXAMPLE",
+              "brandKey": "RCS_BRAND_KEY",
+              "name": "비즈고",
+              "status": "ready"
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "updateRcsBrand",
+      "status": "200",
+      "schema": "RcsBrandResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "rcs": {
+              "brandId": "BRAND_ID_EXAMPLE",
+              "brandKey": "RCS_BRAND_KEY",
+              "name": "비즈고",
+              "status": "ready"
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "listRcsChatbots",
+      "status": "200",
+      "schema": "RcsChatbotResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "rcs": {
+              "chatbot": [
+                {
+                  "approvalResult": "approved",
+                  "brandId": "BRAND_ID_EXAMPLE",
+                  "chatbotId": "CHATBOT_ID_EXAMPLE",
+                  "mdn": "01000000000",
+                  "registerDate": "2026-07-21 10:00:00",
+                  "status": "ready",
+                  "subTitle": "고객센터 대화방"
+                }
+              ]
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "getRcsChatbot",
+      "status": "200",
+      "schema": "RcsChatbotResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "rcs": {
+              "chatbot": [
+                {
+                  "approvalResult": "approved",
+                  "brandId": "BRAND_ID_EXAMPLE",
+                  "chatbotId": "CHATBOT_ID_EXAMPLE",
+                  "mdn": "01000000000",
+                  "registerDate": "2026-07-21 10:00:00",
+                  "status": "ready",
+                  "subTitle": "고객센터 대화방"
+                }
+              ]
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "updateRcsChatbot",
+      "status": "200",
+      "schema": "RcsChatbotResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "rcs": {
+              "chatbot": [
+                {
+                  "approvalResult": "approved",
+                  "brandId": "BRAND_ID_EXAMPLE",
+                  "chatbotId": "CHATBOT_ID_EXAMPLE",
+                  "mdn": "01000000000",
+                  "registerDate": "2026-07-21 10:00:00",
+                  "status": "ready",
+                  "subTitle": "고객센터 대화방"
+                }
+              ]
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "cancelRcsChatbotApproval",
+      "status": "200",
+      "schema": "RcsChatbotResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "rcs": {
+              "chatbot": [
+                {
+                  "approvalResult": "approved",
+                  "brandId": "BRAND_ID_EXAMPLE",
+                  "chatbotId": "CHATBOT_ID_EXAMPLE",
+                  "mdn": "01000000000",
+                  "registerDate": "2026-07-21 10:00:00",
+                  "status": "ready",
+                  "subTitle": "고객센터 대화방"
+                }
+              ]
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "deleteRcsChatbot",
+      "status": "200",
+      "schema": "RcsChatbotResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "rcs": {
+              "chatbot": [
+                {
+                  "approvalResult": "approved",
+                  "brandId": "BRAND_ID_EXAMPLE",
+                  "chatbotId": "CHATBOT_ID_EXAMPLE",
+                  "mdn": "01000000000",
+                  "registerDate": "2026-07-21 10:00:00",
+                  "status": "ready",
+                  "subTitle": "고객센터 대화방"
+                }
+              ]
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "getRcsChatbotUsableQueries",
+      "status": "200",
+      "schema": "RcsChatbotResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "rcs": {
+              "chatbot": [
+                {
+                  "approvalResult": "approved",
+                  "brandId": "BRAND_ID_EXAMPLE",
+                  "chatbotId": "CHATBOT_ID_EXAMPLE",
+                  "mdn": "01000000000",
+                  "registerDate": "2026-07-21 10:00:00",
+                  "status": "ready",
+                  "subTitle": "고객센터 대화방"
+                }
+              ]
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "listRcsCommonFormats",
+      "status": "200",
+      "schema": "RcsMessagebaseCommonListResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "rcs": {
+              "messageForms": [
+                {
+                  "bizCondition": [],
+                  "cardType": "standalone media top",
+                  "formName": "모바일 상품권 전송 T",
+                  "messagebaseformId": "MESSAGEBASEFORM_ID_EXAMPLE",
+                  "registerDate": "2026-02-05T17:59:20",
+                  "updateDate": "2026-02-05T18:37:56"
+                }
+              ]
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "getRcsCommonFormat",
+      "status": "200",
+      "schema": "RcsMessagebaseFormDetailResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "rcs": {
+              "messageForm": {
+                "body": [],
+                "buttons": {
+                  "suggestions": []
+                },
+                "formatId": "FORMAT_ID_EXAMPLE",
+                "policyInfo": {
+                  "buttonsAllowed": true,
+                  "maxButtonCount": 2
+                },
+                "templateName": "통합 정보형 템플릿"
+              }
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "listRcsTemplateForms",
+      "status": "200",
+      "schema": "RcsMessagebaseFormListResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "rcs": {
+              "messageForms": [
+                {
+                  "cardType": "standalone media top",
+                  "formName": "모바일 상품권 전송 T",
+                  "messagebaseformId": "MESSAGEBASEFORM_ID_EXAMPLE"
+                }
+              ]
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "getRcsTemplateForm",
+      "status": "200",
+      "schema": "RcsMessagebaseFormDetailResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "rcs": {
+              "messageForm": {
+                "body": [],
+                "formatId": "FORMAT_ID_EXAMPLE",
+                "templateName": "통합 정보형 템플릿"
+              }
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "listRcsTemplates",
+      "status": "200",
+      "schema": "RcsTemplateListResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "rcs": {
+              "templates": [
+                {
+                  "approvalResult": "approved",
+                  "formatId": "FORMAT_ID_EXAMPLE",
+                  "messagebaseId": "MESSAGEBASE_ID_EXAMPLE",
+                  "status": "ready",
+                  "templateName": "통합 정보형 템플릿"
+                }
+              ]
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "getRcsTemplate",
+      "status": "200",
+      "schema": "RcsTemplateResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "rcs": {
+              "approvalResult": "승인",
+              "body": {
+                "description": "#{이름}님, 안녕하세요.",
+                "mTitle": "안내 메시지",
+                "title": "안내 메시지"
+              },
+              "brandKey": "RCS_BRAND_KEY",
+              "cardType": "descriptionNew",
+              "formatId": "FORMAT_ID_EXAMPLE",
+              "productCode": "lms",
+              "spec": "openrichcard",
+              "status": "ready"
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "updateRcsTemplate",
+      "status": "200",
+      "schema": "RcsTemplateIdResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "rcs": {
+              "messagebaseId": "MESSAGEBASE_ID_EXAMPLE"
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "createRcsTemplate",
+      "status": "200",
+      "schema": "RcsTemplateIdResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "rcs": {
+              "messagebaseId": "MESSAGEBASE_ID_EXAMPLE"
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "cancelRcsTemplateApproval",
+      "status": "200",
+      "schema": "RcsTemplateIdResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "rcs": {
+              "messagebaseId": "MESSAGEBASE_ID_EXAMPLE"
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "deleteRcsTemplate",
+      "status": "200",
+      "schema": "RcsTemplateIdResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "rcs": {
+              "messagebaseId": "MESSAGEBASE_ID_EXAMPLE"
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "getRcsTemplateImage",
+      "status": "200",
+      "schema": "RcsTemplateImageResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "rcs": {
+              "image": {
+                "fileId": "FILE_ID_EXAMPLE",
+                "fileName": "template-image.jpg",
+                "imageHeight": 900,
+                "imageWidth": 900
+              }
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "uploadRcsTemplateImage",
+      "status": "200",
+      "schema": "RcsTemplateImageResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "rcs": {
+              "image": {
+                "fileId": "FILE_ID_EXAMPLE",
+                "fileName": "template-image.jpg",
+                "imageHeight": 900,
+                "imageWidth": 900
+              }
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "listRcsTemplateFormLogos",
+      "status": "200",
+      "schema": "RcsTemplateFormLogoListResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "rcs": {
+              "images": [
+                {
+                  "fileId": "FILE_ID_EXAMPLE",
+                  "fileName": "template-logo.png"
+                }
+              ]
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "sendCounselPlain",
+      "status": "200",
+      "schema": "CounselSendResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "msgKey": "20260424104234546POM101182450000",
+          "ref": "client-ref-001",
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "sendCounselRich",
+      "status": "200",
+      "schema": "CounselSendResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "msgKey": "20260424104234546POM101182450000",
+          "ref": "client-ref-001",
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "endCounselSession",
+      "status": "200",
+      "schema": "CounselEndResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "msgKey": "20260424104234546POM101182450000"
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "endCounselSessionWithBot",
+      "status": "200",
+      "schema": "CounselEndResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "msgKey": "20260424104234546POM101182450000"
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "blockCounselUser",
+      "status": "200",
+      "schema": "ApiResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "unblockCounselUser",
+      "status": "200",
+      "schema": "ApiResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "getCounselSession",
+      "status": "200",
+      "schema": "CounselSessionResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "session": {
+              "expiredAt": "2025-10-25T10:00:00",
+              "expiredType": "AE",
+              "senderKey": "SENDER_KEY_EXAMPLE",
+              "sessionId": 1,
+              "startedAt": "2025-09-24T11:22:08.557",
+              "startedType": "UM"
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "getCounselCertStatus",
+      "status": "200",
+      "schema": "CounselCertStatusResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "cert": {
+              "completedAt": "2026-09-10T10:01:12",
+              "createdAt": "2026-09-10T10:00:00",
+              "expiredAt": "2026-09-10T10:10:00",
+              "sessionId": 1,
+              "signStatus": "COMPLETED",
+              "txId": "CERT_TX_ID_EXAMPLE",
+              "viewedAt": "2026-09-10T10:00:30"
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "uploadCounselImage",
+      "status": "200",
+      "schema": "CounselImageUploadResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "imgUrl": "https://example.kakao.image/cstalk_image.jpg"
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "uploadCounselFile",
+      "status": "200",
+      "schema": "CounselFileUploadResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "fileName": "sample.pdf",
+            "fileUrl": "https://example.kakao.file/cstalk_file.pdf",
+            "size": "102400"
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "activateCounsel",
+      "status": "200",
+      "schema": "ApiResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "deactivateCounsel",
+      "status": "200",
+      "schema": "ApiResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "activateCounselChat",
+      "status": "200",
+      "schema": "ApiResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "deactivateCounselChat",
+      "status": "200",
+      "schema": "ApiResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "getCounselConsultTime",
+      "status": "200",
+      "schema": "CounselConsultTimeResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "cstalk": {
+              "weekTimeTable": [
+                {
+                  "day": "mon",
+                  "endAt": "1800",
+                  "startAt": "0900"
+                }
+              ]
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "saveCounselConsultTime",
+      "status": "200",
+      "schema": "ApiResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "listCounselSystemMessages",
+      "status": "200",
+      "schema": "CounselSystemMessageListResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "systemMessages": [
+              {
+                "comments": [
+                  {
+                    "content": "검수 요청이 등록되었습니다.",
+                    "createdAt": "2025-08-27 13:17:02",
+                    "id": "101",
+                    "status": "INQ",
+                    "userName": "비즈고"
+                  }
+                ],
+                "createdAt": "2025-08-18 16:40:00",
+                "id": "7678",
+                "inspectRequestAt": "2025-08-27 13:16:59",
+                "inspectStatus": "REG",
+                "inspectedAt": "",
+                "messages": [
+                  {
+                    "buttons": [
+                      {
+                        "name": "바로가기",
+                        "ordering": 1,
+                        "type": "WL",
+                        "urlMobile": "https://m.example.com",
+                        "urlPc": "https://www.example.com"
+                      }
+                    ],
+                    "content": "상담을 시작합니다.",
+                    "messageType": "ST"
+                  }
+                ],
+                "modifiedAt": "2025-08-18 16:40:00",
+                "name": "상담 시작 안내",
+                "status": "A"
+              }
+            ]
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "createCounselSystemMessage",
+      "status": "200",
+      "schema": "CounselSystemMessageCreateResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "data": {
+            "systemMessage": {
+              "id": "7678"
+            }
+          },
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "deleteCounselSystemMessage",
+      "status": "200",
+      "schema": "ApiResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "requestCounselSystemMessageApproval",
+      "status": "200",
+      "schema": "ApiResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "cancelCounselSystemMessageApproval",
+      "status": "200",
+      "schema": "ApiResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "result": "Success"
+        }
+      }
+    },
+    {
+      "operation": "deleteCounselMessage",
+      "status": "200",
+      "schema": "ApiResponse",
+      "value": {
+        "common": {
+          "authCode": "A000",
+          "authResult": "Success",
+          "infobankTrId": "Infobank-Tracking-Id"
+        },
+        "data": {
+          "code": "A000",
+          "result": "Success"
+        }
+      }
+    }
+  ]
+}

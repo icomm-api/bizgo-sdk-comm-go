@@ -1,0 +1,20 @@
+# pip install pre-commit && pre-commit install
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.4
+    hooks:
+      - id: gitleaks
+  - repo: local
+    hooks:
+      - id: go-vet
+        name: go vet
+        entry: go vet ./...
+        language: system
+        pass_filenames: false
+        types: [go]
+      - id: gen-check
+        name: generated code is up to date
+        entry: go -C tools/gen run . -root ../.. -check
+        language: system
+        pass_filenames: false
+        files: ^(spec/|tools/gen/|.*_gen\.go$)

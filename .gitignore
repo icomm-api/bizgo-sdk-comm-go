@@ -1,0 +1,23 @@
+# go
+/bin/
+/dist/
+*.test
+*.out
+coverage.*
+go.work
+go.work.sum
+
+# secrets — never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+secrets/
+
+# editors / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

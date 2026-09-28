@@ -1,0 +1,3297 @@
+{
+  "source": "https://developers.bizgo.io/api-sdk/api-reference/error-codes",
+  "sourceAlso": "https://developers.bizgo.io/api-sdk/code-api",
+  "retrievedAt": "2026-09-23",
+  "notes": [
+    "gateway = 에러코드 페이지 '접수코드 > 공통부'(게이트웨이 인증·권한·요청 형식 검증 단계, 응답 common.authCode/authResult). service = '접수코드 > 개별부'(상품 API 비즈니스 로직 단계, 응답 data.code/result). code-api 페이지의 'API Response Code > 공통부/개별부' 표와 내용이 같음을 확인함.",
+    "gateway 목록에는 http status 열이 없음(Category 열만 있음). service 목록의 httpStatus는 원문 'Http Status' 열 값임.",
+    "report 코드는 원문에서 채널별로 나뉘어 있지 않은 단일 표(비동기 리포트 최종 처리 결과 코드)이므로 'all' 그룹 하나로 담음. 채널별 분류는 원문에 없어 임의로 하지 않음.",
+    "report 62006: 에러코드 페이지 추출본은 '에 명시된 시리얼넘버 형식 불일치'로 앞부분이 잘려 있어, code-api 페이지의 '<4.2 메시지 전송 요청>에 명시된 시리얼넘버 형식 불일치'를 사용함.",
+    "report 41212/41220~41232/41240: 두 페이지 추출본에서 각주 표기가 '[1]'/'[3]'과 '1'/'3'으로 다름. 에러코드 페이지 표기('FNW. 11[1]', 'TTAK.KO-06.0410/R5 [3]')를 유지함.",
+    "report 60501/60504: 괄호 안 부연 설명은 에러코드 페이지에만 한 줄로 있고, code-api 페이지에서는 별도 행으로 깨져 있음. 에러코드 페이지 표기를 유지함.",
+    "A309(service): 2026-09-28 sandbox 확인 — idempotencyKey를 보내고 idempotencyTtl을 빼면 A309를 받음. 공개 문서는 idempotencyTtl을 선택 항목으로 표기하지만 idempotencyKey와 함께라면 필수. SDK는 키만 있으면 86400을 채움.",
+    "report 코드 '6ME09'는 숫자가 아닌 문자가 섞인 코드로 원문 그대로 담음.",
+    "code-api 페이지에는 이 파일에 담지 않은 표가 더 있음: HTTP Status Code(10개), 인증 API 2FA 코드(11개), 소셜로그인 코드(11개). 2FA/소셜로그인의 A010~A021 등은 커뮤니케이션 API 개별부와 코드가 같지만 의미가 다름.",
+    "gateway와 service 목록에 모두 있는 코드 18개: A000, A100, A301, A302, A303, A304, A307, A308, A401, A403, A404, A406, A407, A413, A415, A501, A502, A503",
+    "A000: gateway='SUCCESS (성공 - 요청이 정상적으로 처리됨)' / service='HTTP 200 Success (요청 성공)' — 두 목록 모두 성공 의미",
+    "A100: gateway='Failed (실패 - 일반적인 처리 실패)' / service='HTTP 401 Invaild authentication information (잘못된 인증 정보)' — 의미가 다름. 어느 컨테이너(common.authCode vs data.code)의 값인지로 구분해야 함",
+    "A301: gateway='Moved Permanently (영구 이동 - 페이지가 다른 주소로 완전히 이동됨)' / service='HTTP 400 Duplicate idempotencyKey (이미 동일한 요청이 처리되었습니다.)' — 의미가 다름. 어느 컨테이너(common.authCode vs data.code)의 값인지로 구분해야 함",
+    "A302: gateway='Found (찾음 - 페이지가 임시로 다른 위치에 있음)' / service='HTTP 400 Invalid or empty 'from' (유효하지 않거나 비어있는 필드 (필드명 : from))' — 의미가 다름. 어느 컨테이너(common.authCode vs data.code)의 값인지로 구분해야 함",
+    "A303: gateway='See Other (다른 곳 보기 - 다른 페이지를 확인해야 함)' / service='HTTP 400 Invalid or empty 'text' (유효하지 않거나 비어있는 필드 (필드명 : text))' — 의미가 다름. 어느 컨테이너(common.authCode vs data.code)의 값인지로 구분해야 함",
+    "A304: gateway='Not Modified (수정되지 않음 - 요청한 내용이 변경되지 않음)' / service='HTTP 400 Invalid or empty 'ttl' (유효하지 않거나 비어있는 필드 (필드명 : ttl))' — 의미가 다름. 어느 컨테이너(common.authCode vs data.code)의 값인지로 구분해야 함",
+    "A307: gateway='Temporary Redirect (임시 이동 - 페이지가 일시적으로 다른 곳에 있음)' / service='HTTP 400 Missing required destination field(to, appUserId, userKey) (필수 대상자 필드(to, appUserId, userKey) 중 최소 하나는 입력해야 합니다.)' — 의미가 다름. 어느 컨테이너(common.authCode vs data.code)의 값인지로 구분해야 함",
+    "A308: gateway='Permanent Redirect (영구 이동 - 페이지가 영구적으로 다른 곳으로 이동됨)' / service='HTTP 400 Invalid or empty 'idempotencyKey' (idempotencyKey가 비어 있거나 허용된 길이(최대 200자)를 초과했습니다.)' — 의미가 다름. 어느 컨테이너(common.authCode vs data.code)의 값인지로 구분해야 함",
+    "A401: gateway='Unauthorized (인증 필요 - 로그인이 필요함)' / service='HTTP 400 Invalid or empty 'paymentCode' (유효하지 않거나 비어있는 필드 (필드명 : paymentCode))' — 의미가 다름. 어느 컨테이너(common.authCode vs data.code)의 값인지로 구분해야 함",
+    "A403: gateway='Forbidden (접근 금지 - 권한이 없어 접근할 수 없음)' / service='HTTP 400 Invalid or empty 'transferTime' (유효하지 않거나 비어있는 필드 (필드명 : transferTime))' — 의미가 다름. 어느 컨테이너(common.authCode vs data.code)의 값인지로 구분해야 함",
+    "A404: gateway='Not Found (찾을 수 없음 - 요청한 페이지나 파일이 존재하지 않음)' / service='HTTP 400 Invalid or empty 'formatId' (유효하지 않거나 비어있는 필드 (필드명 : formatId))' — 의미가 다름. 어느 컨테이너(common.authCode vs data.code)의 값인지로 구분해야 함",
+    "A406: gateway='Not Acceptable (허용되지 않음 - 요청한 형식을 처리할 수 없음)' / service='HTTP 400 Invalid or empty 'RCS button' (유효하지 않거나 비어있는 필드 (필드명 : RCS button))' — 의미가 다름. 어느 컨테이너(common.authCode vs data.code)의 값인지로 구분해야 함",
+    "A407: gateway='Proxy Authentication Required (프록시 인증 필요 - 중간 서버를 통한 인증이 필요함)' / service='HTTP 400 Invalid or empty 'copyallowed' (유효하지 않거나 비어있는 필드 (필드명 : copyallowed))' — 의미가 다름. 어느 컨테이너(common.authCode vs data.code)의 값인지로 구분해야 함",
+    "A413: gateway='Request Entity Too Large (요청이 너무 큼 - 전송하려는 데이터가 너무 큼)' / service='HTTP 400 Invalid or empty 'agencyId' (유효하지 않거나 비어있는 필드 (필드명 : agencyId))' — 의미가 다름. 어느 컨테이너(common.authCode vs data.code)의 값인지로 구분해야 함",
+    "A415: gateway='Unsupported Media Type (지원되지 않는 파일 형식 - 업로드한 파일 형식이 지원되지 않음)' / service='HTTP 400 Invalid or empty 'rcs.content' (유효하지 않거나 비어있는 필드 (필드명 : rcs.content))' — 의미가 다름. 어느 컨테이너(common.authCode vs data.code)의 값인지로 구분해야 함",
+    "A501: gateway='Not Implemented (구현되지 않음 - 요청한 기능이 아직 개발되지 않음)' / service='HTTP 400 Invalid or empty 'responseMethod' (유효하지 않거나 비어있는 필드 (responseMethod))' — 의미가 다름. 어느 컨테이너(common.authCode vs data.code)의 값인지로 구분해야 함",
+    "A502: gateway='Bad Gateway (잘못된 게이트웨이 - 중간 서버에 문제가 있음)' / service='HTTP 400 Invalid or empty 'senderKey' (유효하지 않거나 비어있는 필드 (senderKey))' — 의미가 다름. 어느 컨테이너(common.authCode vs data.code)의 값인지로 구분해야 함",
+    "A503: gateway='Service Unavailable (서비스 사용 불가 - 서버가 일시적으로 사용할 수 없음)' / service='HTTP 400 Invalid or empty 'button' (유효하지 않거나 비어있는 필드 (button))' — 의미가 다름. 어느 컨테이너(common.authCode vs data.code)의 값인지로 구분해야 함"
+  ],
+  "gateway": [
+    {
+      "code": "A000",
+      "text": "SUCCESS",
+      "category": "Success",
+      "description": "HTTP 2XX or application success",
+      "descriptionKo": "성공 - 요청이 정상적으로 처리됨"
+    },
+    {
+      "code": "A100",
+      "text": "Failed",
+      "category": "Application Error",
+      "description": "General failure",
+      "descriptionKo": "실패 - 일반적인 처리 실패"
+    },
+    {
+      "code": "A301",
+      "text": "Moved Permanently",
+      "category": "3XX Redirection",
+      "description": "Permanent redirect",
+      "descriptionKo": "영구 이동 - 페이지가 다른 주소로 완전히 이동됨"
+    },
+    {
+      "code": "A302",
+      "text": "Found",
+      "category": "3XX Redirection",
+      "description": "Found",
+      "descriptionKo": "찾음 - 페이지가 임시로 다른 위치에 있음"
+    },
+    {
+      "code": "A303",
+      "text": "See Other",
+      "category": "3XX Redirection",
+      "description": "See other location",
+      "descriptionKo": "다른 곳 보기 - 다른 페이지를 확인해야 함"
+    },
+    {
+      "code": "A304",
+      "text": "Not Modified",
+      "category": "3XX Redirection",
+      "description": "Not modified",
+      "descriptionKo": "수정되지 않음 - 요청한 내용이 변경되지 않음"
+    },
+    {
+      "code": "A307",
+      "text": "Temporary Redirect",
+      "category": "3XX Redirection",
+      "description": "Temporary redirect",
+      "descriptionKo": "임시 이동 - 페이지가 일시적으로 다른 곳에 있음"
+    },
+    {
+      "code": "A308",
+      "text": "Permanent Redirect",
+      "category": "3XX Redirection",
+      "description": "Permanent redirect",
+      "descriptionKo": "영구 이동 - 페이지가 영구적으로 다른 곳으로 이동됨"
+    },
+    {
+      "code": "A400",
+      "text": "Bad Request",
+      "category": "4XX Client Error",
+      "description": "Invalid request",
+      "descriptionKo": "잘못된 요청 - 요청 형식이 잘못됨"
+    },
+    {
+      "code": "A401",
+      "text": "Unauthorized",
+      "category": "4XX Client Error",
+      "description": "Authentication required",
+      "descriptionKo": "인증 필요 - 로그인이 필요함"
+    },
+    {
+      "code": "A403",
+      "text": "Forbidden",
+      "category": "4XX Client Error",
+      "description": "Access forbidden",
+      "descriptionKo": "접근 금지 - 권한이 없어 접근할 수 없음"
+    },
+    {
+      "code": "A404",
+      "text": "Not Found",
+      "category": "4XX Client Error",
+      "description": "Resource not found",
+      "descriptionKo": "찾을 수 없음 - 요청한 페이지나 파일이 존재하지 않음"
+    },
+    {
+      "code": "A405",
+      "text": "Method Not Allowed",
+      "category": "4XX Client Error",
+      "description": "HTTP method not allowed",
+      "descriptionKo": "허용되지 않은 방법 - 사용한 요청 방식이 지원되지 않음"
+    },
+    {
+      "code": "A406",
+      "text": "Not Acceptable",
+      "category": "4XX Client Error",
+      "description": "Not acceptable",
+      "descriptionKo": "허용되지 않음 - 요청한 형식을 처리할 수 없음"
+    },
+    {
+      "code": "A407",
+      "text": "Proxy Authentication Required",
+      "category": "4XX Client Error",
+      "description": "Proxy authentication required",
+      "descriptionKo": "프록시 인증 필요 - 중간 서버를 통한 인증이 필요함"
+    },
+    {
+      "code": "A413",
+      "text": "Request Entity Too Large",
+      "category": "4XX Client Error",
+      "description": "Request payload too large",
+      "descriptionKo": "요청이 너무 큼 - 전송하려는 데이터가 너무 큼"
+    },
+    {
+      "code": "A414",
+      "text": "Request URI Too Long",
+      "category": "4XX Client Error",
+      "description": "Request URI too long",
+      "descriptionKo": "주소가 너무 김 - 요청한 주소가 너무 길어서 처리할 수 없음"
+    },
+    {
+      "code": "A415",
+      "text": "Unsupported Media Type",
+      "category": "4XX Client Error",
+      "description": "Unsupported media type",
+      "descriptionKo": "지원되지 않는 파일 형식 - 업로드한 파일 형식이 지원되지 않음"
+    },
+    {
+      "code": "A500",
+      "text": "Internal Server Error",
+      "category": "5XX Server Error",
+      "description": "Internal server error",
+      "descriptionKo": "서버 내부 오류 - 서버에서 처리 중 오류가 발생함"
+    },
+    {
+      "code": "A501",
+      "text": "Not Implemented",
+      "category": "5XX Server Error",
+      "description": "Feature not implemented",
+      "descriptionKo": "구현되지 않음 - 요청한 기능이 아직 개발되지 않음"
+    },
+    {
+      "code": "A502",
+      "text": "Bad Gateway",
+      "category": "5XX Server Error",
+      "description": "Bad gateway",
+      "descriptionKo": "잘못된 게이트웨이 - 중간 서버에 문제가 있음"
+    },
+    {
+      "code": "A503",
+      "text": "Service Unavailable",
+      "category": "5XX Server Error",
+      "description": "Service unavailable",
+      "descriptionKo": "서비스 사용 불가 - 서버가 일시적으로 사용할 수 없음"
+    },
+    {
+      "code": "A504",
+      "text": "Gateway Timeout",
+      "category": "5XX Server Error",
+      "description": "Gateway timeout",
+      "descriptionKo": "게이트웨이 시간 초과 - 중간 서버 응답이 너무 늦음"
+    },
+    {
+      "code": "A511",
+      "text": "Network Authentication Required",
+      "category": "5XX Server Error",
+      "description": "Network authentication required",
+      "descriptionKo": "네트워크 인증 필요 - 네트워크 레벨에서 인증이 필요함"
+    }
+  ],
+  "service": [
+    {
+      "httpStatus": 200,
+      "code": "A000",
+      "result": "Success",
+      "descriptionKo": "요청 성공"
+    },
+    {
+      "httpStatus": 401,
+      "code": "A001",
+      "result": "Expired token",
+      "descriptionKo": "만료된 토큰"
+    },
+    {
+      "httpStatus": 403,
+      "code": "A002",
+      "result": "Invalid token",
+      "descriptionKo": "토큰 권한 없음"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A010",
+      "result": "Cannot parse JSON",
+      "descriptionKo": "JSON을 파싱 할 수 없음"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A011",
+      "result": "Cannot mapping JSON",
+      "descriptionKo": "JSON을 매핑 할 수 없음"
+    },
+    {
+      "httpStatus": 429,
+      "code": "A020",
+      "result": "Number of 'Ratelimit' exceeded",
+      "descriptionKo": "Ratelimit(TPS) 초과"
+    },
+    {
+      "httpStatus": 500,
+      "code": "A910",
+      "result": "Internal server error",
+      "descriptionKo": "Internal server error"
+    },
+    {
+      "httpStatus": 503,
+      "code": "A920",
+      "result": "Server busy",
+      "descriptionKo": "서비스 처리 일시적 불가"
+    },
+    {
+      "httpStatus": 500,
+      "code": "A999",
+      "result": "Unknown error",
+      "descriptionKo": "알려지지 않은 에러"
+    },
+    {
+      "httpStatus": 401,
+      "code": "A100",
+      "result": "Invaild authentication information",
+      "descriptionKo": "잘못된 인증 정보"
+    },
+    {
+      "httpStatus": 403,
+      "code": "A110",
+      "result": "Blocked account",
+      "descriptionKo": "차단된 계정"
+    },
+    {
+      "httpStatus": 403,
+      "code": "A111",
+      "result": "Blocked account",
+      "descriptionKo": "차단된 계정"
+    },
+    {
+      "httpStatus": 403,
+      "code": "A113",
+      "result": "Invaild Expired Set Value",
+      "descriptionKo": "유효하지 않은 Expired Set Value"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A200",
+      "result": "Oversize attached file",
+      "descriptionKo": "파일 크기 초과"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A201",
+      "result": "Overlength the image title",
+      "descriptionKo": "이미지명 길이 초과"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A202",
+      "result": "Invaild file",
+      "descriptionKo": "사용할 수 없는 파일"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A203",
+      "result": "Invalid Image resolution",
+      "descriptionKo": "유효하지 않은 이미지해상도"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A204",
+      "result": "Missing file in the request",
+      "descriptionKo": "업로드된 파일이 없거나 잘못된 요청"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A205",
+      "result": "Invalid MediaType",
+      "descriptionKo": "파일의 Content-Type과 실제 MIME 타입 불일치"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A206",
+      "result": "Unsupported file format",
+      "descriptionKo": "지원하지 않는 파일 형식"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A207",
+      "result": "Invalid or Empty Content-Disposition",
+      "descriptionKo": "유효하지 않거나 비어있는 Content-Disposition"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A208",
+      "result": "Invalid or Empty fileName",
+      "descriptionKo": "유효하지 않거나 비어있는 fileName"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A213",
+      "result": "Wrong request",
+      "descriptionKo": "잘못된 요청"
+    },
+    {
+      "httpStatus": 500,
+      "code": "A214",
+      "result": "Failed to process image file",
+      "descriptionKo": "이미지 파일 처리 실패"
+    },
+    {
+      "httpStatus": 500,
+      "code": "A215",
+      "result": "Upload to Mobile carrier failed",
+      "descriptionKo": "이동통신사 이미지 업로드 실패"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A217",
+      "result": "Invaild fileKey",
+      "descriptionKo": "유효하지 않은 fileKey"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A219",
+      "result": "Invalid serviceType",
+      "descriptionKo": "유효하지 않은 serviceType"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A220",
+      "result": "Invalid msgType",
+      "descriptionKo": "유효하지 않은 msgType"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A250",
+      "result": "Invalid formId",
+      "descriptionKo": "유효하지 않는 formId"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A801",
+      "result": "No permission to POLLING API",
+      "descriptionKo": "리포트 POLLING API 사용권한 없음"
+    },
+    {
+      "httpStatus": 403,
+      "code": "A802",
+      "result": "Invalid Report ID",
+      "descriptionKo": "유효하지 않는 Report ID"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A300",
+      "result": "Wrong request",
+      "descriptionKo": "잘못된 메시지 발송 요청"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A301",
+      "result": "Duplicate idempotencyKey",
+      "descriptionKo": "이미 동일한 요청이 처리되었습니다."
+    },
+    {
+      "httpStatus": 400,
+      "code": "A302",
+      "result": "Invalid or empty 'from'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : from)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A303",
+      "result": "Invalid or empty 'text'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : text)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A304",
+      "result": "Invalid or empty 'ttl'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : ttl)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A305",
+      "result": "Invalid or empty 'ref'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : ref)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A306",
+      "result": "Invalid or empty 'to'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : to)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A307",
+      "result": "Missing required destination field(to, appUserId, userKey)",
+      "descriptionKo": "필수 대상자 필드(to, appUserId, userKey) 중 최소 하나는 입력해야 합니다."
+    },
+    {
+      "httpStatus": 400,
+      "code": "A308",
+      "result": "Invalid or empty 'idempotencyKey'",
+      "descriptionKo": "idempotencyKey가 비어 있거나 허용된 길이(최대 200자)를 초과했습니다."
+    },
+    {
+      "httpStatus": 400,
+      "code": "A309",
+      "result": "Invalid 'idempotencyTtl'",
+      "descriptionKo": "idempotencyTtl 값이 숫자가 아니거나 허용된 범위(0~86400초)를 초과했습니다."
+    },
+    {
+      "httpStatus": 400,
+      "code": "A310",
+      "result": "Length of 'paymentCode' exceeded",
+      "descriptionKo": "최대 길이 초과 (필드명 : paymentCode)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A311",
+      "result": "Invalid or empty 'groupKey'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : groupKey)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A312",
+      "result": "Invalid or empty 'fallback.type'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : fallback.type)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A313",
+      "result": "Invalid or empty 'clientSubId'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : clientSubId)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A314",
+      "result": "Invalid or empty 'fallback.text'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : fallback.text)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A315",
+      "result": "Invalid or empty 'resvSendTime'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : resvSendTime)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A316",
+      "result": "Invalid reservation send time",
+      "descriptionKo": "예약 발송 가능 시각보다 이른 시간입니다."
+    },
+    {
+      "httpStatus": 400,
+      "code": "A317",
+      "result": "Number of 'fallback.filekey' exceeded",
+      "descriptionKo": "fallback 메시지 파일 키 수(3건) 초과"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A318",
+      "result": "Number of 'to' exceeded",
+      "descriptionKo": "발송 가능한 수신번호 수(200건) 초과"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A319",
+      "result": "Number of 'filekey' exceeded",
+      "descriptionKo": "첨부 가능한 파일 키 수(3건) 초과"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A320",
+      "result": "Number of 'client message count' exceeded",
+      "descriptionKo": "메시지 제한건수 여분 초과"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A321",
+      "result": "Not Allowed 'title' or 'fileKey' for international SMS",
+      "descriptionKo": "국제문자에서는 title, fileKey를 사용할 수 없습니다."
+    },
+    {
+      "httpStatus": 400,
+      "code": "A322",
+      "result": "Spam filtering(text)",
+      "descriptionKo": "스팸 차단(메시지 내용)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A323",
+      "result": "Spam filtering(from)",
+      "descriptionKo": "스팸 차단(발신 번호)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A324",
+      "result": "Spam filtering(to)",
+      "descriptionKo": "스팸 차단(수신 번호)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A325",
+      "result": "No permission 'Message-Send'",
+      "descriptionKo": "발송채널 권한 없음"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A326",
+      "result": "No Permission 'fallback'",
+      "descriptionKo": "MT fallback 기능 권한 없음"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A327",
+      "result": "Not Allowed 'from'",
+      "descriptionKo": "미등록 발신번호"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A328",
+      "result": "Length of 'text' exceeded",
+      "descriptionKo": "최대 길이 초과 (필드명 : text)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A329",
+      "result": "Length of 'fallback.text' exceeded",
+      "descriptionKo": "최대 길이 초과 (필드명 : fallback.text)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A330",
+      "result": "Not allowed reservation time for ad message",
+      "descriptionKo": "광고 메시지는 야간 차단 시간대(20:00~08:00 KST)에 예약할 수 없습니다."
+    },
+    {
+      "httpStatus": 400,
+      "code": "A331",
+      "result": "Reservation send time exceeded",
+      "descriptionKo": "예약 발송 가능 기간(1년 이내)을 초과했습니다."
+    },
+    {
+      "httpStatus": 400,
+      "code": "A332",
+      "result": "Length of 'resvName' exceeded",
+      "descriptionKo": "최대 길이 초과 (필드명 : resvName)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A820",
+      "result": "Requested data not found",
+      "descriptionKo": "요청한 데이터가 존재하지 않습니다."
+    },
+    {
+      "httpStatus": 400,
+      "code": "A821",
+      "result": "Session is invalid or has expired",
+      "descriptionKo": "세션이 만료되었거나 존재하지 않음"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A823",
+      "result": "Invalid reservation send time",
+      "descriptionKo": "예약 발송 가능 시각보다 이른 시간입니다."
+    },
+    {
+      "httpStatus": 400,
+      "code": "A824",
+      "result": "Invalid reservation status",
+      "descriptionKo": "예약 상태가 요청한 작업을 수행할 수 없는 상태입니다."
+    },
+    {
+      "httpStatus": 400,
+      "code": "A401",
+      "result": "Invalid or empty 'paymentCode'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : paymentCode)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A402",
+      "result": "Invalid or empty 'clientSubId'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : clientSubId)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A403",
+      "result": "Invalid or empty 'transferTime'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : transferTime)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A404",
+      "result": "Invalid or empty 'formatId'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : formatId)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A406",
+      "result": "Invalid or empty 'RCS button'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : RCS button)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A407",
+      "result": "Invalid or empty 'copyallowed'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : copyallowed)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A408",
+      "result": "Invalid or empty 'expiryOption'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : expiryOption)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A409",
+      "result": "Invalid or empty 'groupId'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : groupId)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A411",
+      "result": "Invalid or empty 'header'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : header)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A412",
+      "result": "Invalid or empty 'footer'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : footer)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A413",
+      "result": "Invalid or empty 'agencyId'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : agencyId)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A415",
+      "result": "Invalid or empty 'rcs.content'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : rcs.content)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A417",
+      "result": "Number of 'Carousel card' exceeded",
+      "descriptionKo": "RCS Carousel Card 수 초과"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A418",
+      "result": "Invalid or empty 'agencyKey'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : agencyKey)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A419",
+      "result": "Invalid or empty 'brandId'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : brandId)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A420",
+      "result": "Invalid or empty 'brandKey'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (필드명 : brandKey)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A424",
+      "result": "Number of 'SubContent' exceeded",
+      "descriptionKo": "RCS subContent 수 초과"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A425",
+      "result": "buttons field is optional when using body field",
+      "descriptionKo": "body 필드를 사용할 때, buttons 필드는 선택 사항입니다."
+    },
+    {
+      "httpStatus": 400,
+      "code": "A426",
+      "result": "Invalid or empty 'button.type'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (button.type)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A427",
+      "result": "Invalid or empty 'button.name'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (button.name)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A428",
+      "result": "Invalid or empty button.type 'MAP_LOC'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 ('MAP_LOC' 버튼)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A429",
+      "result": "Invalid or empty button.type 'MAP_QRY'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 ('MAP_QRY' 버튼)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A430",
+      "result": "Invalid or empty button.type 'CALENDAR'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 ('CALENDAR' 버튼)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A431",
+      "result": "Invalid or empty button.type 'COPY'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 ('COPY' 버튼)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A432",
+      "result": "Invalid or empty button.type 'COM_T'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 ('COM_T' 버튼)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A433",
+      "result": "Invalid or empty button.type 'COM_V'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 ('COM_V' 버튼)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A434",
+      "result": "Invalid or empty button.type 'DIAL'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 ('DIAL' 버튼)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A501",
+      "result": "Invalid or empty 'responseMethod'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (responseMethod)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A502",
+      "result": "Invalid or empty 'senderKey'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (senderKey)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A503",
+      "result": "Invalid or empty 'button'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (button)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A505",
+      "result": "Invalid or empty 'templateCode'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (templateCode)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A506",
+      "result": "Invalid or empty 'adFlag'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (adFlag)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A513",
+      "result": "Invalid or empty 'image'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (image)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A521",
+      "result": "Invalid or empty 'item.title/description'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (item`s tltle/description)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A523",
+      "result": "Invalid or empty 'msgType'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (msgType)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A524",
+      "result": "Invalid or empty 'button.type'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (button.type)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A525",
+      "result": "Invalid or empty 'button.name'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (button.name)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A526",
+      "result": "Invalid or empty 'timeout'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (timeout)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A559",
+      "result": "Invalid or empty 'price'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (price)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A560",
+      "result": "Invalid or empty 'itemHighlight.title/description'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (item.title/description)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A561",
+      "result": "Invalid or empty 'item.summary'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (item.summary)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A562",
+      "result": "Invalid or empty 'supplement.quickReply'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (supplement.quickReply)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A563",
+      "result": "Invalid or empty 'supplement.quickReply.type'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (supplement.quickReply.type)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A564",
+      "result": "Invalid or empty 'supplement.quickReply.name'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (supplement.quickReply.name)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A565",
+      "result": "Invalid or empty 'header'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (header)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A567",
+      "result": "Invalid or empty 'carousel'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (carousel)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A568",
+      "result": "Wrong FC/FA request",
+      "descriptionKo": "잘못된 친구톡 케로셀 요청"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A569",
+      "result": "Invalid or empty 'adult'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (adult)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A570",
+      "result": "Invalid or empty 'targeting'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (targeting)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A571",
+      "result": "Invalid or empty 'sendType'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (sendType)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A572",
+      "result": "Invalid or empty 'message'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (message)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A573",
+      "result": "Invalid or empty 'attachment'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (attachment)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A601",
+      "result": "Invalid or empty 'partnerKey'",
+      "descriptionKo": "유효하지 않거나 비어있는 필드 (partnerKey)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A602",
+      "result": "Invalid 'productCode'",
+      "descriptionKo": "유효하지 않은 필드 (productCode)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A603",
+      "result": "Invalid 'buttons'",
+      "descriptionKo": "유효하지 않은 필드 (buttons)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A604",
+      "result": "Invalid 'type'",
+      "descriptionKo": "유효하지 않은 필드 (type)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A605",
+      "result": "Invalid 'buttonCode'",
+      "descriptionKo": "유효하지 않은 필드 (buttonCode)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A606",
+      "result": "WEB_LINK buttons must include 'mobileUrl'",
+      "descriptionKo": "WEB_LINK 버튼은 mobileUrl 필수입니다"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A607",
+      "result": "APP_LINK buttons must include both 'aOsAppScheme' and 'iOsAppScheme'",
+      "descriptionKo": "APP_LINK 버튼은 aOsAppScheme과 iOsAppScheme 필수입니다"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A608",
+      "result": "Invalid 'gift'",
+      "descriptionKo": "유효하지 않은 필드 (gift)"
+    },
+    {
+      "httpStatus": 400,
+      "code": "A609",
+      "result": "Invalid 'coupon'",
+      "descriptionKo": "유효하지 않은 필드 (coupon)"
+    }
+  ],
+  "report": {
+    "all": [
+      {
+        "code": "10000",
+        "resultKo": "성공 : 단말기 메시지 정상 도착"
+      },
+      {
+        "code": "90000",
+        "resultKo": "실패 : 내부구간 실패"
+      },
+      {
+        "code": "99999",
+        "resultKo": "실패 : 알수 없는 에러"
+      },
+      {
+        "code": "22000",
+        "resultKo": "전송 시간 초과"
+      },
+      {
+        "code": "22001",
+        "resultKo": "전송 실패 (무선망단)"
+      },
+      {
+        "code": "22002",
+        "resultKo": "전송 실패 (무선망 -> 단말기단)"
+      },
+      {
+        "code": "22003",
+        "resultKo": "단말기 전원 꺼짐"
+      },
+      {
+        "code": "22004",
+        "resultKo": "단말기 메시지 버퍼 풀"
+      },
+      {
+        "code": "22005",
+        "resultKo": "음영지역"
+      },
+      {
+        "code": "22006",
+        "resultKo": "메시지 삭제됨"
+      },
+      {
+        "code": "22007",
+        "resultKo": "일시적인 단말 문제"
+      },
+      {
+        "code": "23000",
+        "resultKo": "전송할 수 없음"
+      },
+      {
+        "code": "23001",
+        "resultKo": "가입자 없음"
+      },
+      {
+        "code": "23002",
+        "resultKo": "성인 인증 실패"
+      },
+      {
+        "code": "23003",
+        "resultKo": "수신번호 형식 오류"
+      },
+      {
+        "code": "23004",
+        "resultKo": "단말기 서비스 일시 정지"
+      },
+      {
+        "code": "23005",
+        "resultKo": "단말기 호 처리 상태"
+      },
+      {
+        "code": "23006",
+        "resultKo": "착신 거절"
+      },
+      {
+        "code": "23008",
+        "resultKo": "기타 단말기 문제"
+      },
+      {
+        "code": "23009",
+        "resultKo": "메시지 형식 오류"
+      },
+      {
+        "code": "23010",
+        "resultKo": "MMS 미지원 단말"
+      },
+      {
+        "code": "23011",
+        "resultKo": "서버 오류 (이통사)"
+      },
+      {
+        "code": "23012",
+        "resultKo": "스팸"
+      },
+      {
+        "code": "23013",
+        "resultKo": "서비스 거부"
+      },
+      {
+        "code": "23014",
+        "resultKo": "기타"
+      },
+      {
+        "code": "23015",
+        "resultKo": "전송 경로 없음"
+      },
+      {
+        "code": "23016",
+        "resultKo": "첨부파일 사이즈 제한 실패"
+      },
+      {
+        "code": "23018",
+        "resultKo": "휴대폰 가입 이동통신사를 통해 발신번호 변작 방지 부가 서비스에 가입된 번호를 발신번호로 사용하는 경우"
+      },
+      {
+        "code": "23019",
+        "resultKo": "KISA에서 모든 고객사에 대하여 차단 처리 요청된 번호를 발신번호로 사용하는 경우"
+      },
+      {
+        "code": "23022",
+        "resultKo": "Charset conversion error"
+      },
+      {
+        "code": "23023",
+        "resultKo": "국내 수신 메시지에 적용되는 발신번호가 발신번호 사전등록 번호가 아닌 경우"
+      },
+      {
+        "code": "23025",
+        "resultKo": "24시간 이내 중복 발송"
+      },
+      {
+        "code": "23029",
+        "resultKo": "광고 전송 제한 시간 발송"
+      },
+      {
+        "code": "23030",
+        "resultKo": "MMS MT Failover 첨부파일 처리가 실패한 경우"
+      },
+      {
+        "code": "23031",
+        "resultKo": "FAILOVER_TIMEOUTSEND 발송 안함 설정에 의해Failover 처리하지 않은 경우"
+      },
+      {
+        "code": "23032",
+        "resultKo": "FAILOVER(MT) 기능 사용 불가 계정"
+      },
+      {
+        "code": "23033",
+        "resultKo": "MT Failover Parameter Error"
+      },
+      {
+        "code": "23034",
+        "resultKo": "Invalid MMS MT File Key"
+      },
+      {
+        "code": "23035",
+        "resultKo": "해당 통신사 장애 설정 으로 전송 불가"
+      },
+      {
+        "code": "23036",
+        "resultKo": "KISA 최초 발신자 식별코드 오류로 발송 불가"
+      },
+      {
+        "code": "23037",
+        "resultKo": "RCS MT Failover 발송 시,KISA 최초 발신자 식별코드 오류로 발송"
+      },
+      {
+        "code": "23040",
+        "resultKo": "이통사 내부 처리 오류 (무효번호 스팸 차단)"
+      },
+      {
+        "code": "23041",
+        "resultKo": "스미싱 URL 탐지 차단(KISA X-Ray)"
+      },
+      {
+        "code": "32000",
+        "resultKo": "전송 시간 초과"
+      },
+      {
+        "code": "32001",
+        "resultKo": "전송 실패 (무선망단)"
+      },
+      {
+        "code": "32002",
+        "resultKo": "전송 실패 (무선망 -> 단말기단)"
+      },
+      {
+        "code": "32003",
+        "resultKo": "단말기 전원 꺼짐"
+      },
+      {
+        "code": "32004",
+        "resultKo": "단말기 메시지 버퍼 풀"
+      },
+      {
+        "code": "32005",
+        "resultKo": "음영지역"
+      },
+      {
+        "code": "32006",
+        "resultKo": "메시지 삭제됨"
+      },
+      {
+        "code": "32007",
+        "resultKo": "일시적인 단말 문제"
+      },
+      {
+        "code": "33000",
+        "resultKo": "전송할 수 없음"
+      },
+      {
+        "code": "33001",
+        "resultKo": "가입자 없음"
+      },
+      {
+        "code": "33002",
+        "resultKo": "성인 인증 실패"
+      },
+      {
+        "code": "33003",
+        "resultKo": "수신번호 형식 오류"
+      },
+      {
+        "code": "33004",
+        "resultKo": "단말기 서비스 일시 정지"
+      },
+      {
+        "code": "33005",
+        "resultKo": "단말기 호 처리 상태"
+      },
+      {
+        "code": "33006",
+        "resultKo": "착신 거절"
+      },
+      {
+        "code": "33008",
+        "resultKo": "기타 단말기 문제"
+      },
+      {
+        "code": "33009",
+        "resultKo": "메시지 형식 오류"
+      },
+      {
+        "code": "33010",
+        "resultKo": "MMS 미지원 단말"
+      },
+      {
+        "code": "33011",
+        "resultKo": "서버 오류 (이통사)"
+      },
+      {
+        "code": "33012",
+        "resultKo": "스팸"
+      },
+      {
+        "code": "33013",
+        "resultKo": "서비스 거부"
+      },
+      {
+        "code": "33014",
+        "resultKo": "기타"
+      },
+      {
+        "code": "33015",
+        "resultKo": "전송 경로 없음"
+      },
+      {
+        "code": "33016",
+        "resultKo": "첨부파일 사이즈 제한 실패"
+      },
+      {
+        "code": "33018",
+        "resultKo": "휴대폰 가입 이동통신사를 통해 발신번호 변작 방지 부가 서비스에 가입된 번호를 발신번호로 사용하는 경우"
+      },
+      {
+        "code": "33019",
+        "resultKo": "KISA에서 모든 고객사에 대하여 차단 처리 요청된 번호를 발신번호로 사용하는 경우"
+      },
+      {
+        "code": "33022",
+        "resultKo": "Charset conversion error"
+      },
+      {
+        "code": "33023",
+        "resultKo": "국내 수신 메시지에 적용되는 발신번호가 발신번호 사전등록 번호가 아닌 경우"
+      },
+      {
+        "code": "33025",
+        "resultKo": "24시간 이내 중복 발송"
+      },
+      {
+        "code": "33029",
+        "resultKo": "광고 전송 제한 시간 발송"
+      },
+      {
+        "code": "33030",
+        "resultKo": "MMS MT Failover 첨부파일 처리가 실패한 경우"
+      },
+      {
+        "code": "33031",
+        "resultKo": "FAILOVER_TIMEOUTSEND 발송 안함 설정에 의해Failover 처리하지 않은 경우"
+      },
+      {
+        "code": "33032",
+        "resultKo": "FAILOVER(MT) 기능 사용 불가 계정"
+      },
+      {
+        "code": "33033",
+        "resultKo": "MT Failover Parameter Error"
+      },
+      {
+        "code": "33034",
+        "resultKo": "Invalid MMS MT File Key"
+      },
+      {
+        "code": "33035",
+        "resultKo": "해당 통신사 장애 설정 으로 전송 불가"
+      },
+      {
+        "code": "33036",
+        "resultKo": "KISA 최초 발신자 식별코드 오류로 발송 불가"
+      },
+      {
+        "code": "33040",
+        "resultKo": "이통사 내부 처리 오류 (무효번호 스팸 차단)"
+      },
+      {
+        "code": "33041",
+        "resultKo": "스미싱 URL 탐지 차단(KISA X-Ray)"
+      },
+      {
+        "code": "33100",
+        "resultKo": "통신사 재전송 시도 타임아웃"
+      },
+      {
+        "code": "33101",
+        "resultKo": "아이폰이거나, 단말 자체가 RCS를 지원하지 않는 경우"
+      },
+      {
+        "code": "33102",
+        "resultKo": "템플릿 발송시 header 필드 값을 1로 설정한 경우"
+      },
+      {
+        "code": "33103",
+        "resultKo": "템플릿 발송시 button을 설정하여 발송한 경우"
+      },
+      {
+        "code": "33104",
+        "resultKo": "header 필드값이 0(광고문구표시안함),1(광고문구표시함) 이 아닐 경우"
+      },
+      {
+        "code": "33105",
+        "resultKo": "header 필드가 0(광고문구표시안함)인경우, footer에 값을 설정하는 경우"
+      },
+      {
+        "code": "33106",
+        "resultKo": "header 필드가 1(광고문구표시함)인경우, footer에 값을 설정하지 않는 경우"
+      },
+      {
+        "code": "33107",
+        "resultKo": "footer 에는 숫자/하이픈만 허용되며, 최대 20자까지만 허용 됨"
+      },
+      {
+        "code": "33108",
+        "resultKo": "템플릿에서 description 타입의 경우, 등록 템플릿의 패턴과 일치 하지 않을 경우"
+      },
+      {
+        "code": "33109",
+        "resultKo": "title 최대글자수를 초과한 경우"
+      },
+      {
+        "code": "33110",
+        "resultKo": "description 최대글자수를 초과한 경우"
+      },
+      {
+        "code": "33111",
+        "resultKo": "최대 버튼수를 초과한 경우"
+      },
+      {
+        "code": "33112",
+        "resultKo": "messagebaseID 별 정의된 카드개수에 대해 하기 내용이 한 개라도 없는 경우- MMS 캐로셀 : 카드별 내용, 제목, 이미지 중 한가지라도 입력 필요- MMS Standaard : 이미지 필수"
+      },
+      {
+        "code": "33113",
+        "resultKo": "최대 미디어 용량을 초과한 경우"
+      },
+      {
+        "code": "33114",
+        "resultKo": "이통사에서 중복 메시지 발생한 경우"
+      },
+      {
+        "code": "33115",
+        "resultKo": "발신번호에 대해서 지정하지 않은 대행사로 발송한 경우"
+      },
+      {
+        "code": "33116",
+        "resultKo": "브랜드에 대한 대행사가 지정되어 있지 않는 경우"
+      },
+      {
+        "code": "33117",
+        "resultKo": "메시지 유효기간에 대한 통신사 설정값이 1(40초), 2(72시간) 이 아닌 경우"
+      },
+      {
+        "code": "33118",
+        "resultKo": "최대 버튼 글자수 초과한 경우"
+      },
+      {
+        "code": "33119",
+        "resultKo": "정의되지 않은 버튼을 사용한 경우"
+      },
+      {
+        "code": "33120",
+        "resultKo": "유효하지 않은 파일 키"
+      },
+      {
+        "code": "33121",
+        "resultKo": "메세지베이스 ID가 존재하지 않는 경우"
+      },
+      {
+        "code": "33122",
+        "resultKo": "브랜드에 등록되지 않은 발신번호를 사용한 경우"
+      },
+      {
+        "code": "33123",
+        "resultKo": "일 메시지 발송량을 초과한 경우"
+      },
+      {
+        "code": "33124",
+        "resultKo": "messagebase의 param 부정확하거나 누락된 필수 항목이 있을 경우"
+      },
+      {
+        "code": "33200",
+        "resultKo": "브랜드 정보 오류"
+      },
+      {
+        "code": "40001",
+        "resultKo": "Authorization Header 가 누락됨"
+      },
+      {
+        "code": "40002",
+        "resultKo": "접근 토큰이 누락됨"
+      },
+      {
+        "code": "40003",
+        "resultKo": "접근 토큰이 유효하지 않음"
+      },
+      {
+        "code": "40004",
+        "resultKo": "접근 토큰의 유효기간이 만료됨"
+      },
+      {
+        "code": "40006",
+        "resultKo": "접근 토큰 내 client_id가 유효하지 않음"
+      },
+      {
+        "code": "40007",
+        "resultKo": "접근 토큰 내 scope이 유효하지 않음"
+      },
+      {
+        "code": "41002",
+        "resultKo": "송신 요청한 메시지의 상태가 전달됨(delivered)로 변경되기 전에 송신 요청을 취소하거나, expiry 시점에 송신 요청을 취소한 결과"
+      },
+      {
+        "code": "41100",
+        "resultKo": "RCS 서버 연결이 실패함"
+      },
+      {
+        "code": "41101",
+        "resultKo": "RCS 서버 연결이 지연됨"
+      },
+      {
+        "code": "41102",
+        "resultKo": "RCS 서버 요청 처리가 실패함"
+      },
+      {
+        "code": "41103",
+        "resultKo": "RCS 서버 요청 처리가 지연됨"
+      },
+      {
+        "code": "41104",
+        "resultKo": "RCS 메시지 처리 서비스(IM) 연결이 실패함"
+      },
+      {
+        "code": "41105",
+        "resultKo": "RCS 메시지 처리 서비스(IM) 연결이 지연됨"
+      },
+      {
+        "code": "41106",
+        "resultKo": "RCS 메시지 처리 서비스(IM) 요청 처리가 실패함"
+      },
+      {
+        "code": "41107",
+        "resultKo": "RCS 메시지 처리 서비스(IM) 요청 처리가 지연됨"
+      },
+      {
+        "code": "41108",
+        "resultKo": "RCS 메시지 처리 서비스(IM) 요청 처리 수행 중 실패함"
+      },
+      {
+        "code": "41109",
+        "resultKo": "RCS 메시지 처리 서비스(IM) 내부 오류"
+      },
+      {
+        "code": "41111",
+        "resultKo": "RCS 사용자 상태 서버 연결이 실패함"
+      },
+      {
+        "code": "41112",
+        "resultKo": "RCS 사용자 상태 서버 연결이 지연됨"
+      },
+      {
+        "code": "41113",
+        "resultKo": "RCS 사용자 상태 서버 요청이 실패함"
+      },
+      {
+        "code": "41114",
+        "resultKo": "RCS 사용자 상태 서버 요청 처리가 지연됨"
+      },
+      {
+        "code": "41115",
+        "resultKo": "챗봇 정보 서버 요청이 실패함"
+      },
+      {
+        "code": "41116",
+        "resultKo": "챗봇 정보 서버 요청 처리가 지연됨"
+      },
+      {
+        "code": "41117",
+        "resultKo": "송신 메시지 취소 요청 처리가 실패함. 해당 메시지가 RCS 사용자에게 전달 되었는지 알 수 없음."
+      },
+      {
+        "code": "41118",
+        "resultKo": "송신 요청한 파일 메시지의 파일을 삼성전자 MaaP 서비스 저장소에 저장 실패함."
+      },
+      {
+        "code": "41200",
+        "resultKo": "RCS 가입자가 아님, 요청한 MSISDN을 사용하는 RCS 사용자가 없음"
+      },
+      {
+        "code": "41210",
+        "resultKo": "RCS 사용자가 텍스트 메시지를 수신할 수 없음"
+      },
+      {
+        "code": "41211",
+        "resultKo": "RCS 사용자가 파일 메시지를 수신할 수 없음"
+      },
+      {
+        "code": "41212",
+        "resultKo": "RCS 사용자가 Richcard 메시지를 수신할 수 없음 * FNW. 11[1] 참고"
+      },
+      {
+        "code": "41220",
+        "resultKo": "RCS 사용자가 Extended bot message version 1.0 항목이 포함된 메시지를 수신할 수 없음 * FNW. 11[1] 참고"
+      },
+      {
+        "code": "41221",
+        "resultKo": "RCS 사용자가 Extended bot message version 1.1 항목이 포함된 메시지를 수신할 수 없음 * TTAK.KO-06.0410/R5 [3] 참고"
+      },
+      {
+        "code": "41222",
+        "resultKo": "RCS 사용자가 Extended bot message version 1.2 항목이 포함된 메시지를 수신할 수 없음 * TTAK.KO-06.0410/R5 [3] 참고"
+      },
+      {
+        "code": "41230",
+        "resultKo": "RCS 사용자가 Openrichcard version 1.0 항목이 포함된 메시지를 수신할 수 없음 * TTAK.KO-06.0410/R5 [3] 참고"
+      },
+      {
+        "code": "41231",
+        "resultKo": "RCS 사용자가 Openrichcard version 1.1 항목이 포함된 메시지를 수신할 수 없음 * TTAK.KO-06.0410/R5 [3] 참고"
+      },
+      {
+        "code": "41232",
+        "resultKo": "RCS 사용자가 Openrichcard version 1.2 항목이 포함된 메시지를 수신할 수 없음 * TTAK.KO-06.0410/R5 [3] 참고"
+      },
+      {
+        "code": "41240",
+        "resultKo": "RCS 사용자가 위치 정보 요청 메시지를 수신할 수 없음 * FNW. 11[1] 참고"
+      },
+      {
+        "code": "42001",
+        "resultKo": "BotServiceId를 사용하는 챗봇의 정보를 찾을 수 없음"
+      },
+      {
+        "code": "42002",
+        "resultKo": "요청 parameter 에 Message ID 누락"
+      },
+      {
+        "code": "42003",
+        "resultKo": "요청 parameter 에 Bot ID 누락"
+      },
+      {
+        "code": "42004",
+        "resultKo": "요청 parameter RCS 사용자 MSISDN 누락"
+      },
+      {
+        "code": "42005",
+        "resultKo": "요청 parameter의 RCS 사용자 MSISDN 포맷 오류 (+82) 포함 확인 필요함"
+      },
+      {
+        "code": "42007",
+        "resultKo": "챗봇 상용화 전 테스트 시점에 수신 가능한 RCS 사용자 목록에 없는 RCS 사용자에게 메시지 송신 시도함"
+      },
+      {
+        "code": "42008",
+        "resultKo": "요청 본문(Body)이 누락됨"
+      },
+      {
+        "code": "42009",
+        "resultKo": "요청 메시지 필수 항목이 누락됨. 메시지가 isTyping, status, textMessage, audioMessage, fileMessage, geolocationPushMessage, openrichcardMessage, richcardMessage 중 하나가 아님."
+      },
+      {
+        "code": "42010",
+        "resultKo": "요청 메시지 중복 항목이 포함됨. RCS Message 본문에 하나이상의 message 종류가 포함됨."
+      },
+      {
+        "code": "42011",
+        "resultKo": "조회/변경 하려는 메시지ID를 가진 메시지가 없거나 상태 변경이 불가함"
+      },
+      {
+        "code": "42012",
+        "resultKo": "타이핑 메시지 포맷이 잘못됨"
+      },
+      {
+        "code": "42013",
+        "resultKo": "trafficType에 예약되지 않은 타입이 포함됨."
+      },
+      {
+        "code": "42014",
+        "resultKo": "Suggested chiplist를 사용할 수 없는 메시지에 포함됨"
+      },
+      {
+        "code": "42015",
+        "resultKo": "Text 메시지가 비어 있음 (최소 1)"
+      },
+      {
+        "code": "42031",
+        "resultKo": "richcardMessage내부에 richcard 혹은 richcardcarousel이 없음"
+      },
+      {
+        "code": "42032",
+        "resultKo": "richcardMessage내부에 richcard 와 richcardcarousel이 모두 존재함"
+      },
+      {
+        "code": "42034",
+        "resultKo": "Richcard layout이 없음"
+      },
+      {
+        "code": "42035",
+        "resultKo": "Richcard content가 없음"
+      },
+      {
+        "code": "42036",
+        "resultKo": "Richcard layout에 방향정보가 없거나 잘못됨. (“HORIZONTAL”과 “VERTICAL”만 허용함)"
+      },
+      {
+        "code": "42038",
+        "resultKo": "Richcard 내 이미지 정렬 기준이 잘못됨. (layout 방향이 “HORIZONTAL”인 경우, “LEFT”, “RIGHT”만 허용함)"
+      },
+      {
+        "code": "42039",
+        "resultKo": "Richcard 내 이미지 정렬 기준이 잘못됨. (layout 방향이 “VERTICAL”인 경우, 정력 기준 허용하지 않음."
+      },
+      {
+        "code": "42040",
+        "resultKo": "Richcard carousel의 카드넓이가 없거나 잘못됨. (“SMALL_WIDTH”, “MEDIUM_WIDTH”만 허용함)"
+      },
+      {
+        "code": "42041",
+        "resultKo": "Richcard carousel의 카드넓이가 “SMALL_WIDTH”인 경우 모든 미디어의 높이가 “TALL_HEIGHT”가 아님."
+      },
+      {
+        "code": "42042",
+        "resultKo": "Richcard에 media, description, title이 모두 없음. Richcard Title이 없거나 200자 이상임. Richcard Description이 없거나 2000자 이상임."
+      },
+      {
+        "code": "42043",
+        "resultKo": "SuggestedChipList에 Suggestion 이 없음"
+      },
+      {
+        "code": "42044",
+        "resultKo": "SuggestedChipList에 Suggestion 이 11개를 초과함"
+      },
+      {
+        "code": "42045",
+        "resultKo": "Suggestion에 action과 reply가 없음"
+      },
+      {
+        "code": "42046",
+        "resultKo": "Suggestion이 action과 reply를 모두 가짐."
+      },
+      {
+        "code": "42047",
+        "resultKo": "Suggestion의 action내 action이 1개 이상임"
+      },
+      {
+        "code": "42048",
+        "resultKo": "Richcard에 Suggestion이 4개를 초과함"
+      },
+      {
+        "code": "42049",
+        "resultKo": "Suggestion의 action 혹은 reply의 postback data 길이가 2048을 초과함"
+      },
+      {
+        "code": "42050",
+        "resultKo": "Suggestion의 action 혹은 reply의 display text가 25자를 초과함"
+      },
+      {
+        "code": "42051",
+        "resultKo": "Map Action에 포함된 Location 오류"
+      },
+      {
+        "code": "42052",
+        "resultKo": "Map Action에 포함된 Location 내 query 혹은 latitude/longitude 만 허용함. 모두 포함됨"
+      },
+      {
+        "code": "42053",
+        "resultKo": "Map Action에 showLocation 혹은 requestLocationPush가 없음"
+      },
+      {
+        "code": "42054",
+        "resultKo": "Map Action에 showLocation 과 requestLocationPush가 모두 있음."
+      },
+      {
+        "code": "42055",
+        "resultKo": "Dialer Action에 phone number, enriched call, video call이 모두 없음"
+      },
+      {
+        "code": "42056",
+        "resultKo": "Dialer Action에 phone number, enriched call, video call 중 두 가지가 있음."
+      },
+      {
+        "code": "42057",
+        "resultKo": "Compose Action에 text나 recording message가 없음"
+      },
+      {
+        "code": "42058",
+        "resultKo": "Compose Action에 text와 recording message가 모두 존재함"
+      },
+      {
+        "code": "42059",
+        "resultKo": "Settings Action에 항목이 존재하지 않음"
+      },
+      {
+        "code": "42060",
+        "resultKo": "Settings Action에 항목이 중복됨."
+      },
+      {
+        "code": "42061",
+        "resultKo": "Clipboard Action에 복사할 text가 없음."
+      },
+      {
+        "code": "42062",
+        "resultKo": "Local browser Action에 url 이 없음"
+      },
+      {
+        "code": "42063",
+        "resultKo": "Share Action에 공유할 text 가 없음."
+      },
+      {
+        "code": "42064",
+        "resultKo": "Calendar Action에 createCalendarEvent가 없음"
+      },
+      {
+        "code": "42065",
+        "resultKo": "Calendar Action의 createCalendarEvent 내에 startTime, endTime, title 중 하나라도 없음"
+      },
+      {
+        "code": "42066",
+        "resultKo": "Calendar Action의 createCalendarEvent의 title이 최소 1자 최대 100자를 넘어섬"
+      },
+      {
+        "code": "42067",
+        "resultKo": "Calendar Action의 createCalendarEvent의 description이 최소 1자 최대 500자를 넘어섬"
+      },
+      {
+        "code": "42068",
+        "resultKo": "Compose Action의 composeTextMessage 내에 전화번호가 없거나 text가 최소 1자 최대 100자를 넘어섬"
+      },
+      {
+        "code": "42069",
+        "resultKo": "Compose Action의 composeRecodingMessage 내에 전화번호가 없거나 type이 “AUDIO” 혹은 “VIDEO” 가 아님 (대문자)"
+      },
+      {
+        "code": "42070",
+        "resultKo": "Device Action에 requestDeviceSpecifics 가 비어있음"
+      },
+      {
+        "code": "42071",
+        "resultKo": "Dialer Action에 전화번호가 없거나 DialEnrichedCall 내의 subject 가 60자를 초과함"
+      },
+      {
+        "code": "42072",
+        "resultKo": "Map Action의 showLocation 내에 location 이 없음"
+      },
+      {
+        "code": "42073",
+        "resultKo": "Url Action의 openUrl이 없음"
+      },
+      {
+        "code": "42100",
+        "resultKo": "Richcard media thumbnail URL이 있으나 content type, file size 가 없음"
+      },
+      {
+        "code": "42101",
+        "resultKo": "File 메시지에 file URL이 없음"
+      },
+      {
+        "code": "42102",
+        "resultKo": "오디오 메시지에 file URL이 없음"
+      },
+      {
+        "code": "42103",
+        "resultKo": "Geolocation push 메시지에 pos 정보가 없음"
+      },
+      {
+        "code": "42104",
+        "resultKo": "Richcard Media내 URL이 없음"
+      },
+      {
+        "code": "42105",
+        "resultKo": "Richcard Media내 content type이 없음"
+      },
+      {
+        "code": "42106",
+        "resultKo": "Richcard Media내 file size가 없음"
+      },
+      {
+        "code": "42107",
+        "resultKo": "Richcard Media내 높이가 없거나 잘못됨. “SHORT_HEIGHT”, “MEDIUM_HEIGHT”, “TALL_HEIGHT” 만 허용함."
+      },
+      {
+        "code": "42108",
+        "resultKo": "Suggestion의 action 혹은 reply의 postback data가 없음"
+      },
+      {
+        "code": "42200",
+        "resultKo": "URL 형태의 항목에 prefix가 없거나 (http:, https:, etc.) URI 포맷에 맞지않음"
+      },
+      {
+        "code": "42201",
+        "resultKo": "Geolocation push 메시지에 label 길이가 200을 초과함"
+      },
+      {
+        "code": "42202",
+        "resultKo": "Richcard content description 길이가 200자를 초과함"
+      },
+      {
+        "code": "42205",
+        "resultKo": "Richcard carousel content가 10개를 초과함"
+      },
+      {
+        "code": "42206",
+        "resultKo": "Richcard Media내 file size가 잘못됨 (0이하)"
+      },
+      {
+        "code": "42207",
+        "resultKo": "Expiry 포맷이 RFC3339를 따르지 않음."
+      },
+      {
+        "code": "42208",
+        "resultKo": "Expiry 시각이 현재시각 이전임."
+      },
+      {
+        "code": "42301",
+        "resultKo": "Openrichcard에 layout이 없음"
+      },
+      {
+        "code": "42302",
+        "resultKo": "Openrichcard에 card가 없음"
+      },
+      {
+        "code": "42303",
+        "resultKo": "Openrichcard에 layout widget이 없음 (View, LinearLayout, TextView, ImageView 중 하나가 필수)"
+      },
+      {
+        "code": "42304",
+        "resultKo": "Openrichcard View의 width/height가 누락됨"
+      },
+      {
+        "code": "42305",
+        "resultKo": "Openrichcard LinearLayout 필수 항목이 누락됨"
+      },
+      {
+        "code": "42307",
+        "resultKo": "Openrichcard TextView 필수 항목이 누락됨"
+      },
+      {
+        "code": "42308",
+        "resultKo": "Openrichcard TextView 텍스트 길이가 2000자를 초과함"
+      },
+      {
+        "code": "42309",
+        "resultKo": "Openrichcard ImageView 필수 항목이 누락됨"
+      },
+      {
+        "code": "42310",
+        "resultKo": "Openrichcard ImageView 미디어 파일 사이즈가 0 이하임"
+      },
+      {
+        "code": "42311",
+        "resultKo": "Openrichcard ImageView Scaletype에 허가되지 않은 문자열이 포함됨"
+      },
+      {
+        "code": "42312",
+        "resultKo": "Openrichcard content의 width/height가 누락됨"
+      },
+      {
+        "code": "42313",
+        "resultKo": "Openrichcard content의 width/height에 허가되지 않은 문자열이 포함됨"
+      },
+      {
+        "code": "42314",
+        "resultKo": "Openrichcard 공통 항목 오류 (Weight, Visibility, Background, Padding, PaddingTop, PaddingLeft, PaddingRight, PaddingBottom, Margin, MarginTop, MarginLeft, MarginRight, MarginBottom, CornerRadius)"
+      },
+      {
+        "code": "42315",
+        "resultKo": "Openrichcard depth가 10을 초과함"
+      },
+      {
+        "code": "42316",
+        "resultKo": "Button widget의 필수 항목인 Click이 누락됨."
+      },
+      {
+        "code": "42402",
+        "resultKo": "파일 메시지에 포함된 파일 URL로 다운로드 실패함"
+      },
+      {
+        "code": "42514",
+        "resultKo": "seqID와 동일한 messageID를 가진 이전 메시지가 존재함. 중복된 메시지 전송일 가능성이 있음."
+      },
+      {
+        "code": "42601",
+        "resultKo": "삼성전자 MaaP 서비스가 제공하는 봇 메시지 처리량을 초과함"
+      },
+      {
+        "code": "42602",
+        "resultKo": "SPAM 메시지로 판정된 메시지(trafficType: advertisement-filtered, filtered)를 수신하여 CDR 생성 후 응답함."
+      },
+      {
+        "code": "45000",
+        "resultKo": "Internal Server Error"
+      },
+      {
+        "code": "45001",
+        "resultKo": "봇 정보 parsing 오류"
+      },
+      {
+        "code": "45002",
+        "resultKo": "RCS 사용자 혹은 봇 capability parsing 오류"
+      },
+      {
+        "code": "45003",
+        "resultKo": "파일 메시지(xml) parsing 오류"
+      },
+      {
+        "code": "45004",
+        "resultKo": "봇/사용자 메시지 remote cache 접근 실패"
+      },
+      {
+        "code": "45005",
+        "resultKo": "ChatID remote cache 접근 실패"
+      },
+      {
+        "code": "45006",
+        "resultKo": "봇 정보 서버 접근을 위한 HTTP client 생성 실패"
+      },
+      {
+        "code": "45007",
+        "resultKo": "챗봇 접근을 위한 HTTP client 생성 실패"
+      },
+      {
+        "code": "50001",
+        "resultKo": "Authorization 헤더 파라미터 누락"
+      },
+      {
+        "code": "50002",
+        "resultKo": "Authorization 헤더 값 누락"
+      },
+      {
+        "code": "50003",
+        "resultKo": "토큰이 일치하지 않습니다."
+      },
+      {
+        "code": "50004",
+        "resultKo": "토큰이 만료되었습니다."
+      },
+      {
+        "code": "50005",
+        "resultKo": "인증 토큰 에러"
+      },
+      {
+        "code": "50006",
+        "resultKo": "요청된 계정 정보를 찾을 수 없습니다(BP ID)"
+      },
+      {
+        "code": "50007",
+        "resultKo": "요청된 중계사 전송 계정을 찾을 수 없습니다(RCS ID)"
+      },
+      {
+        "code": "50008",
+        "resultKo": "잘못된 패스워드"
+      },
+      {
+        "code": "50009",
+        "resultKo": "접근 허용된 IP가 아닙니다"
+      },
+      {
+        "code": "50010",
+        "resultKo": "토큰 발급 요청 허용횟수를 초과하였습니다.(SKT) 미납으로 송신 불가"
+      },
+      {
+        "code": "50011",
+        "resultKo": "중계사 상품코드 사용 권환 에러"
+      },
+      {
+        "code": "50012",
+        "resultKo": "중계사 API 권환 에러"
+      },
+      {
+        "code": "50100",
+        "resultKo": "메시지 전송을 할 수 없는 상태입니다. (서버의 요청 거부)"
+      },
+      {
+        "code": "50101",
+        "resultKo": "권한이 없는 API 호출"
+      },
+      {
+        "code": "50201",
+        "resultKo": "RCS 메시지 TPS가 초과되었습니다."
+      },
+      {
+        "code": "50202",
+        "resultKo": "RCS 메시지 Quota가 초과되었습니다."
+      },
+      {
+        "code": "51003",
+        "resultKo": "중복 Key 오류"
+      },
+      {
+        "code": "51004",
+        "resultKo": "요청 파라미터 형식 오류"
+      },
+      {
+        "code": "51005",
+        "resultKo": "요청 Body JSON 파싱 에러"
+      },
+      {
+        "code": "51006",
+        "resultKo": "데이터를 찾을 수 없음"
+      },
+      {
+        "code": "51101",
+        "resultKo": "AgencyKey를 찾을 수 없습니다."
+      },
+      {
+        "code": "51102",
+        "resultKo": "AgencyKey가 일치하지 않습니다."
+      },
+      {
+        "code": "51103",
+        "resultKo": "BrandKey를 찾을 수 없습니다."
+      },
+      {
+        "code": "51104",
+        "resultKo": "BrandKey가 일치하지 않습니다."
+      },
+      {
+        "code": "51900",
+        "resultKo": "잘못된 요청입니다."
+      },
+      {
+        "code": "51901",
+        "resultKo": "삼성 MaaP Gateway NB API 연동 에러"
+      },
+      {
+        "code": "51902",
+        "resultKo": "삼성 MaaP Registry Chatbot API 연동 에러"
+      },
+      {
+        "code": "51903",
+        "resultKo": "Capri 연동 에러"
+      },
+      {
+        "code": "51904",
+        "resultKo": "Webhook 처리 불가 상태 오류가 발생했습니다."
+      },
+      {
+        "code": "51905",
+        "resultKo": "Webhook 메시지 전송 과금 이력 작성을 실패했습니다."
+      },
+      {
+        "code": "51906",
+        "resultKo": "잘못된 Webhook Url 입니다."
+      },
+      {
+        "code": "51907",
+        "resultKo": "만료된 메시지 입니다."
+      },
+      {
+        "code": "51908",
+        "resultKo": "재시도 횟수 초과로 인해 메시지 전송을 실패했습니다."
+      },
+      {
+        "code": "51909",
+        "resultKo": "Webhook 발송 메시지가 존재하지 않습니다."
+      },
+      {
+        "code": "51910",
+        "resultKo": "Webhook 발송 중계사 정보가 존재하지 않습니다."
+      },
+      {
+        "code": "51911",
+        "resultKo": "계약관계가 없습니다."
+      },
+      {
+        "code": "51912",
+        "resultKo": "삼성 시뮬레이터 연동 오류"
+      },
+      {
+        "code": "52001",
+        "resultKo": "전화번호 형식이 일치하지 않습니다"
+      },
+      {
+        "code": "52002",
+        "resultKo": "요청을 처리할 수 없는 상태입니다."
+      },
+      {
+        "code": "52003",
+        "resultKo": "이미 사용 중인 챗봇 ID입니다."
+      },
+      {
+        "code": "52004",
+        "resultKo": "챗봇을 생성할 수 없습니다."
+      },
+      {
+        "code": "52005",
+        "resultKo": "챗봇 정보를 변경할 수 없습니다."
+      },
+      {
+        "code": "52006",
+        "resultKo": "챗봇이 있는 브랜드는 삭제 할수 없습니다."
+      },
+      {
+        "code": "52007",
+        "resultKo": "챗봇 Type은 a2p, chatbot 로 설정해야 함"
+      },
+      {
+        "code": "52008",
+        "resultKo": "요청 URL Parameter의 챗봇 Id와 Body Parameter 불일치"
+      },
+      {
+        "code": "52009",
+        "resultKo": "챗봇 생성/업데이트 데이터에 오류가 있습니다."
+      },
+      {
+        "code": "52010",
+        "resultKo": "챗봇 MO 메시지 웹훅 대행사 데이터 오류"
+      },
+      {
+        "code": "52011",
+        "resultKo": "챗봇 MO 메시지 웹훅 대행사 데이터 정보가 누락되었음"
+      },
+      {
+        "code": "52012",
+        "resultKo": "Persistent menu JSON 데이터 오류"
+      },
+      {
+        "code": "52016",
+        "resultKo": "실시간 메시지 인입 후 10초안에 삼성으로 전달되지 못함"
+      },
+      {
+        "code": "52023",
+        "resultKo": "메시지 베이스의 상태가 'pause'인 메시지 베이스 메시지로 전문 구성하여 전송 시도 시"
+      },
+      {
+        "code": "52098",
+        "resultKo": "해당 속성 접근 권한이 없음"
+      },
+      {
+        "code": "52099",
+        "resultKo": "Chatbot 접근 권한이 없음"
+      },
+      {
+        "code": "52101",
+        "resultKo": "잘못된 Webhook 중계사 요청 파라미터 입니다."
+      },
+      {
+        "code": "52102",
+        "resultKo": "Webhook 중계 시스템 연결 오류"
+      },
+      {
+        "code": "52103",
+        "resultKo": "중계사 Webhook 전송 요청을 실패 했습니다."
+      },
+      {
+        "code": "52104",
+        "resultKo": "중계사 Webhook 처리 응답 수신 오류가 발생 했습니다."
+      },
+      {
+        "code": "52105",
+        "resultKo": "Webhook 메시지 미 수신 오류가 발생 했습니다."
+      },
+      {
+        "code": "52106",
+        "resultKo": "Webhook 메시지 처리 오류가 발생 했습니다."
+      },
+      {
+        "code": "53001",
+        "resultKo": "요청을 처리할 수 없는 파일 유형입니다."
+      },
+      {
+        "code": "53002",
+        "resultKo": "파일 속성 오류"
+      },
+      {
+        "code": "53003",
+        "resultKo": "fileID가 없거나 ID형식에 맞지 않음"
+      },
+      {
+        "code": "53004",
+        "resultKo": "File 저장 오류"
+      },
+      {
+        "code": "53005",
+        "resultKo": "Multipart 데이터 전송 오류"
+      },
+      {
+        "code": "53006",
+        "resultKo": "업로드 파일 크기 초과"
+      },
+      {
+        "code": "53007",
+        "resultKo": "이미지 크기가 유효하지 않습니다."
+      },
+      {
+        "code": "53008",
+        "resultKo": "이미지 크기를 확인할 수 없습니다."
+      },
+      {
+        "code": "53011",
+        "resultKo": "오픈리치카드 메시지 파일 크기가 유효하지 않습니다."
+      },
+      {
+        "code": "54001",
+        "resultKo": "자사 고객이 아닙니다."
+      },
+      {
+        "code": "54002",
+        "resultKo": "자사 고객이지만, RCS메시지를 수신할 수 있는 가입자가 아닙니다."
+      },
+      {
+        "code": "54003",
+        "resultKo": "자사 고객이지만, 단말기의 전원 꺼짐 혹은 네트워크 환경 사유로 RCS 메시지를 수신할 수 없습니다."
+      },
+      {
+        "code": "54004",
+        "resultKo": "MaaP 시스템 혹은 RCS 프로토콜 상의 이슈로 발송 실패되었음 (삼성 에러 40001 ~ 41100, 42601)"
+      },
+      {
+        "code": "54005",
+        "resultKo": "스팸 필터링에 의해 차단됨"
+      },
+      {
+        "code": "54006",
+        "resultKo": "RCS가입고객이지만 오픈리치카드 미지원 단말입니다.(SKT)자사 고객이지만, 요청한 스펙의 RCS 메시지를 수신할 수 있는 가입자가 아닙니다."
+      },
+      {
+        "code": "54007",
+        "resultKo": "자사 고객이지만, 단말의 스펙 상 해당 메시지 유형을 수신할 수 없습니다."
+      },
+      {
+        "code": "54008",
+        "resultKo": "무료번호 발송 차단입니다."
+      },
+      {
+        "code": "55001",
+        "resultKo": "기업 정보 내용이 누락된 필수항목이 있습니다."
+      },
+      {
+        "code": "55002",
+        "resultKo": "필수 파라미터 검증 오류"
+      },
+      {
+        "code": "55101",
+        "resultKo": "대행사 정보 내용이 누락된 필수 항목이 있습니다."
+      },
+      {
+        "code": "55102",
+        "resultKo": "AgencyID가 존재하지 않습니다."
+      },
+      {
+        "code": "55103",
+        "resultKo": "BrandID에 대행 권한이 없는 AgencyID"
+      },
+      {
+        "code": "55104",
+        "resultKo": "계약 정보 내용이 부정확하거나 누락된 필수 항목이 있습니다."
+      },
+      {
+        "code": "55201",
+        "resultKo": "브랜드 정보 내용이 누락된 필수항목이 있습니다."
+      },
+      {
+        "code": "55202",
+        "resultKo": "브랜드 명이 누락되어 있습니다."
+      },
+      {
+        "code": "55203",
+        "resultKo": "브랜드 프로필 이미지가 누락되어 있습니다."
+      },
+      {
+        "code": "55204",
+        "resultKo": "브랜드 CS번호가 누락되어 있습니다."
+      },
+      {
+        "code": "55205",
+        "resultKo": "브랜드 메뉴 최대 개수를 초과하였거나 부정확합니다."
+      },
+      {
+        "code": "55206",
+        "resultKo": "브랜드 카테고리 설정이 잘못되어 있습니다."
+      },
+      {
+        "code": "55207",
+        "resultKo": "브랜드 홈페이지 설정이 잘못되어 있습니다."
+      },
+      {
+        "code": "55208",
+        "resultKo": "브랜드 이메일 설정이 잘못되어 있습니다."
+      },
+      {
+        "code": "55209",
+        "resultKo": "브랜드 주소가 잘못되어 있습니다."
+      },
+      {
+        "code": "55210",
+        "resultKo": "브랜드ID가 존재하지 않음"
+      },
+      {
+        "code": "55301",
+        "resultKo": "챗봇 정보 내용이 부정확하거나 누락된 필수항목이 있습니다."
+      },
+      {
+        "code": "55302",
+        "resultKo": "BotID(발신번호)가 전화번호 형식에 맞지 않음"
+      },
+      {
+        "code": "55303",
+        "resultKo": "BrandID에 존재하지 않는 BotID"
+      },
+      {
+        "code": "55304",
+        "resultKo": "BrandID에 존재하지 않는 BotID"
+      },
+      {
+        "code": "55501",
+        "resultKo": "메시지베이스 내용이 부정확하거나 누락된 필수항목이 있습니다."
+      },
+      {
+        "code": "55502",
+        "resultKo": "MessagebaseID가 존재하지 않음"
+      },
+      {
+        "code": "55503",
+        "resultKo": "BrandID에 존재하지 않는 MessagebaseID입니다."
+      },
+      {
+        "code": "55504",
+        "resultKo": "messagebase의 formatstring 누락된 필수 항목이 있습니다."
+      },
+      {
+        "code": "55505",
+        "resultKo": "messagebase의 policy Info가 부정확하거나 누락된 필수 항목이 있습니다."
+      },
+      {
+        "code": "55506",
+        "resultKo": "messagebase의 param 부정확하거나 누락된 필수 항목이 있습니다."
+      },
+      {
+        "code": "55507",
+        "resultKo": "messagebase의 attribute 부정확하거나 누락된 필수 항목이 있습니다."
+      },
+      {
+        "code": "55508",
+        "resultKo": "messagebase의 type 부정확하거나 누락된 필수 항목이 있습니다."
+      },
+      {
+        "code": "55509",
+        "resultKo": "messagebaseID의 product type과 일치하지 않음"
+      },
+      {
+        "code": "55601",
+        "resultKo": "MessagebaseForm 내용이 부정확하거나 누락된 필수항목이 있습니다."
+      },
+      {
+        "code": "55602",
+        "resultKo": "messagebaseformID가 존재하지 않습니다."
+      },
+      {
+        "code": "55603",
+        "resultKo": "messaegBase의 상품코드 에러"
+      },
+      {
+        "code": "55604",
+        "resultKo": "messaegBase의 child layout depth가 허용값보다 큽니다."
+      },
+      {
+        "code": "55621",
+        "resultKo": "AutoReplyMsg Body JSON 포맷 오류"
+      },
+      {
+        "code": "55622",
+        "resultKo": "AutoReplyMsg Buttons JSON 포맷 오류"
+      },
+      {
+        "code": "55623",
+        "resultKo": "AutoReplyMsg ChipList JSON 포맷 오류"
+      },
+      {
+        "code": "55701",
+        "resultKo": "\"(광고)\"를 사용할 수 없음"
+      },
+      {
+        "code": "55702",
+        "resultKo": "Action button이 허용되지 않는 messagebaseID에서 Action button을 사용하였음"
+      },
+      {
+        "code": "55703",
+        "resultKo": "허용되지 않은 header 값 사용"
+      },
+      {
+        "code": "55704",
+        "resultKo": "header 값과 일치 하지 않은 footer 사용 (ex. header가 0 인데, footer 가 있음)"
+      },
+      {
+        "code": "55705",
+        "resultKo": "footer값이 누락되어 있습니다 (ex. header가 1 인데, footer 가 없음)"
+      },
+      {
+        "code": "55706",
+        "resultKo": "footer validation 오류 (ex. 숫자, 하이픈만 가능. 20자리)"
+      },
+      {
+        "code": "55707",
+        "resultKo": "등록한 패턴과 일치 하지 않음"
+      },
+      {
+        "code": "55708",
+        "resultKo": "title 최대글자수를 초과했습니다."
+      },
+      {
+        "code": "55709",
+        "resultKo": "description 최대글자수를 초과했습니다."
+      },
+      {
+        "code": "55710",
+        "resultKo": "최대 버튼수를 초과했습니다."
+      },
+      {
+        "code": "55711",
+        "resultKo": "messagebaseID의 number of card 와 입력이 일치하지 않음"
+      },
+      {
+        "code": "55712",
+        "resultKo": "최대 미디어 용량을 초과했습니다."
+      },
+      {
+        "code": "55801",
+        "resultKo": "중계사 정보가 부정확하거나 누락된 필수 항목이 있습니다."
+      },
+      {
+        "code": "55802",
+        "resultKo": "메시지 형식이 부정확하거나 누락된 필수항목이 있습니다."
+      },
+      {
+        "code": "55803",
+        "resultKo": "메시지 기술방법이 잘못되었습니다."
+      },
+      {
+        "code": "55804",
+        "resultKo": "메시지 내용이 누락되었거나 부정확합니다."
+      },
+      {
+        "code": "55805",
+        "resultKo": "요청을 처리할 수 없는 메시지 유형입니다."
+      },
+      {
+        "code": "55806",
+        "resultKo": "같은 메시지 ID로 두번 이상 메시지 발송이 요청됨"
+      },
+      {
+        "code": "55807",
+        "resultKo": "챗봇 권한 오류"
+      },
+      {
+        "code": "55808",
+        "resultKo": "발신 가능한 챗봇 상태가 아님"
+      },
+      {
+        "code": "55809",
+        "resultKo": "대행사 권한 오류"
+      },
+      {
+        "code": "55810",
+        "resultKo": "메시지 유효기간 입력값 오류"
+      },
+      {
+        "code": "55811",
+        "resultKo": "메시지베이스 파라미터의 길이가 한계값 이상"
+      },
+      {
+        "code": "55812",
+        "resultKo": "버튼 필드를 받을 수 없는 메시지베이스 입니다."
+      },
+      {
+        "code": "55813",
+        "resultKo": "최대 버튼 글자수 초과"
+      },
+      {
+        "code": "55814",
+        "resultKo": "버튼 형식 오류"
+      },
+      {
+        "code": "55815",
+        "resultKo": "존재하지 않는 File이거나 usageType 오류"
+      },
+      {
+        "code": "55816",
+        "resultKo": "Empty suggestions array 허용 안함"
+      },
+      {
+        "code": "55817",
+        "resultKo": "수신 번호 형식 오류"
+      },
+      {
+        "code": "55818",
+        "resultKo": "메세지베이스 ID가 존재하지 않음"
+      },
+      {
+        "code": "55819",
+        "resultKo": "챗봇ID가 존재하지 않음"
+      },
+      {
+        "code": "55820",
+        "resultKo": "Webhook Revoked 메시지"
+      },
+      {
+        "code": "55821",
+        "resultKo": "전송 성공 불확실함 (revocation fail 등)"
+      },
+      {
+        "code": "55822",
+        "resultKo": "메시지 취소되어, 전송안됨"
+      },
+      {
+        "code": "55880",
+        "resultKo": "버튼 개수 불일치 (Mismatched Suggestions Count)"
+      },
+      {
+        "code": "55881",
+        "resultKo": "(양방향)유효한 replyId 아님"
+      },
+      {
+        "code": "55882",
+        "resultKo": "(양방향)replyId 값 누락 됨"
+      },
+      {
+        "code": "55883",
+        "resultKo": "(양방향)messagebase 상품 코드가 세션 메시지 가능하지 않음"
+      },
+      {
+        "code": "55884",
+        "resultKo": "(양방향)replyId 와 일치하는 수신번호가 아님"
+      },
+      {
+        "code": "55885",
+        "resultKo": "(양방향)replyId 와 일치하는 chatbotId 아님"
+      },
+      {
+        "code": "55886",
+        "resultKo": "(양방향)chipList 발송 가능하지 않음"
+      },
+      {
+        "code": "55887",
+        "resultKo": "(양방향)세션 메시지 발송 가능한 chatbot 아님"
+      },
+      {
+        "code": "55900",
+        "resultKo": "잘못된 메시지 형식으로 인해 발송 실패되었고 재시도 가능하지 않음 (삼성 에러 42001 ~ 42514)"
+      },
+      {
+        "code": "55901",
+        "resultKo": "담당자 정보가 부정확하거나 누락된 필수항목이 있습니다."
+      },
+      {
+        "code": "56002",
+        "resultKo": "메시지 회수 실패 (삼성 에러 41002)"
+      },
+      {
+        "code": "56003",
+        "resultKo": "메시지 발송은 정상 처리되었으나, 단말의 최종 수신 여부를 확인할 수 없는 상태입니다."
+      },
+      {
+        "code": "56007",
+        "resultKo": "RCS 세션 연결 전 만료되어 발송 실패 (삼성 에러 41007)"
+      },
+      {
+        "code": "56101",
+        "resultKo": "RCS 수신 가능여부를 확인할 수 없습니다."
+      },
+      {
+        "code": "59001",
+        "resultKo": "시스템 에러"
+      },
+      {
+        "code": "59002",
+        "resultKo": "IO 에러 발생 /Backend(삼성 MaaP G/W) 서버 내부 에러"
+      },
+      {
+        "code": "59003",
+        "resultKo": "Backend(삼성 MaaP G/W) 서버 타임 아웃 발생"
+      },
+      {
+        "code": "59202",
+        "resultKo": "Backend 서버(삼성) 전송 에러"
+      },
+      {
+        "code": "59203",
+        "resultKo": "Backend 서버(삼성) 전송 타임 아웃"
+      },
+      {
+        "code": "59901",
+        "resultKo": "시스템이 요청을 처리할 수 없는 상태"
+      },
+      {
+        "code": "59999",
+        "resultKo": "기타 정의되지 않은 Error (Webhook Cancelled 메시지 등)"
+      },
+      {
+        "code": "60162",
+        "resultKo": "최초 발신자 식별 코드 에러"
+      },
+      {
+        "code": "60400",
+        "resultKo": "권한 없음"
+      },
+      {
+        "code": "60500",
+        "resultKo": "인증 실패"
+      },
+      {
+        "code": "60501",
+        "resultKo": "발신프로필 키가 유효하지 않거나 상담을 진행할 수 없음 (카카오톡 채널이 activated 상태가 아닌 경우 상담톡 이용 중 상태가 아닌 경우)"
+      },
+      {
+        "code": "60502",
+        "resultKo": "세션이 만료되었거나 존재하지 않음"
+      },
+      {
+        "code": "60503",
+        "resultKo": "잘못된 형식의 사용자 키 요청"
+      },
+      {
+        "code": "60504",
+        "resultKo": "메시지 일련번호가 중복됨 (메시지 일련번호는 CS처리를 위해 고유한 값이 부여되어야 함.)"
+      },
+      {
+        "code": "60505",
+        "resultKo": "잘못된 파일 전송 요청"
+      },
+      {
+        "code": "60506",
+        "resultKo": "메시지 길이 제한 오류 1000자 초과"
+      },
+      {
+        "code": "60507",
+        "resultKo": "허브파트너 키가 유효하지 않음"
+      },
+      {
+        "code": "60508",
+        "resultKo": "채팅 기능이 비활성 상태인 경우"
+      },
+      {
+        "code": "60509",
+        "resultKo": "잘못된 파라메터 요청"
+      },
+      {
+        "code": "60510",
+        "resultKo": "잘못된 형식의 메시지 타입 요청"
+      },
+      {
+        "code": "60511",
+        "resultKo": "차단된 사용자에게 메시지 전송 요청"
+      },
+      {
+        "code": "60512",
+        "resultKo": "유효한 상담톡 계약이 존재하지 않음"
+      },
+      {
+        "code": "60600",
+        "resultKo": "메시지 전송 실패"
+      },
+      {
+        "code": "60681",
+        "resultKo": "챗봇대화내역 전달 방법이 상담 시작에 포함되어 있음"
+      },
+      {
+        "code": "61001",
+        "resultKo": "Request Body가 Json형식이 아님"
+      },
+      {
+        "code": "61002",
+        "resultKo": "허브 파트너 키가 유효하지 않음"
+      },
+      {
+        "code": "61003",
+        "resultKo": "발신 프로필 키가 유효하지 않음"
+      },
+      {
+        "code": "61004",
+        "resultKo": "Request Body(Json)에서 name을 찾을 수 없음"
+      },
+      {
+        "code": "61006",
+        "resultKo": "삭제된 발신프로필. (메시지 사업 담당자에게 문의)"
+      },
+      {
+        "code": "61007",
+        "resultKo": "차단 상태의 발신프로필. (메시지 사업 담당자에게 문의)"
+      },
+      {
+        "code": "61011",
+        "resultKo": "계약정보를 찾을 수 없음. (메시지 사업 담당자에게 문의)"
+      },
+      {
+        "code": "61012",
+        "resultKo": "잘못된 형식의 유저키 요청"
+      },
+      {
+        "code": "61013",
+        "resultKo": "유효하지 않은 app연결"
+      },
+      {
+        "code": "61014",
+        "resultKo": "유효하지 않은 사업자번호"
+      },
+      {
+        "code": "61015",
+        "resultKo": "유효하지 않은 app user id 요청"
+      },
+      {
+        "code": "61016",
+        "resultKo": "사업자등록번호 불일치"
+      },
+      {
+        "code": "61020",
+        "resultKo": "전화번호 or app user id가 유효하지 않거나 미입력 요청"
+      },
+      {
+        "code": "61021",
+        "resultKo": "차단 상태의 카카오톡 채널 (카카오톡 채널 운영툴에서 확인)"
+      },
+      {
+        "code": "61022",
+        "resultKo": "닫힘 상태의 카카오톡 채널 (카카오톡 채널 운영툴에서 확인)"
+      },
+      {
+        "code": "61023",
+        "resultKo": "삭제된 카카오톡 채널 (카카오톡 채널 운영툴에서 확인)"
+      },
+      {
+        "code": "61024",
+        "resultKo": "삭제대기 상태의 카카오톡 채널 (카카오톡 채널 운영툴에서 확인)"
+      },
+      {
+        "code": "61025",
+        "resultKo": "채널 제재 상태로 인한 메시지 전송 실패 (카카오톡 채널 운영툴에서 확인)"
+      },
+      {
+        "code": "61026",
+        "resultKo": "해당 message_type에서 사용할 수 없는 response_method로 요청 (이미지알림톡(AI)는 realtime으로 발송 불가)"
+      },
+      {
+        "code": "61027",
+        "resultKo": "채널 메시지 제재 상태로 인한 메시지 전송 실패 (카카오톡 채널 운영툴에서 확인)"
+      },
+      {
+        "code": "61028",
+        "resultKo": "해당 타겟팅 옵션 사용할 수 없음"
+      },
+      {
+        "code": "61030",
+        "resultKo": "잘못된 파라메터 요청"
+      },
+      {
+        "code": "61033",
+        "resultKo": "브랜드메시지 템플릿 타입과 메시지 타입 불일치"
+      },
+      {
+        "code": "62003",
+        "resultKo": "(테스트 발송) 카카오톡 채널을 추가하지 않았음"
+      },
+      {
+        "code": "62004",
+        "resultKo": "템플릿 일치 확인 시 오류 발생(내부 오류 발생)"
+      },
+      {
+        "code": "62005",
+        "resultKo": "카카오 내부 시스템 오류로 이미지 정보를 읽어오는데 실패함"
+      },
+      {
+        "code": "62006",
+        "resultKo": "<4.2 메시지 전송 요청>에 명시된 시리얼넘버 형식 불일치"
+      },
+      {
+        "code": "63000",
+        "resultKo": "예기치 않은 오류 발생"
+      },
+      {
+        "code": "63005",
+        "resultKo": "카카오( Response method REALTIME)메시지를 발송했으나 수신확인 안됨 (성공불확실) - 서버에는 암호화 되어 보관되며 3일 이내 수신 가능"
+      },
+      {
+        "code": "63006",
+        "resultKo": "카카오 내부 시스템 오류로 메시지 전송 실패"
+      },
+      {
+        "code": "63008",
+        "resultKo": "전화번호 오류"
+      },
+      {
+        "code": "63010",
+        "resultKo": "Json 파싱 오류"
+      },
+      {
+        "code": "63011",
+        "resultKo": "메시지가 존재하지 않음"
+      },
+      {
+        "code": "63012",
+        "resultKo": "메시지 일련번호가 중복됨- 메시지 일련번호는 CS처리를 위해 고유한 값이 부여되어야 함."
+      },
+      {
+        "code": "63013",
+        "resultKo": "메시지가 비어 있음"
+      },
+      {
+        "code": "63014",
+        "resultKo": "메시지 길이 제한 오류(템플릿별 제한 길이 또는 1000자 초과)"
+      },
+      {
+        "code": "63015",
+        "resultKo": "템플릿을 찾을 수 없음"
+      },
+      {
+        "code": "63016",
+        "resultKo": "메시지 내용이 템플릿과 일치하지 않음"
+      },
+      {
+        "code": "63018",
+        "resultKo": "메시지를 전송할 수 없음"
+      },
+      {
+        "code": "63019",
+        "resultKo": "톡 유저가 아님"
+      },
+      {
+        "code": "63020",
+        "resultKo": "알림톡 수신 차단"
+      },
+      {
+        "code": "63021",
+        "resultKo": "카카오톡 최소 버전 미지원"
+      },
+      {
+        "code": "63022",
+        "resultKo": "메시지 발송 가능한 시간이 아님(친구톡/마케팅 메시지는 08 시~ 20 시까지 발송가능)"
+      },
+      {
+        "code": "63023",
+        "resultKo": "메시지에 포함된 비디오를 전송할 수 없음(비디오 주소 또는 썸네일 이미지 주소가 올바르지 않거나 썸네일 이미지가 규격에 맞지 않음)"
+      },
+      {
+        "code": "63024",
+        "resultKo": "메시지에 포함된 이미지를 전송할 수 없음(이미지 주소 또는 링크가 올바르지 않거나 이미지가 규격에 맞지 않음)"
+      },
+      {
+        "code": "63025",
+        "resultKo": "변수 글자수 제한 초과"
+      },
+      {
+        "code": "63026",
+        "resultKo": "상담/봇 전환 버튼 extra, event 글자수 제한 초과"
+      },
+      {
+        "code": "63027",
+        "resultKo": "메시지 버튼/바로연결이 템플릿과 일치하지 않음"
+      },
+      {
+        "code": "63028",
+        "resultKo": "메시지 강조 표기 타이틀이 템플릿과 일치하지 않음"
+      },
+      {
+        "code": "63029",
+        "resultKo": "메시지 강조 표기 타이틀 길이 제한 초과 (50자)"
+      },
+      {
+        "code": "63030",
+        "resultKo": "메시지 타입과 템플릿 강조유형이 일치하지 않음"
+      },
+      {
+        "code": "63031",
+        "resultKo": "헤더가 템플릿과 일치하지 않음"
+      },
+      {
+        "code": "63032",
+        "resultKo": "헤더 길이 제한 초과(16자)"
+      },
+      {
+        "code": "63033",
+        "resultKo": "아이템 하이라이트가 템플릿과 일치하지 않음"
+      },
+      {
+        "code": "63034",
+        "resultKo": "아이템 하이라이트 타이틀 길이 제한 초과(이미지 없는 경우 30자, 이미지 있는 경우 21자)"
+      },
+      {
+        "code": "63035",
+        "resultKo": "아이템 하이라이트 디스크립션 길이 제한 초과(이미지 없는 경우 19자, 이미지 있는 경우 13자)"
+      },
+      {
+        "code": "63036",
+        "resultKo": "아이템 리스트가 템플릿과 일치하지 않음"
+      },
+      {
+        "code": "63037",
+        "resultKo": "아이템 리스트의 아이템의 디스크립션 길이 제한 초과(23자)"
+      },
+      {
+        "code": "63038",
+        "resultKo": "아이템 요약정보가 템플릿과 일치하지 않음"
+      },
+      {
+        "code": "63039",
+        "resultKo": "아이템 요약정보의 디스크립션 길이 제한 초과(14자)"
+      },
+      {
+        "code": "63040",
+        "resultKo": "아이템 요약정보의 디스크립션에 허용되지 않은 문자 포함(통화기호/코드, 숫자, 콤마, 소수점, 공백을 제외한 문자 포함)"
+      },
+      {
+        "code": "63041",
+        "resultKo": "와이드 아이템 리스트 갯수 최대 최소 갯수 불일치"
+      },
+      {
+        "code": "63042",
+        "resultKo": "대표링크가 템플릿과 일치하지 않음"
+      },
+      {
+        "code": "63043",
+        "resultKo": "이미지 변수 개수 템플릿 불일치"
+      },
+      {
+        "code": "63044",
+        "resultKo": "쿠폰 변수 템플릿 불일치"
+      },
+      {
+        "code": "63045",
+        "resultKo": "커머스 정보 변수 템플릿 불일치"
+      },
+      {
+        "code": "63046",
+        "resultKo": "부가 정보 최대 길이 제한 오류"
+      },
+      {
+        "code": "63047",
+        "resultKo": "커머스 정보 상품명 최대 길이 제한 오류"
+      },
+      {
+        "code": "63048",
+        "resultKo": "유효하지 않은 그룹태그"
+      },
+      {
+        "code": "63050",
+        "resultKo": "수신동의거부 스펙 (N타입) 미지원"
+      },
+      {
+        "code": "63051",
+        "resultKo": "캐러셀 아이템 리스트 갯수 최소, 최대 갯수 불일치"
+      },
+      {
+        "code": "63052",
+        "resultKo": "캐러셀 아이템 메시지 길이 OVER"
+      },
+      {
+        "code": "63053",
+        "resultKo": "캐러셀 템플릿 불일치"
+      },
+      {
+        "code": "63054",
+        "resultKo": "캐러셀 버튼 템플릿 불일치"
+      },
+      {
+        "code": "63055",
+        "resultKo": "캐러셀 쿠폰 템플릿 불일치"
+      },
+      {
+        "code": "63056",
+        "resultKo": "와이드 아이템 리스트 타이틀 길이 제한 오류"
+      },
+      {
+        "code": "63057",
+        "resultKo": "캐러셀 커머스 템플릿 불일치"
+      },
+      {
+        "code": "63058",
+        "resultKo": "캐러셀 헤더 길이 제한 오류"
+      },
+      {
+        "code": "64000",
+        "resultKo": "메시지 전송 결과를 찾을 수 없음 / 입력값 오류 발생"
+      },
+      {
+        "code": "64001",
+        "resultKo": "알 수 없는 메시지 상태 / Request Body Parsing Error"
+      },
+      {
+        "code": "64008",
+        "resultKo": "계정 사용 권한 없음"
+      },
+      {
+        "code": "64009",
+        "resultKo": "알림톡 서비스 사용 권한 없음 (AT(AL), AI)"
+      },
+      {
+        "code": "64010",
+        "resultKo": "친구톡 서비스 사용 권한 없음 (FT, FI, FW)"
+      },
+      {
+        "code": "64102",
+        "resultKo": "Template 요청 오류"
+      },
+      {
+        "code": "64104",
+        "resultKo": "유효한 발신프로필을 찾을 수 없음"
+      },
+      {
+        "code": "64110",
+        "resultKo": "유효하지 않은 챗버블 타입 또는 메시지 타입 요청"
+      },
+      {
+        "code": "64121",
+        "resultKo": "메시지 발송 대상 오류"
+      },
+      {
+        "code": "64122",
+        "resultKo": "메시지 결과 조회 오류"
+      },
+      {
+        "code": "65000",
+        "resultKo": "(테스트 발송) 관리자 혹은 일회성 인증을 받은 사용자가 아님"
+      },
+      {
+        "code": "65001",
+        "resultKo": "(테스트 발송) 일일 발송량 초과"
+      },
+      {
+        "code": "67011",
+        "resultKo": "시리얼 넘버 패턴 에러"
+      },
+      {
+        "code": "67014",
+        "resultKo": "메시지 유효 시간 초과 에러"
+      },
+      {
+        "code": "68512",
+        "resultKo": "수신자 타입 찾을 수 없음"
+      },
+      {
+        "code": "68514",
+        "resultKo": "request_id 찾을 수 없음"
+      },
+      {
+        "code": "68520",
+        "resultKo": "지원하지 않는 상품 타입 오류"
+      },
+      {
+        "code": "68521",
+        "resultKo": "지원하지 않는 메시지 타입 오류"
+      },
+      {
+        "code": "68522",
+        "resultKo": "지원하지 않는 텍스트 유형 오류"
+      },
+      {
+        "code": "68523",
+        "resultKo": "지원하지 않는 response method 오류"
+      },
+      {
+        "code": "68530",
+        "resultKo": "수신자 목록 사이즈 오류"
+      },
+      {
+        "code": "68999",
+        "resultKo": "내부 서버 오류"
+      },
+      {
+        "code": "6ME09",
+        "resultKo": "(카카오 Response method POLLING)사용자에게 메시지를 발송했으나 수신여부 불투명(성공불확실/비과금)"
+      },
+      {
+        "code": "69998",
+        "resultKo": "현재 서비스를 제공하고 있지 않습니다."
+      },
+      {
+        "code": "69999",
+        "resultKo": "시스템에서 알 수 없는 문제가 발생하였습니다. 담당자가 확인 중입니다."
+      },
+      {
+        "code": "70001",
+        "resultKo": "메세지가 유저에게 웹으로 전송되었으나 앱 전송에는 실패하였습니다."
+      },
+      {
+        "code": "71001",
+        "resultKo": "AgentKey나 PartnerKey가 누락되었습니다."
+      },
+      {
+        "code": "71002",
+        "resultKo": "보내기 API의 요청 Body에 문제가 있습니다."
+      },
+      {
+        "code": "71003",
+        "resultKo": "전화번호나 액세스 토큰 중 적어도 하나의 파라미터가 필요합니다."
+      },
+      {
+        "code": "71004",
+        "resultKo": "전화번호 패턴이 잘못되었습니다."
+      },
+      {
+        "code": "71005",
+        "resultKo": "파트너키나 발송그룹키가 반드시 있어야 합니다."
+      },
+      {
+        "code": "71006",
+        "resultKo": "유효하지 않은 상품에 해당하는 템플릿 발송으로 계약을 확인해야 합니다."
+      },
+      {
+        "code": "71007",
+        "resultKo": "등록된 템플릿의 상품코드와 발송요청한 상품코드가 일치해야 합니다."
+      },
+      {
+        "code": "72001",
+        "resultKo": "템플릿에 필요한 파라미터가 부족합니다."
+      },
+      {
+        "code": "72002",
+        "resultKo": "템플릿 아이디가 존재하지 않습니다."
+      },
+      {
+        "code": "72003",
+        "resultKo": "템플릿에 필요한 파라미터가 일치하지 않습니다."
+      },
+      {
+        "code": "72004",
+        "resultKo": "템플릿에 필요한 버튼 갯수와 요청한 버튼 갯수가 일치하지 않습니다."
+      },
+      {
+        "code": "72005",
+        "resultKo": "템플릿에 필요한 파라미터가 일치하지 않습니다. 버튼코드를 확인하세요."
+      },
+      {
+        "code": "72006",
+        "resultKo": "등록된 템플릿과 일치하지 않는 메세지(message) 파라미터입니다."
+      },
+      {
+        "code": "72007",
+        "resultKo": "승인되지 않은 템플릿은 발송할 수 없습니다. 템플릿 승인 상태를 확인하세요."
+      },
+      {
+        "code": "72008",
+        "resultKo": "등록된 템플릿과 메세지 파라미터를 비교하던 중 오류가 발생하였습니다.2006 응답코드와 거의 동일한 상황이나, 특수문자에 의해 불일치가 있는 경우입니다."
+      },
+      {
+        "code": "72009",
+        "resultKo": "관리자에 의해 차단된 템플릿입니다. 자세한 내용은 문의해주세요."
+      },
+      {
+        "code": "72010",
+        "resultKo": "템플릿에 사용하는 샘플 이미지가 등록되지 않았습니다. 샘플 이미지를 등록해주세요."
+      },
+      {
+        "code": "72011",
+        "resultKo": "이미지 해시 아이디에 해당하는 파트너키나 템플릿 그룹키를 사용해야 합니다."
+      },
+      {
+        "code": "72101",
+        "resultKo": "템플릿에 저장된 템플릿그룹 아이디와 일치하지 않는 템플릿 요청입니다. 템플릿 설정을 확인해주세요."
+      },
+      {
+        "code": "72102",
+        "resultKo": "유효하지 않은 템플릿 그룹키 입니다. 그룹키를 확인해주세요."
+      },
+      {
+        "code": "72103",
+        "resultKo": "템플릿 그룹의 파트너 목록에 존재하지 않는 요청입니다."
+      },
+      {
+        "code": "72104",
+        "resultKo": "이미지 해시 아이디에 해당하는 템플릿 그룹키를 확인해주세요."
+      },
+      {
+        "code": "72105",
+        "resultKo": "쿠폰이 첨부된 경우, 이미지는 첨부되지 않습니다."
+      },
+      {
+        "code": "72106",
+        "resultKo": "쿠폰이 첨부된 경우, 쿠폰 이미지 URL이 반드시 필요합니다."
+      },
+      {
+        "code": "72107",
+        "resultKo": "쿠폰의 만료기간은 필수이며, 오늘 이후의 날짜가 YYYY-MM-DD 형태로 입력돼야 합니다."
+      },
+      {
+        "code": "72108",
+        "resultKo": "발송처정보가 없거나 사업자코드가 잘못되었습니다."
+      },
+      {
+        "code": "72109",
+        "resultKo": "할부 개월 수 정보가 잘못되었습니다. 숫자 변환에 실패했습니다. 00~36사이의 수를 입력해 주세요."
+      },
+      {
+        "code": "72110",
+        "resultKo": "거래유형이 잘못되었습니다. 거래유형 승인(01)/취소(02)/거절(03)으로 입력돼야 합니다."
+      },
+      {
+        "code": "72111",
+        "resultKo": "거래금액이 잘못되었습니다. 숫자로 변환하지 못하였습니다."
+      },
+      {
+        "code": "72112",
+        "resultKo": "통화코드가 잘못 입력되었습니다. ISO-4217의 통화코드 중 숫자코드를 입력해 주세요."
+      },
+      {
+        "code": "72113",
+        "resultKo": "거래일시를 변환하지 못했습니다. 14자리(YYYYMMDDHH24MISS)으로 입력해 주세요."
+      },
+      {
+        "code": "72114",
+        "resultKo": "거래금액을 원화로 표시할 때 소수점을 사용할 수 없습니다."
+      },
+      {
+        "code": "73001",
+        "resultKo": "에이전트 키에 해당하는 파트너가 매핑되어 있지 않습니다."
+      },
+      {
+        "code": "73002",
+        "resultKo": "전화번호에 해당하는 유저가 존재하지 않습니다."
+      },
+      {
+        "code": "73003",
+        "resultKo": "매핑된 파트너가 존재하지 않습니다."
+      },
+      {
+        "code": "73004",
+        "resultKo": "이미 존재하는 메세지 키입니다."
+      },
+      {
+        "code": "73005",
+        "resultKo": "전화번호에 해당하는 서로 다른 유저가 존재합니다."
+      },
+      {
+        "code": "73006",
+        "resultKo": "발송 파트너 계정 상태가 비정상 상태입니다."
+      },
+      {
+        "code": "73007",
+        "resultKo": "발송 파트너 계정 상태가 비정상 상태입니다."
+      },
+      {
+        "code": "74001",
+        "resultKo": "유저가 정보성 알림을 받을 수 있는 상태가 아닙니다."
+      },
+      {
+        "code": "74002",
+        "resultKo": "유저가 스마트알림 수신을 차단하였습니다."
+      },
+      {
+        "code": "74003",
+        "resultKo": "유저가 파트너 계정을 차단하였습니다."
+      },
+      {
+        "code": "74004",
+        "resultKo": "카드승인알림에 가입하지 않은 유저입니다."
+      },
+      {
+        "code": "74005",
+        "resultKo": "카드승인알림 가입 단말기에 푸쉬가 도달하지 않았습니다."
+      },
+      {
+        "code": "74006",
+        "resultKo": "카드승인알림 가입 전화번호와 일치하지 않는 유저입니다."
+      },
+      {
+        "code": "79051",
+        "resultKo": "메세지 시스템의 오류로 정보성 알림 송신이 불가합니다."
+      },
+      {
+        "code": "79052",
+        "resultKo": "템플릿에 상품 정보가 없어 발송이 불가합니다. 네이버 담당자에게 연락부탁드립니다."
+      },
+      {
+        "code": "79999",
+        "resultKo": "알 수 없는 이유로 메세지가 전송되지 않았습니다."
+      }
+    ]
+  }
+}

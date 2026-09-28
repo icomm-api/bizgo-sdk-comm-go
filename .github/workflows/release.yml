@@ -1,0 +1,73 @@
+# Go 모듈은 git 태그로 배포됩니다(proxy.golang.org가 태그를 가져감). 토큰이나 패키지 저장소가 필요 없습니다.
+#
+# 순서 (SDK를 먼저 태그합니다):
+#   1. v<X.Y.Z> 태그: SDK(core). 태그와 Version 상수가 같은지, 테스트가 통과하는지 확인한 뒤 GitHub Release를 만듭니다.
+#   2. otel/go.mod의 require를 github.com/icomm-api/bizgo-sdk-comm-go v<X.Y.Z>로 올려 커밋합니다
+#      (replace ../ 는 로컬 개발용으로 남겨 둡니다. 이 모듈을 쓰는 사용자 모듈에서는 무시됩니다).
+#   3. otel/v<X.Y.Z> 태그: OpenTelemetry 어댑터. replace를 빼고, 배포된 SDK(proxy.golang.org)로 tidy·테스트해
+#      사용자가 받는 것과 같은 조합이 동작하는지 확인한 뒤 GitHub Release를 만듭니다.
+name: release
+
+on:
+  push:
+    tags: ["v*", "otel/v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    if: ${{ !startsWith(github.ref_name, 'otel/') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5.6.0
+        with:
+          go-version: "1.27.x"
+          cache: false
+      - name: 태그와 Version 상수가 같은지
+        run: |
+          version=$(sed -n 's/^const Version = "\(.*\)"$/\1/p' version.go)
+          test "v$version" = "$GITHUB_REF_NAME"
+      - run: go vet ./... && go test -race -count=1 ./...
+      - run: go -C tools/gen run . -root ../.. -check
+      - run: cd otel && go vet ./... && go test -race -count=1 ./...
+
+  verify-otel:
+    if: ${{ startsWith(github.ref_name, 'otel/') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5.6.0
+        with:
+          go-version: "1.27.x"
+          cache: false
+      - name: 배포된 SDK로 빌드·테스트 (replace 제거)
+        working-directory: otel
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          version="${TAG#otel/}"
+          required=$(go list -m -f '{{.Version}}' github.com/icomm-api/bizgo-sdk-comm-go)
+          test "$required" = "$version" # otel/go.mod가 같은 버전의 SDK를 require해야 함 (SDK 태그 먼저)
+          go mod edit -dropreplace=github.com/icomm-api/bizgo-sdk-comm-go
+          GOFLAGS=-mod=mod go mod tidy
+          go vet ./...
+          go test -race -count=1 ./...
+
+  release:
+    needs: [verify, verify-otel]
+    if: ${{ always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: GitHub Release 생성
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --title "$TAG" --notes "CHANGELOG.md를 참고하세요." --verify-tag

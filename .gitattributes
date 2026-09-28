@@ -1,0 +1,5 @@
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*_gen.go linguist-generated=true
+testdata/spec.json linguist-generated=true
