@@ -222,10 +222,10 @@ func (u *UploadFile) name() string {
 		return u.Filename
 	}
 	if u.Path != "" {
-		return filepath.Base(u.Path)
+		return baseName(u.Path)
 	}
 	if named, ok := u.Reader.(interface{ Name() string }); ok {
-		return filepath.Base(named.Name())
+		return baseName(named.Name())
 	}
 	return "file"
 }
@@ -243,7 +243,7 @@ func (u *UploadFile) read(field string, limit int64) (string, []byte, error) {
 	if r == nil {
 		f, err := os.Open(u.Path)
 		if err != nil {
-			return "", nil, invalid(field, fileProblem(err)+": "+filepath.Base(u.Path))
+			return "", nil, invalid(field, fileProblem(err)+": "+baseName(u.Path))
 		}
 		defer func() { _ = f.Close() }()
 		r = f
@@ -266,4 +266,11 @@ func fileProblem(err error) string {
 		return "파일을 읽을 권한이 없습니다"
 	}
 	return "파일을 읽지 못했습니다"
+}
+
+// baseName is the last element of a path with either separator, so that a Windows path
+// (C:\dir\file.jpg) never leaks its directories on Linux or macOS, where filepath.Base keeps
+// backslashes.
+func baseName(p string) string {
+	return filepath.Base(p[strings.LastIndexAny(p, `/\`)+1:])
 }

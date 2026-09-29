@@ -162,7 +162,7 @@ func buildForm(p UploadParams, limit int64, tooLarge string) (form, error) {
 	name := p.Filename
 	if name == "" {
 		if named, ok := p.File.(interface{ Name() string }); ok {
-			name = filepath.Base(named.Name())
+			name = baseName(named.Name())
 		}
 	}
 	if name == "" || name == "." || name == string(filepath.Separator) {

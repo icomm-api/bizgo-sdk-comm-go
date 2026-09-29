@@ -9,7 +9,6 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"path/filepath"
 	"runtime"
 	"strings"
 	"time"
@@ -203,11 +202,11 @@ func WithRootCAsFile(path string) Option {
 	return func(c *config) error {
 		data, err := os.ReadFile(path) //nolint:gosec // G304: a CA file chosen by the developer
 		if err != nil {
-			return &ConfigurationError{msg: "WithRootCAsFile: " + fileProblem(err) + ": " + filepath.Base(path)}
+			return &ConfigurationError{msg: "WithRootCAsFile: " + fileProblem(err) + ": " + baseName(path)}
 		}
 		pool := x509.NewCertPool()
 		if !pool.AppendCertsFromPEM(data) {
-			return &ConfigurationError{msg: "WithRootCAsFile: PEM 인증서가 없습니다: " + filepath.Base(path)}
+			return &ConfigurationError{msg: "WithRootCAsFile: PEM 인증서가 없습니다: " + baseName(path)}
 		}
 		c.rootCAs = pool
 		return nil
